@@ -2,11 +2,11 @@ import Navigation from "../Navigation/Navigation";
 
 const Layout = ({ children }) => {
   return (
-    <div>
+    <>
       <Navigation />
 
-      <main className="container mx-auto">{children}</main>
-    </div>
+      <main className="container px-8 py-8 mx-auto">{children}</main>
+    </>
   );
 };
 

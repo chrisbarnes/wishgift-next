@@ -3,12 +3,12 @@ import Image from "next/image";
 
 const LargeHero = ({ heading, description, link, backgroundImage }) => {
   return (
-    <div style={{ position: "relative", width: "100vw", height: "66.66vw" }}>
+    <div style={{ position: "relative", height: "66.66vw" }}>
       <Image
         src={backgroundImage}
         layout="fill"
         objectFit="cover"
-        className="z-0"
+        className="z-0 max-w-full"
         priority
       />
       <h1 className="relative z-10">{heading}</h1>

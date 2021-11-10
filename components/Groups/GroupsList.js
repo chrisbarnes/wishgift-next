@@ -1,28 +1,20 @@
-import Link from "next/link";
+import useSWR from "swr";
+import GroupCard from "./GroupCard";
+
+const fetcher = (url) => fetch(url).then((res) => res.json());
 
 const GroupsList = () => {
-  const groups = [
-    {
-      id: "group1",
-      name: "Group 1",
-    },
-    {
-      id: "group2",
-      name: "Group 2",
-    },
-    {
-      id: "group3",
-      name: "Group 3",
-    },
-  ];
+  const { data: groups, error } = useSWR("/api/groups", fetcher);
+
+  if (error) return "An error has occurred.";
+  if (!groups) return "Loading..."; // todo create a better loading component here
+
   return (
-    <ul>
-      {groups.map((group) => (
-        <li key={group.id}>
-          <Link href={`/groups/${group.id}`}>{group.name}</Link>
-        </li>
-      ))}
-    </ul>
+    <div className="grid gap-4 grid-cols-3">
+      {groups &&
+        groups.length &&
+        groups.map((group) => <GroupCard key={group.id} {...group} />)}
+    </div>
   );
 };
 
