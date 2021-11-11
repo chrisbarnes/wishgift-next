@@ -2,7 +2,13 @@ import { useSession, signIn, signOut } from "next-auth/react";
 import GroupsList from "../../components/Groups/GroupsList";
 
 const GroupsPage = () => {
-  const { data: session } = useSession();
+  const { data: session, status } = useSession();
+
+  console.log("session status", status);
+
+  if (status === "loading") {
+    return <div>loading...</div>;
+  }
 
   if (session) {
     return (
