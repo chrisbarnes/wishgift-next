@@ -4,8 +4,6 @@ import GroupsList from "../../components/Groups/GroupsList";
 const GroupsPage = () => {
   const { data: session, status } = useSession();
 
-  console.log("session status", status);
-
   if (status === "loading") {
     return <div>loading...</div>;
   }
