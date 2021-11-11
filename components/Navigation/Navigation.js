@@ -1,6 +1,9 @@
+import { useSession, signIn, signOut } from "next-auth/react";
 import Link from "next/link";
 
 const Navigation = () => {
+  const { data: session, status } = useSession();
+
   return (
     <nav className="bg-black">
       <ul className="flex container mx-auto px-4 py-4">
@@ -19,16 +22,20 @@ const Navigation = () => {
             <a className="text-white px-4 py-4">Groups</a>
           </Link>
         </li>
-        <li className="ml-auto">
-          <Link href="/auth/sign-up">
-            <a className="text-white px-4 py-4">Sign Up</a>
-          </Link>
-        </li>
-        <li>
-          <Link href="/auth/sign-in">
-            <a className="text-white px-4 py-4">Sign In</a>
-          </Link>
-        </li>
+
+        {status !== "loading" && (
+          <li className="ml-auto">
+            {session ? (
+              <button className="text-white" onClick={() => signOut()}>
+                Sign Out
+              </button>
+            ) : (
+              <button className="text-white" onClick={() => signIn()}>
+                Sign Up/Sign In
+              </button>
+            )}
+          </li>
+        )}
       </ul>
     </nav>
   );
