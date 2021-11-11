@@ -26,11 +26,11 @@ const Navigation = () => {
         {status !== "loading" && (
           <li className="ml-auto">
             {session ? (
-              <button className="text-white" onClick={() => signOut()}>
+              <button className="text-white pr-4" onClick={() => signOut()}>
                 Sign Out
               </button>
             ) : (
-              <button className="text-white" onClick={() => signIn()}>
+              <button className="text-white pr-4" onClick={() => signIn()}>
                 Sign Up/Sign In
               </button>
             )}
