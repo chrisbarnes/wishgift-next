@@ -31,6 +31,7 @@ const CreateGroup = () => {
 
   return (
     <div className="px-6 py-4 shadow-md rounded-md mb-8">
+      <h2 className="mb-4 font-bold text-lg">Create a Group</h2>
       <form onSubmit={handleSubmit(onSubmit)}>
         <TextInputControl
           id="name"
