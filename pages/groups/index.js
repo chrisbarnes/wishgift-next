@@ -1,5 +1,6 @@
 import { useSession, signIn, signOut } from "next-auth/react";
 import GroupsList from "../../components/Groups/GroupsList";
+import CreateGroup from "../../components/Groups/CreateGroup";
 
 const GroupsPage = () => {
   const { data: session, status } = useSession();
@@ -12,6 +13,7 @@ const GroupsPage = () => {
     return (
       <div>
         Signed in as {session.user.email} <br />
+        <CreateGroup />
         <GroupsList />
         <button onClick={() => signOut()}>Sign out</button>
       </div>
