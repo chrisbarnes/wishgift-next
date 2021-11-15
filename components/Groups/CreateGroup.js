@@ -9,13 +9,10 @@ const CreateGroup = () => {
     formState: { errors },
   } = useForm();
   const onSubmit = async (data) => {
-    const { data, error } = await fetch("/api/groups/create", {
+    const { data: res, error } = await fetch("/api/groups/create", {
       method: "PUT",
       body: JSON.stringify(data),
     });
-
-    if (error) return "An error has occurred.";
-    if (!data) return "Loading..."; // todo create a better loading component here
   };
 
   return (
