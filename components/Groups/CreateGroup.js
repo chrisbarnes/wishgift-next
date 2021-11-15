@@ -1,4 +1,6 @@
 import { useForm } from "react-hook-form";
+import TextInputControl from "../Forms/TextInputControl";
+import Button from "../Forms/Button";
 
 const CreateGroup = () => {
   const {
@@ -11,15 +13,22 @@ const CreateGroup = () => {
   return (
     <div className="px-6 py-4 shadow-md rounded-md">
       <form onSubmit={handleSubmit(onSubmit)}>
-        <label htmlFor="name">Name</label>
-        <input {...register("name", { required: true })} />
-        {errors.name && <span>This field is required</span>}
+        <TextInputControl
+          id="name"
+          label="Name"
+          register={register}
+          errors={errors}
+          required
+        />
+        <TextInputControl
+          id="description"
+          label="Description"
+          register={register}
+          errors={errors}
+          required
+        />
 
-        <label htmlFor="description">Description</label>
-        <input {...register("description", { required: true })} />
-        {errors.name && <span>This field is required</span>}
-
-        <input type="submit" />
+        <Button type="submit">Create Group</Button>
       </form>
     </div>
   );
