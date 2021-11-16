@@ -1,45 +1,23 @@
-import React from "react";
+import useSWR from "swr";
 import GiftCard from "./GiftCard";
 
+const fetcher = (url) => fetch(url).then((res) => res.json());
+
 const GiftsList = ({ groupId }) => {
-  const gifts = [
-    {
-      id: "test1",
-      name: "gift 1",
-      description: "some kind of description here",
-      url: "http://www.google.com",
-      isPurchased: false,
-      owner: "barnes.chris@gmail.com",
-      giftFor: {
-        name: "chris",
-      },
-    },
-    {
-      id: "test2",
-      name: "gift 2",
-      url: "http://www.google.com",
-      isPurchased: false,
-      owner: "barnes.chris@gmail.com",
-      giftFor: {
-        name: "chris",
-      },
-    },
-    {
-      id: "test3",
-      name: "gift 3",
-      url: "http://www.google.com",
-      isPurchased: false,
-      owner: "barnes.chris@gmail.com",
-      giftFor: {
-        name: "chris",
-      },
-    },
-  ];
+  const { data: giftsData, giftsError } = useSWR(
+    `/api/gifts/${groupId}`,
+    fetcher
+  );
+
+  if (giftsError) {
+    <p>Sorry. There was an error retrieving the gifts.</p>;
+  }
+
   return (
     <div className="grid gap-4 grid-cols-3">
-      {gifts.map((gift) => (
-        <GiftCard key={gift.id} {...gift} />
-      ))}
+      {giftsData &&
+        giftsData.length &&
+        giftsData.map((gift) => <GiftCard key={gift.id} {...gift} />)}
     </div>
   );
 };
