@@ -1,5 +1,6 @@
 import { useSession, signIn, signOut } from "next-auth/react";
 import GroupsList from "../../components/Groups/GroupsList";
+import CreateGroup from "../../components/Groups/CreateGroup";
 
 const GroupsPage = () => {
   const { data: session, status } = useSession();
@@ -11,16 +12,15 @@ const GroupsPage = () => {
   if (session) {
     return (
       <div>
-        Signed in as {session.user.email} <br />
+        <CreateGroup />
         <GroupsList />
-        <button onClick={() => signOut()}>Sign out</button>
       </div>
     );
   }
 
   return (
     <>
-      Not signed in <br />
+      Sorry. Only signed in users can see groups. <br />
       <button onClick={() => signIn()}>Sign in</button>
     </>
   );
