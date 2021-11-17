@@ -16,7 +16,7 @@ export default async function createGroup(req, res) {
             description: data.description,
             url: data.url,
             isPurchased: false,
-            giftFor: { name: data.giftFor },
+            giftFor: { name: data.giftFor ? data.giftFor : session.user.name },
           },
         })
       );
