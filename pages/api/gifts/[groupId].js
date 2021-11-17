@@ -29,7 +29,7 @@ export default async function getGiftsByGroup(req, res) {
           name: gift.data.giftFor.name,
         },
         owner: gift.data.owner,
-        isOwner: gift.data.owner === session.email,
+        isOwner: gift.data.owner === session.user.email,
         id: gift.ref.id,
       }));
 
