@@ -1,6 +1,6 @@
 import { getSession } from "next-auth/react";
-// import { query as q } from "faunadb";
-// import { faunaClient } from "../../../lib/fauna";
+import { query as q } from "faunadb";
+import { faunaClient } from "../../../lib/fauna";
 
 export default async function getGroup(req, res) {
   const session = await getSession({ req });
@@ -10,28 +10,21 @@ export default async function getGroup(req, res) {
       query: { groupId },
     } = req;
 
-    // const query = await faunaClient.query(
-    //   q.Map(
-    //     q.Paginate(q.Documents(q.Collection("groups"))),
-    //     q.Lambda((show) => q.Get(show))
-    //   )
-    // );
+    const query = await faunaClient.query(
+      q.Get(q.Ref(q.Collection("groups"), groupId))
+    );
 
-    // if (query && query.data && query.data.length) {
-    //   const groups = query.data.map((group) => ({
-    //     name: group.data.name,
-    //     description: group.data.description,
-    //     id: group.ref.id,
-    //   }));
+    if (query && query.data) {
+      const group = {
+        name: query.data.name,
+        description: query.data.description,
+        id: query.ref.id,
+      };
 
-    //   res.status(200).json({ data: groups });
-    // } else {
-    //   res.status(404);
-    // }
-    res.status(200).json({
-      name: "test fake group name",
-      description: "Test fake group description.",
-    });
+      res.status(200).json({ group });
+    } else {
+      res.status(404);
+    }
   } else {
     res.status(401);
   }

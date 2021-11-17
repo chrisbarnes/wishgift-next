@@ -8,21 +8,18 @@ const fetcher = (url) => fetch(url).then((res) => res.json());
 
 const GroupPage = (props) => {
   const { query } = useRouter();
-  const { data: groupData, groupError } = useSWR(
-    `/api/groups/${query.groupId}`,
-    fetcher
-  );
+  const { data, error } = useSWR(`/api/groups/${query.groupId}`, fetcher);
 
-  if (groupError) {
+  if (error) {
     return <p>Sorry. There was an error retrieving this group.</p>;
   }
 
-  if (groupData) {
+  if (data) {
     return (
       <>
         <GroupHeader
-          name={groupData.name}
-          description={groupData.description}
+          name={data.group.name}
+          description={data.group.description}
         />
         <CreateGift />
         <GiftsList groupId={query.groupId} />
@@ -30,7 +27,7 @@ const GroupPage = (props) => {
     );
   }
 
-  return <p>No group data yet.</p>;
+  return <p>Loading...</p>;
 };
 
 export default GroupPage;
