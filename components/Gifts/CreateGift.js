@@ -54,11 +54,10 @@ const CreateGift = () => {
           errors={errors}
         />
         <TextInputControl
-          id="for"
+          id="giftFor"
           label="For"
           register={register}
           errors={errors}
-          required
         />
 
         <Button type="submit">Create Gift {isSubmitting && "..."}</Button>
