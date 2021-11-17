@@ -1,5 +1,6 @@
 import { useSession, signIn, signOut } from "next-auth/react";
 import Link from "next/link";
+import Logo from "./Logo";
 
 const Navigation = () => {
   const { data: session, status } = useSession();
@@ -9,7 +10,9 @@ const Navigation = () => {
       <ul className="flex container mx-auto px-4 py-4">
         <li>
           <Link href="/">
-            <a className="text-white px-4 py-4 font-bold">WishGift</a>
+            <a className="text-white px-4 py-4 font-bold">
+              <Logo /> WishGift
+            </a>
           </Link>
         </li>
         <li>
