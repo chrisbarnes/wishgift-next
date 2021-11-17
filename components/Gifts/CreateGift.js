@@ -1,9 +1,11 @@
 import { useState } from "react";
 import { useForm } from "react-hook-form";
+import { useRouter } from "next/router";
 import TextInputControl from "../Forms/TextInputControl";
 import Button from "../Forms/Button";
 
 const CreateGift = () => {
+  const { query } = useRouter();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const {
     register,
@@ -58,6 +60,13 @@ const CreateGift = () => {
           label="For"
           register={register}
           errors={errors}
+        />
+
+        <input
+          type="hidden"
+          name="groupId"
+          {...register("groupId")}
+          value={query.groupId}
         />
 
         <Button type="submit">Create Gift {isSubmitting && "..."}</Button>
