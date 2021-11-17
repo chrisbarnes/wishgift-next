@@ -17,8 +17,6 @@ export default async function getGiftsByGroup(req, res) {
       )
     );
 
-    console.log(session);
-
     if (query && query.data && query.data.length) {
       const gifts = query.data.map((gift) => ({
         name: gift.data.name,
