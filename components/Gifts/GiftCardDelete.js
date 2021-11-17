@@ -2,8 +2,10 @@ import React from "react";
 
 const GiftCardDelete = ({ handleDeleteGiftToggle }) => {
   return (
-    <div>
-      gift card delete <button onClick={handleDeleteGiftToggle}>cancel</button>
+    <div className="">
+      <p>Are you sure?</p>
+      <button onClick={handleDeleteGiftToggle}>Cancel</button>
+      <button onClick={handleDeleteGiftToggle}>Delete</button>
     </div>
   );
 };
