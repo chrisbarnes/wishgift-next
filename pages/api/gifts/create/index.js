@@ -2,7 +2,7 @@ import { getSession } from "next-auth/react";
 import { query as q } from "faunadb";
 import { faunaClient } from "../../../../lib/fauna";
 
-export default async function createGroup(req, res) {
+export default async function createGift(req, res) {
   const session = await getSession({ req });
 
   if (session && req.method === "PUT") {
@@ -18,6 +18,7 @@ export default async function createGroup(req, res) {
             isPurchased: false,
             owner: session.user.email,
             giftFor: { name: data.giftFor ? data.giftFor : session.user.name },
+            groupId: data.groupId,
           },
         })
       );
