@@ -1,6 +1,6 @@
 import { getSession } from "next-auth/react";
-// import { query as q } from "faunadb";
-// import { faunaClient } from "../../../lib/fauna";
+import { query as q } from "faunadb";
+import { faunaClient } from "../../../lib/fauna";
 
 export default async function getGiftsByGroup(req, res) {
   const session = await getSession({ req });
@@ -10,58 +10,33 @@ export default async function getGiftsByGroup(req, res) {
       query: { groupId },
     } = req;
 
-    // const query = await faunaClient.query(
-    //   q.Map(
-    //     q.Paginate(q.Documents(q.Collection("groups"))),
-    //     q.Lambda((show) => q.Get(show))
-    //   )
-    // );
+    const query = await faunaClient.query(
+      q.Map(
+        q.Paginate(q.Documents(q.Collection("gifts"))),
+        q.Lambda((show) => q.Get(show))
+      )
+    );
 
-    // if (query && query.data && query.data.length) {
-    //   const groups = query.data.map((group) => ({
-    //     name: group.data.name,
-    //     description: group.data.description,
-    //     id: group.ref.id,
-    //   }));
+    console.log(session);
 
-    //   res.status(200).json({ data: groups });
-    // } else {
-    //   res.status(404);
-    // }
-    const gifts = [
-      {
-        name: "name",
-        description: "description",
-        url: "gift.data.url",
-        isPurchased: "gift.data.isPurchased",
-        giftFor: { name: "Chris B." },
-        owner: "gift.data.owner",
-        isOwner: true,
-        id: "gift.ref.id",
-      },
-      {
-        name: "Another gift with a longer name",
-        description: "Description that could maybe be more than one line.",
-        url: "gift.data.url",
-        isPurchased: "gift.data.isPurchased",
-        giftFor: { name: "Rae" },
-        owner: "gift.data.owner",
-        isOwner: false,
-        id: "gift.ref.id",
-      },
-      {
-        name: "name",
-        description: "description",
-        url: "gift.data.url",
-        isPurchased: "gift.data.isPurchased",
-        giftFor: { name: "Emily" },
-        owner: "gift.data.owner",
-        isOwner: false,
-        id: "gift.ref.id",
-      },
-    ];
+    if (query && query.data && query.data.length) {
+      const gifts = query.data.map((gift) => ({
+        name: gift.data.name,
+        description: gift.data.description,
+        url: gift.data.url,
+        isPurchased: gift.data.isPurchased,
+        giftFor: {
+          name: gift.data.giftFor.name,
+        },
+        owner: gift.data.owner,
+        isOwner: gift.data.owner === session.email,
+        id: gift.ref.id,
+      }));
 
-    res.status(200).json({ gifts });
+      res.status(200).json({ gifts });
+    } else {
+      res.status(404);
+    }
   } else {
     res.status(401);
   }
