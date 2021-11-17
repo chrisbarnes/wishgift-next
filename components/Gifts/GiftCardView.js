@@ -1,4 +1,5 @@
 import GiftEditControls from "./GiftEditControls";
+import Icons from "../Icons";
 
 const GiftCardView = ({
   id,
@@ -32,8 +33,12 @@ const GiftCardView = ({
         {description && <p className="text-sm">{description}</p>}
       </div>
 
-      <p>For: {giftFor.name}</p>
-      <p>Purchased? {isPurchased ? "Yes" : "No"}</p>
+      <p className="relative">
+        <Icons.Tag size="xxl" />
+        <span className="absolute text-xs leading-none px-2 py-2 bg-white top-5 left-7 rounded-md shadow-md">
+          {giftFor.name}
+        </span>
+      </p>
       <GiftEditControls
         isOwner={isOwner}
         handleEditClick={handleEditGiftClick}
