@@ -1,10 +1,17 @@
 import IconButton from "../Forms/IconButton";
 import MarkPurchasedButton from "./MarkPurchasedButton";
 
-const GiftEditControls = ({ isOwner, handleEditClick, handleDeleteClick }) => {
+const GiftEditControls = ({
+  isOwner,
+  handleEditClick,
+  handleDeleteClick,
+  isPurchased,
+}) => {
   return (
-    <div className="mt-6 flex flex-row justify-evenly">
-      {!isOwner && <MarkPurchasedButton isOwner={isOwner} />}
+    <div className="mt-auto flex flex-row justify-evenly">
+      {!isOwner && (
+        <MarkPurchasedButton isOwner={isOwner} isPurchased={isPurchased} />
+      )}
 
       {isOwner && (
         <IconButton
