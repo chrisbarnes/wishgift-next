@@ -2,6 +2,8 @@ import { getSession } from "next-auth/react";
 import { query as q } from "faunadb";
 import { faunaClient } from "../../../lib/fauna";
 
+const isProd = process.env.IS_PROD;
+
 export default async function getGiftsByGroup(req, res) {
   const session = await getSession({ req });
 
@@ -9,6 +11,7 @@ export default async function getGiftsByGroup(req, res) {
     const {
       query: { groupId },
     } = req;
+    const index = isProd ? "gifts_by_group-prod" : "gifts_by_group";
 
     const query = await faunaClient.query(
       q.Map(
