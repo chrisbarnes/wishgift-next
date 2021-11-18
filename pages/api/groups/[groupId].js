@@ -3,6 +3,7 @@ import { query as q } from "faunadb";
 import { faunaClient } from "../../../lib/fauna";
 
 const isProd = process.env.IS_PROD;
+const collection = isProd === "true" ? "groups-prod" : "groups";
 
 export default async function getGroup(req, res) {
   const session = await getSession({ req });
@@ -11,7 +12,6 @@ export default async function getGroup(req, res) {
     const {
       query: { groupId },
     } = req;
-    const collection = isProd ? "groups-prod" : "groups";
 
     const query = await faunaClient.query(
       q.Get(q.Ref(q.Collection(collection), groupId))

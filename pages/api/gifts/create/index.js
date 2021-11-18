@@ -3,6 +3,7 @@ import { query as q } from "faunadb";
 import { faunaClient } from "../../../../lib/fauna";
 
 const isProd = process.env.IS_PROD;
+const collection = isProd === "true" ? "gifts-prod" : "gifts";
 
 export default async function createGift(req, res) {
   const session = await getSession({ req });
@@ -10,7 +11,6 @@ export default async function createGift(req, res) {
   if (session && req.method === "PUT") {
     try {
       const data = JSON.parse(req.body);
-      const collection = isProd ? "gifts-prod" : "gifts";
 
       const query = await faunaClient.query(
         q.Create(q.Collection(collection), {

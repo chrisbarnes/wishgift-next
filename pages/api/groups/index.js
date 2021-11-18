@@ -3,12 +3,12 @@ import { query as q } from "faunadb";
 import { faunaClient } from "../../../lib/fauna";
 
 const isProd = process.env.IS_PROD;
+const collection = isProd === "true" ? "groups-prod" : "groups";
 
 export default async function groupsApi(req, res) {
   const session = await getSession({ req });
 
   if (session && req.method === "GET") {
-    const collection = isProd ? "groups-prod" : "groups";
     const query = await faunaClient.query(
       q.Map(
         q.Paginate(q.Documents(q.Collection(collection))),
