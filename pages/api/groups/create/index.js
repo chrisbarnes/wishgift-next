@@ -2,6 +2,9 @@ import { getSession } from "next-auth/react";
 import { query as q } from "faunadb";
 import { faunaClient } from "../../../../lib/fauna";
 
+const isProd = process.env.IS_PROD;
+const collection = isProd === "true" ? "groups-prod" : "groups";
+
 export default async function createGroup(req, res) {
   const session = await getSession({ req });
 
@@ -10,7 +13,7 @@ export default async function createGroup(req, res) {
       const data = JSON.parse(req.body);
 
       const query = await faunaClient.query(
-        q.Create(q.Collection("groups"), {
+        q.Create(q.Collection(collection), {
           data: { name: data.name, description: data.description },
         })
       );
