@@ -2,6 +2,9 @@ import { getSession } from "next-auth/react";
 import { query as q } from "faunadb";
 import { faunaClient } from "../../../lib/fauna";
 
+const isProd = process.env.IS_PROD;
+const index = isProd === "true" ? "gifts_by_group-prod" : "gifts_by_group";
+
 export default async function getGiftsByGroup(req, res) {
   const session = await getSession({ req });
 
@@ -12,7 +15,7 @@ export default async function getGiftsByGroup(req, res) {
 
     const query = await faunaClient.query(
       q.Map(
-        q.Paginate(q.Match(q.Index("gifts_by_group"), groupId)),
+        q.Paginate(q.Match(q.Index(index), groupId)),
         q.Lambda((gift) => q.Get(gift))
       )
     );
