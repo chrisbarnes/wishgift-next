@@ -1,5 +1,6 @@
 import useSWR from "swr";
 import GiftCard from "./GiftCard";
+import CreateGift from "./CreateGift";
 
 const fetcher = (url) => fetch(url).then((res) => res.json());
 
@@ -12,6 +13,7 @@ const GiftsList = ({ groupId }) => {
 
   return (
     <div className="grid gap-4 grid-cols-3">
+      <CreateGift updated={mutate} />
       {data &&
         data.gifts &&
         data.gifts.length !== 0 &&

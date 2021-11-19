@@ -2,10 +2,8 @@ import { useRouter } from "next/router";
 import useSWR from "swr";
 import GroupHeader from "../../components/Groups/GroupHeader";
 import GiftsList from "../../components/Gifts/GiftsList";
-import CreateGift from "../../components/Gifts/CreateGift";
 import { errorMessages } from "../../lib/constants";
 import JoinGroup from "../../components/Groups/JoinGroup";
-import Collapser from "../../components/Collapser/Collapser";
 
 const fetcher = async (url) => {
   const res = await fetch(url);
@@ -49,9 +47,6 @@ const GroupPage = (props) => {
           name={data.group.name}
           description={data.group.description}
         />
-        <Collapser triggerText="Add Gift">
-          <CreateGift />
-        </Collapser>
         <GiftsList groupId={query.groupId} />
       </>
     );

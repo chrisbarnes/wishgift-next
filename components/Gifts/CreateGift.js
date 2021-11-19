@@ -4,7 +4,7 @@ import { useRouter } from "next/router";
 import TextInputControl from "../Forms/TextInputControl";
 import Button from "../Forms/Button";
 
-const CreateGift = () => {
+const CreateGift = ({ updated }) => {
   const { query } = useRouter();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const {
@@ -24,15 +24,17 @@ const CreateGift = () => {
   };
   const onSubmit = async (data) => {
     submitData(data).then(({ data }) => {
-      // If the form was submitted successfully, reset it so we can submit another
+      // If the form was submitted successfully, reset it so we can submit another and then
+      // call the updated callback
       if (data.message === "Success") {
         reset({});
+        updated();
       }
     });
   };
 
   return (
-    <div className="px-6 py-4 shadow-md rounded-md mb-8 bg-white">
+    <div className="px-6 py-4 shadow-md rounded-md bg-white">
       <h2 className="mb-4 font-bold text-lg">Add a Gift</h2>
       <form onSubmit={handleSubmit(onSubmit)}>
         <TextInputControl
