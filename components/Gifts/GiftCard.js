@@ -16,7 +16,7 @@ const GiftCard = (props) => {
   };
 
   return (
-    <div className="px-6 py-4 shadow-md rounded-md flex flex-col">
+    <div className="px-6 py-4 shadow-md rounded-md flex flex-col bg-white">
       {!isEditing && !isDeleting && (
         <GiftCardView
           {...props}

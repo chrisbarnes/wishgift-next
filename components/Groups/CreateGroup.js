@@ -30,7 +30,7 @@ const CreateGroup = () => {
   };
 
   return (
-    <div className="px-6 py-4 shadow-md rounded-md mb-8">
+    <div className="px-6 py-4 shadow-md rounded-md mb-8 bg-white">
       <h2 className="mb-4 font-bold text-lg">Create a Group</h2>
       <form onSubmit={handleSubmit(onSubmit)}>
         <TextInputControl
@@ -48,7 +48,7 @@ const CreateGroup = () => {
           required
         />
 
-        <Button type="submit">Create Group {isSubmitting && "..."}</Button>
+        <Button type="submit">Submit {isSubmitting && "..."}</Button>
       </form>
     </div>
   );
