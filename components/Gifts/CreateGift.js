@@ -32,8 +32,8 @@ const CreateGift = () => {
   };
 
   return (
-    <div className="px-6 py-4 shadow-md rounded-md mb-8">
-      <h2 className="mb-4 font-bold text-lg">Create a Gift</h2>
+    <div className="px-6 py-4 shadow-md rounded-md mb-8 bg-white">
+      <h2 className="mb-4 font-bold text-lg">Add a Gift</h2>
       <form onSubmit={handleSubmit(onSubmit)}>
         <TextInputControl
           id="name"
@@ -69,7 +69,7 @@ const CreateGift = () => {
           value={query.groupId}
         />
 
-        <Button type="submit">Create Gift {isSubmitting && "..."}</Button>
+        <Button type="submit">Submit {isSubmitting && "..."}</Button>
       </form>
     </div>
   );
