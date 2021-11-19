@@ -7,6 +7,8 @@ const collection = isProd === "true" ? "groups-prod" : "groups";
 
 export default async function createGroup(req, res) {
   const session = await getSession({ req });
+  const { user } = session;
+  const { email } = user;
 
   if (session && req.method === "PUT") {
     try {
@@ -14,7 +16,11 @@ export default async function createGroup(req, res) {
 
       const query = await faunaClient.query(
         q.Create(q.Collection(collection), {
-          data: { name: data.name, description: data.description },
+          data: {
+            name: data.name,
+            description: data.description,
+            members: [email],
+          },
         })
       );
 
