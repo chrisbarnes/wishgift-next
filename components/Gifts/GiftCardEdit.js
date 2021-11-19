@@ -3,7 +3,7 @@ import { useState } from "react";
 import TextInputControl from "../Forms/TextInputControl";
 import Button from "../Forms/Button";
 
-const GiftCardEdit = ({ handleEditGiftToggle, gift }) => {
+const GiftCardEdit = ({ handleEditGiftToggle, gift, editedCallback }) => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const {
     register,
@@ -24,6 +24,10 @@ const GiftCardEdit = ({ handleEditGiftToggle, gift }) => {
     submitData(data).then(({ data }) => {
       // If the form was submitted successfully toggle back to the card view
       if (data.message === "Success") {
+        if (editedCallback) {
+          editedCallback();
+        }
+
         handleEditGiftToggle();
       }
     });
@@ -61,6 +65,12 @@ const GiftCardEdit = ({ handleEditGiftToggle, gift }) => {
           register={register}
           errors={errors}
           value={gift.giftFor.name}
+        />
+        <input
+          type="hidden"
+          name="giftId"
+          {...register("giftId")}
+          value={gift.id}
         />
         <div className="mt-4 flex justify-evenly">
           <Button type="submit">Submit {isSubmitting && "..."}</Button>

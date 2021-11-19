@@ -28,6 +28,7 @@ const GiftCard = (props) => {
         <GiftCardEdit
           gift={props}
           handleEditGiftToggle={handleEditGiftToggle}
+          editedCallback={props.updated}
         />
       )}
       {isDeleting && (
