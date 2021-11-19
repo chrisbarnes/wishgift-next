@@ -25,6 +25,11 @@ const fetcher = async (url) => {
 
 const GroupPage = (props) => {
   const { query } = useRouter();
+
+  if (!query.groupId) {
+    return <p>Loading...</p>;
+  }
+
   const { data, error } = useSWR(`/api/groups/${query.groupId}`, fetcher);
 
   if (
