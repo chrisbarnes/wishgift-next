@@ -25,7 +25,10 @@ const GiftCard = (props) => {
         />
       )}
       {isEditing && (
-        <GiftCardEdit handleEditGiftToggle={handleEditGiftToggle} />
+        <GiftCardEdit
+          gift={props}
+          handleEditGiftToggle={handleEditGiftToggle}
+        />
       )}
       {isDeleting && (
         <GiftCardDelete
