@@ -7,6 +7,8 @@ const collection = isProd === "true" ? "groups-prod" : "groups";
 
 export default async function getGroup(req, res) {
   const session = await getSession({ req });
+  const { user } = session;
+  const { email } = user;
 
   if (session && req.method === "GET") {
     const {
@@ -18,13 +20,24 @@ export default async function getGroup(req, res) {
     );
 
     if (query && query.data) {
-      const group = {
-        name: query.data.name,
-        description: query.data.description,
-        id: query.ref.id,
-      };
+      if (
+        !query.data.members ||
+        (query.data.members &&
+          query.data.members.length &&
+          query.data.members.indexOf(email) === -1)
+      ) {
+        console.log("Unauthorized user", email);
+        // return unauthorized if the current user isn't in the list of members in the group
+        res.status(401);
+      } else {
+        const group = {
+          name: query.data.name,
+          description: query.data.description,
+          id: query.ref.id,
+        };
 
-      res.status(200).json({ group });
+        res.status(200).json({ group });
+      }
     } else {
       res.status(404);
     }
