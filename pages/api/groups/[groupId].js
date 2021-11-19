@@ -1,6 +1,7 @@
 import { getSession } from "next-auth/react";
 import { query as q } from "faunadb";
 import { faunaClient } from "../../../lib/fauna";
+import { errorMessages } from "../../../lib/constants";
 
 const isProd = process.env.IS_PROD;
 const collection = isProd === "true" ? "groups-prod" : "groups";
@@ -26,9 +27,10 @@ export default async function getGroup(req, res) {
           query.data.members.length &&
           query.data.members.indexOf(email) === -1)
       ) {
-        console.log("Unauthorized user", email);
+        console.log(`Unauthorized user ${email} trying to access ${groupId}.`);
+
         // return unauthorized if the current user isn't in the list of members in the group
-        res.status(401);
+        res.status(401).json({ message: errorMessages.unAuthorizedUser });
       } else {
         const group = {
           name: query.data.name,
