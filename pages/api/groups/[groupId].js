@@ -23,9 +23,7 @@ export default async function getGroup(req, res) {
     if (query && query.data) {
       if (
         !query.data.members ||
-        (query.data.members &&
-          query.data.members.length &&
-          query.data.members.indexOf(email) === -1)
+        (query.data.members && query.data.members.indexOf(email) === -1)
       ) {
         console.log(`Unauthorized user ${email} trying to access ${groupId}.`);
 
