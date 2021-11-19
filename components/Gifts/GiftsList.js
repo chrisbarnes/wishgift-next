@@ -4,9 +4,9 @@ import GiftCard from "./GiftCard";
 const fetcher = (url) => fetch(url).then((res) => res.json());
 
 const GiftsList = ({ groupId }) => {
-  const { data, giftsError } = useSWR(`/api/gifts/${groupId}`, fetcher);
+  const { data, mutate, error } = useSWR(`/api/gifts/${groupId}`, fetcher);
 
-  if (giftsError) {
+  if (error) {
     <p>Sorry. There was an error retrieving the gifts.</p>;
   }
 
@@ -14,8 +14,10 @@ const GiftsList = ({ groupId }) => {
     <div className="grid gap-4 grid-cols-3">
       {data &&
         data.gifts &&
-        data.gifts.length &&
-        data.gifts.map((gift) => <GiftCard key={gift.id} {...gift} />)}
+        data.gifts.length !== 0 &&
+        data.gifts.map((gift) => (
+          <GiftCard key={gift.id} {...gift} updated={mutate} />
+        ))}
     </div>
   );
 };
