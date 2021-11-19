@@ -28,7 +28,11 @@ const GiftCard = (props) => {
         <GiftCardEdit handleEditGiftToggle={handleEditGiftToggle} />
       )}
       {isDeleting && (
-        <GiftCardDelete handleDeleteGiftToggle={handleDeleteGiftToggle} />
+        <GiftCardDelete
+          giftId={props.id}
+          handleDeleteGiftToggle={handleDeleteGiftToggle}
+          deletedCallback={props.updated}
+        />
       )}
     </div>
   );

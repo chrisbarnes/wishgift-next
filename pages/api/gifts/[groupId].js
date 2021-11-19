@@ -36,7 +36,7 @@ export default async function getGiftsByGroup(req, res) {
 
       res.status(200).json({ gifts });
     } else {
-      res.status(404);
+      res.status(200).json({ gifts: [] });
     }
   } else {
     res.status(401);
