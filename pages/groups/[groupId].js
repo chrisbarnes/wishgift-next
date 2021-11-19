@@ -4,6 +4,7 @@ import GroupHeader from "../../components/Groups/GroupHeader";
 import GiftsList from "../../components/Gifts/GiftsList";
 import CreateGift from "../../components/Gifts/CreateGift";
 import { errorMessages } from "../../lib/constants";
+import JoinGroup from "../../components/Groups/JoinGroup";
 
 const fetcher = async (url) => {
   const res = await fetch(url);
@@ -30,7 +31,7 @@ const GroupPage = (props) => {
     error.info &&
     error.info.message === errorMessages.unAuthorizedUser
   ) {
-    return <p>You are not a member of this group.</p>;
+    return <JoinGroup />;
   }
 
   if (error) {
