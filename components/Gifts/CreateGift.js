@@ -47,7 +47,6 @@ const CreateGift = () => {
           label="Description"
           register={register}
           errors={errors}
-          required
         />
         <TextInputControl
           id="url"
