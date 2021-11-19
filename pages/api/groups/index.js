@@ -3,15 +3,17 @@ import { query as q } from "faunadb";
 import { faunaClient } from "../../../lib/fauna";
 
 const isProd = process.env.IS_PROD;
-const collection = isProd === "true" ? "groups-prod" : "groups";
+const index = isProd === "true" ? "groups_by_member-prod" : "groups_by_member";
 
 export default async function groupsApi(req, res) {
   const session = await getSession({ req });
+  const { user } = session;
+  const { email } = user;
 
   if (session && req.method === "GET") {
     const query = await faunaClient.query(
       q.Map(
-        q.Paginate(q.Documents(q.Collection(collection))),
+        q.Paginate(q.Match(q.Index(index), email)),
         q.Lambda((show) => q.Get(show))
       )
     );
