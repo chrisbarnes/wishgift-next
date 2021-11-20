@@ -12,7 +12,7 @@ const GiftsList = ({ groupId }) => {
   }
 
   return (
-    <div className="grid gap-4 grid-cols-3">
+    <div className="grid gap-4 grid-cols-4">
       <CreateGift updated={mutate} />
       {data &&
         data.gifts &&

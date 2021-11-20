@@ -39,7 +39,7 @@ const GiftCardDelete = ({
   };
 
   return (
-    <div className="">
+    <div className="h-full flex flex-col justify-center">
       {isComplete ? (
         <p className="text-center font-bold text-lg">Deleted.</p>
       ) : (

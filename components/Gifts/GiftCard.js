@@ -15,8 +15,13 @@ const GiftCard = (props) => {
     console.log("deleting");
   };
 
+  const cardStyle = !isEditing ? { maxHeight: "204px" } : {};
+
   return (
-    <div className="px-6 py-4 shadow-md rounded-md flex flex-col bg-white">
+    <div
+      className="px-6 py-4 shadow-md rounded-md flex flex-col bg-white"
+      style={cardStyle}
+    >
       {!isEditing && !isDeleting && (
         <GiftCardView
           {...props}
