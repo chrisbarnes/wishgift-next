@@ -34,12 +34,11 @@ const CreateGift = ({ updated }) => {
     });
   };
 
-  const cardStyle = !isEditing ? { maxHeight: "204px" } : {};
+  const height = isEditing ? "h-auto" : "h-64";
 
   return (
     <div
-      className="mb-4 md:mb-0 px-6 py-4 shadow-md rounded-md bg-white"
-      style={cardStyle}
+      className={`mb-4 md:mb-0 px-6 py-4 shadow-md rounded-md bg-white ${height}`}
     >
       {!isEditing ? (
         <div className="text-center h-full flex flex-col justify-center">
