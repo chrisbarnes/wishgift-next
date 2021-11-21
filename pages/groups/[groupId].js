@@ -24,14 +24,14 @@ const fetcher = async (url) => {
 const GroupPage = (props) => {
   const { query } = useRouter();
   const endpoint = query.groupId ? `/api/groups/${query.groupId}` : "";
-  const { data, error } = useSWR(endpoint, fetcher);
+  const { data, error, mutate } = useSWR(endpoint, fetcher);
 
   if (
     error &&
     error.info &&
     error.info.message === errorMessages.unAuthorizedUser
   ) {
-    return <JoinGroup />;
+    return <JoinGroup update={mutate} />;
   }
 
   if (error) {
