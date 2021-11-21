@@ -8,11 +8,9 @@ const GiftCard = (props) => {
   const [isDeleting, setIsDeleting] = useState(false);
   const handleEditGiftToggle = () => {
     setIsEditing(!isEditing);
-    console.log("editing");
   };
   const handleDeleteGiftToggle = () => {
     setIsDeleting(!isDeleting);
-    console.log("deleting");
   };
 
   const cardStyle = !isEditing ? { maxHeight: "204px" } : {};
@@ -27,6 +25,7 @@ const GiftCard = (props) => {
           {...props}
           handleEditGiftClick={handleEditGiftToggle}
           handleDeleteGiftClick={handleDeleteGiftToggle}
+          update={props.updated}
         />
       )}
       {isEditing && (

@@ -12,6 +12,7 @@ const GiftCardView = ({
   isOwner,
   handleEditGiftClick,
   handleDeleteGiftClick,
+  updated,
 }) => {
   return (
     <>
@@ -51,6 +52,9 @@ const GiftCardView = ({
         isOwner={isOwner}
         handleEditClick={handleEditGiftClick}
         handleDeleteClick={handleDeleteGiftClick}
+        giftId={id}
+        isPurchased={isPurchased}
+        updated={updated}
       />
     </>
   );
