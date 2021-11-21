@@ -14,28 +14,22 @@ const GiftCard = (props) => {
   const handleDeleteGiftToggle = () => {
     setIsDeleting(!isDeleting);
   };
-  const cardStyle = !isEditing ? { maxHeight: "204px" } : {};
-
   const iAmOwner =
     status !== "loading" &&
     session &&
     session.user &&
     session.user.email === props.owner;
 
-  console.log("session", session);
-  console.log("props.owner", props.owner);
-  console.log("iAmOwner", iAmOwner);
-
   const isDisplayedAsPurchased = !iAmOwner && props.isPurchased;
 
   // if this is not my gift and it is purchased by someone else, then
   // I should not see the purchase option and it should look different
   const bgColor = isDisplayedAsPurchased ? "bg-gray-700" : "bg-white";
+  const height = isEditing ? "h-auto" : "h-64";
 
   return (
     <div
-      className={`mb-4 md:mb-0 px-6 py-4 shadow-md rounded-md flex flex-col ${bgColor} transition-colors`}
-      style={cardStyle}
+      className={`mb-4 md:mb-0 px-6 py-4 shadow-md rounded-md flex flex-col ${bgColor} transition-colors ${height}`}
     >
       {!isEditing && !isDeleting && (
         <GiftCardView

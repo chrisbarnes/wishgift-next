@@ -17,7 +17,7 @@ const GiftCardView = ({
   const textColor = isPurchased ? "text-white" : "text-gray-700";
 
   return (
-    <div className="">
+    <div className="h-full flex flex-col justify-between">
       <div className="mb-7 pb-2 border-b-4">
         <div className="flex justify-between">
           <h3 className={`text-lg font-bold ${textColor}`}>
