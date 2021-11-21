@@ -3,7 +3,7 @@ import { useForm } from "react-hook-form";
 import { useRouter } from "next/router";
 import Button from "../Forms/Button";
 
-const JoinGroup = () => {
+const JoinGroup = ({ update }) => {
   const { query } = useRouter();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const {
@@ -24,8 +24,8 @@ const JoinGroup = () => {
   const onSubmit = async (data) => {
     submitData(data).then(({ data }) => {
       // If the form was submitted successfully, reset it so we can submit another
-      if (data.message === "Success") {
-        reset({});
+      if (data.message === "Success" && update) {
+        update();
       }
     });
   };

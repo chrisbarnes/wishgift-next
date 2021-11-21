@@ -12,39 +12,56 @@ const GiftCardView = ({
   isOwner,
   handleEditGiftClick,
   handleDeleteGiftClick,
+  updated,
 }) => {
+  const textColor = isPurchased ? "text-white" : "text-gray-700";
+
   return (
-    <>
+    <div className="">
       <div className="mb-7 pb-2 border-b-4">
-        <h3 className="text-lg text-gray-700 font-bold">
-          <a href={url} target="_blank" className="flex flex-row items-center">
-            {name}
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              className="h-3 w-3 inline-block ml-1"
-              viewBox="0 0 20 20"
-              fill="currentColor"
+        <h3 className={`text-lg font-bold ${textColor}`}>
+          {url ? (
+            <a
+              href={url}
+              target="_blank"
+              className="flex flex-row items-center"
             >
-              <path d="M11 3a1 1 0 100 2h2.586l-6.293 6.293a1 1 0 101.414 1.414L15 6.414V9a1 1 0 102 0V4a1 1 0 00-1-1h-5z" />
-              <path d="M5 5a2 2 0 00-2 2v8a2 2 0 002 2h8a2 2 0 002-2v-3a1 1 0 10-2 0v3H5V7h3a1 1 0 000-2H5z" />
-            </svg>
-          </a>
+              {name}
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className="h-3 w-3 inline-block ml-1"
+                viewBox="0 0 20 20"
+                fill="currentColor"
+              >
+                <path d="M11 3a1 1 0 100 2h2.586l-6.293 6.293a1 1 0 101.414 1.414L15 6.414V9a1 1 0 102 0V4a1 1 0 00-1-1h-5z" />
+                <path d="M5 5a2 2 0 00-2 2v8a2 2 0 002 2h8a2 2 0 002-2v-3a1 1 0 10-2 0v3H5V7h3a1 1 0 000-2H5z" />
+              </svg>
+            </a>
+          ) : (
+            <>{name}</>
+          )}
         </h3>
-        {description && <p className="text-sm">{description}</p>}
+        {description && <p className={`text-sm ${textColor}`}>{description}</p>}
       </div>
 
-      <p className="relative">
-        <Icons.Tag size="xxl" />
-        <span className="absolute text-xs leading-none px-2 py-2 bg-white top-5 left-7 rounded-md shadow-md">
-          {giftFor.name}
-        </span>
-      </p>
+      {!isPurchased && (
+        <p className="relative">
+          <Icons.Tag size="xxl" />
+          <span className="absolute text-xs leading-none px-2 py-2 bg-white top-5 left-7 rounded-md shadow-md">
+            {giftFor.name}
+          </span>
+        </p>
+      )}
+
       <GiftEditControls
         isOwner={isOwner}
         handleEditClick={handleEditGiftClick}
         handleDeleteClick={handleDeleteGiftClick}
+        giftId={id}
+        isPurchased={isPurchased}
+        updated={updated}
       />
-    </>
+    </div>
   );
 };
 

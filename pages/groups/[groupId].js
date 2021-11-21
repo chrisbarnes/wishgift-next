@@ -1,11 +1,10 @@
 import { useRouter } from "next/router";
+import { signIn } from "next-auth/react";
 import useSWR from "swr";
 import GroupHeader from "../../components/Groups/GroupHeader";
 import GiftsList from "../../components/Gifts/GiftsList";
-import CreateGift from "../../components/Gifts/CreateGift";
 import { errorMessages } from "../../lib/constants";
 import JoinGroup from "../../components/Groups/JoinGroup";
-import Collapser from "../../components/Collapser/Collapser";
 
 const fetcher = async (url) => {
   const res = await fetch(url);
@@ -26,18 +25,25 @@ const fetcher = async (url) => {
 const GroupPage = (props) => {
   const { query } = useRouter();
   const endpoint = query.groupId ? `/api/groups/${query.groupId}` : "";
-  const { data, error } = useSWR(endpoint, fetcher);
+  const { data, error, mutate } = useSWR(endpoint, fetcher);
 
   if (
     error &&
     error.info &&
     error.info.message === errorMessages.unAuthorizedUser
   ) {
-    return <JoinGroup />;
+    return <JoinGroup update={mutate} />;
   }
 
   if (error) {
-    return <p>Sorry. There was an error retrieving this group.</p>;
+    return (
+      <p>
+        Sorry, you must be logged in to view groups.{" "}
+        <button className="underline" onClick={() => signIn()}>
+          Sign Up/Sign In
+        </button>
+      </p>
+    );
   }
 
   if (!data) {
@@ -49,9 +55,6 @@ const GroupPage = (props) => {
           name={data.group.name}
           description={data.group.description}
         />
-        <Collapser triggerText="Add Gift">
-          <CreateGift />
-        </Collapser>
         <GiftsList groupId={query.groupId} />
       </>
     );
