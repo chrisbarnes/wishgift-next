@@ -1,4 +1,5 @@
 import { useRouter } from "next/router";
+import { signIn } from "next-auth/react";
 import useSWR from "swr";
 import GroupHeader from "../../components/Groups/GroupHeader";
 import GiftsList from "../../components/Gifts/GiftsList";
@@ -35,7 +36,14 @@ const GroupPage = (props) => {
   }
 
   if (error) {
-    return <p>Sorry. There was an error retrieving this group.</p>;
+    return (
+      <p>
+        Sorry, you must be logged in to view groups.{" "}
+        <button className="underline" onClick={() => signIn()}>
+          Sign Up/Sign In
+        </button>
+      </p>
+    );
   }
 
   if (!data) {

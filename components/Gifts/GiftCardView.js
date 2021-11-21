@@ -14,10 +14,12 @@ const GiftCardView = ({
   handleDeleteGiftClick,
   updated,
 }) => {
+  const textColor = isPurchased ? "text-white" : "text-gray-700";
+
   return (
-    <>
+    <div className="">
       <div className="mb-7 pb-2 border-b-4">
-        <h3 className="text-lg text-gray-700 font-bold">
+        <h3 className={`text-lg font-bold ${textColor}`}>
           {url ? (
             <a
               href={url}
@@ -39,15 +41,18 @@ const GiftCardView = ({
             <>{name}</>
           )}
         </h3>
-        {description && <p className="text-sm">{description}</p>}
+        {description && <p className={`text-sm ${textColor}`}>{description}</p>}
       </div>
 
-      <p className="relative">
-        <Icons.Tag size="xxl" />
-        <span className="absolute text-xs leading-none px-2 py-2 bg-white top-5 left-7 rounded-md shadow-md">
-          {giftFor.name}
-        </span>
-      </p>
+      {!isPurchased && (
+        <p className="relative">
+          <Icons.Tag size="xxl" />
+          <span className="absolute text-xs leading-none px-2 py-2 bg-white top-5 left-7 rounded-md shadow-md">
+            {giftFor.name}
+          </span>
+        </p>
+      )}
+
       <GiftEditControls
         isOwner={isOwner}
         handleEditClick={handleEditGiftClick}
@@ -56,7 +61,7 @@ const GiftCardView = ({
         isPurchased={isPurchased}
         updated={updated}
       />
-    </>
+    </div>
   );
 };
 

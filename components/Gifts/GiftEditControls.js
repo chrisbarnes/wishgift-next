@@ -36,8 +36,10 @@ const GiftEditControls = ({
     });
   };
 
+  const textColor = isPurchased ? "text-white" : "text-gray-700";
+
   return (
-    <div className="mt-auto flex flex-row justify-evenly">
+    <div className={`mt-auto flex flex-row justify-evenly ${textColor}`}>
       {!isOwner && (
         <MarkPurchasedButton
           onChange={handleUpdatePurchased}
