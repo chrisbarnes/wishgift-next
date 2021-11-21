@@ -76,7 +76,13 @@ const CreateGift = ({ updated }) => {
             />
             <TextInputControl
               id="giftFor"
-              label="For"
+              label="For (if not for you)"
+              register={register}
+              errors={errors}
+            />
+            <TextInputControl
+              id="price"
+              label="Price ($)"
               register={register}
               errors={errors}
             />

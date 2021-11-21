@@ -61,10 +61,17 @@ const GiftCardEdit = ({ handleEditGiftToggle, gift, editedCallback }) => {
         />
         <TextInputControl
           id="giftFor"
-          label="For"
+          label="For (if not for you)"
           register={register}
           errors={errors}
           value={gift.giftFor.name}
+        />
+        <TextInputControl
+          id="price"
+          label="Price ($)"
+          register={register}
+          errors={errors}
+          value={gift.price}
         />
         <input
           type="hidden"
