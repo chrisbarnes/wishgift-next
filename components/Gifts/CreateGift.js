@@ -37,7 +37,10 @@ const CreateGift = ({ updated }) => {
   const cardStyle = !isEditing ? { maxHeight: "204px" } : {};
 
   return (
-    <div className="px-6 py-4 shadow-md rounded-md bg-white" style={cardStyle}>
+    <div
+      className="mb-4 md:mb-0 px-6 py-4 shadow-md rounded-md bg-white"
+      style={cardStyle}
+    >
       {!isEditing ? (
         <div className="text-center h-full flex flex-col justify-center">
           <button
