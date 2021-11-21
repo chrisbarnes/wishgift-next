@@ -1,6 +1,7 @@
 import { useSession, signIn, signOut } from "next-auth/react";
 import GroupsList from "../../components/Groups/GroupsList";
 import CreateGroup from "../../components/Groups/CreateGroup";
+import Collapser from "../../components/Collapser/Collapser";
 
 const GroupsPage = () => {
   const { data: session, status } = useSession();
@@ -11,10 +12,12 @@ const GroupsPage = () => {
 
   if (session) {
     return (
-      <div>
-        <CreateGroup />
+      <>
+        <Collapser triggerText="Create Group">
+          <CreateGroup />
+        </Collapser>
         <GroupsList />
-      </div>
+      </>
     );
   }
 

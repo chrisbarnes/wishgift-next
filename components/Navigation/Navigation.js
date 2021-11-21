@@ -15,11 +15,11 @@ const Navigation = () => {
             </a>
           </Link>
         </li>
-        <li>
+        {/* <li>
           <Link href="/about">
             <a className="text-white px-4 py-4">About</a>
           </Link>
-        </li>
+        </li> */}
         <li>
           <Link href="/groups">
             <a className="text-white px-4 py-4">Groups</a>

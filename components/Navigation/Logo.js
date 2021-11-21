@@ -2,7 +2,7 @@ const Logo = () => {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
-      className="h-5 w-5 inline-block mr-2"
+      className="h-5 w-5 inline-block pb-1 mr-2"
       viewBox="0 0 20 20"
       fill="currentColor"
     >

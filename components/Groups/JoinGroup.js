@@ -1,9 +1,10 @@
 import { useState } from "react";
 import { useForm } from "react-hook-form";
-import TextInputControl from "../Forms/TextInputControl";
+import { useRouter } from "next/router";
 import Button from "../Forms/Button";
 
-const CreateGroup = () => {
+const JoinGroup = ({ update }) => {
+  const { query } = useRouter();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const {
     register,
@@ -13,7 +14,7 @@ const CreateGroup = () => {
   } = useForm();
   const submitData = async (data) => {
     setIsSubmitting(true);
-    const response = await fetch("/api/groups/create", {
+    const response = await fetch("/api/groups/join", {
       method: "PUT",
       body: JSON.stringify(data),
     });
@@ -23,35 +24,26 @@ const CreateGroup = () => {
   const onSubmit = async (data) => {
     submitData(data).then(({ data }) => {
       // If the form was submitted successfully, reset it so we can submit another
-      if (data.message === "Success") {
-        reset({});
+      if (data.message === "Success" && update) {
+        update();
       }
     });
   };
 
   return (
-    <div className="px-6 py-4 shadow-md rounded-md mb-8 bg-white">
-      <h2 className="mb-4 font-bold text-lg">Create a Group</h2>
+    <div className="px-6 py-4 shadow-md rounded-md mb-8">
+      <h2 className="mb-4 font-bold text-lg">Join This Group</h2>
       <form onSubmit={handleSubmit(onSubmit)}>
-        <TextInputControl
-          id="name"
-          label="Name"
-          register={register}
-          errors={errors}
-          required
+        <input
+          type="hidden"
+          name="groupId"
+          {...register("groupId")}
+          value={query.groupId}
         />
-        <TextInputControl
-          id="description"
-          label="Description"
-          register={register}
-          errors={errors}
-          required
-        />
-
-        <Button type="submit">Submit {isSubmitting && "..."}</Button>
+        <Button type="submit">Join Group {isSubmitting && "..."}</Button>
       </form>
     </div>
   );
 };
 
-export default CreateGroup;
+export default JoinGroup;
