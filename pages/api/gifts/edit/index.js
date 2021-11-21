@@ -27,7 +27,7 @@ export default async function editGift(req, res) {
                 name: data.name,
                 description: data.description,
                 url: data.url,
-                isPurchased: false,
+                price: data.price,
                 owner: session.user.email,
                 giftFor: {
                   name: data.giftFor ? data.giftFor : session.user.name,

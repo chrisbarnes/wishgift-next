@@ -18,6 +18,7 @@ export default async function createGift(req, res) {
             name: data.name,
             description: data.description,
             url: data.url,
+            price: data.price,
             isPurchased: false,
             owner: session.user.email,
             giftFor: { name: data.giftFor ? data.giftFor : session.user.name },
