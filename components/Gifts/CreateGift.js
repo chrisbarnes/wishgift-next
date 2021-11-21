@@ -44,7 +44,7 @@ const CreateGift = ({ updated }) => {
       {!isEditing ? (
         <div className="text-center h-full flex flex-col justify-center">
           <button
-            className="p-12 text-6xl font-thin uppercase"
+            className="p-8 lg:p-12 text-4xl xl:text-6xl font-thin uppercase"
             onClick={() => setIsEditing(true)}
             title="Add a Gift"
           >
