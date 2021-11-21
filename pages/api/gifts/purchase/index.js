@@ -28,31 +28,36 @@ export default async function purchaseGift(req, res) {
           )
         );
 
-        console.log("query", query);
-
         if (query && query.data && query.data.length) {
           const groups = query.data.map((group) => {
             return group.ref.id;
           });
-
-          console.log("groups", groups);
 
           if (groups.indexOf(data.groupId) > -1) {
             isMember = true;
           }
         }
 
-        const updatePurchaseQuery = await faunaClient.query(
-          q.Update(q.Ref(q.Collection(collection), data.giftId), {
-            data: {
-              isPurchased: data.isPurchased,
-            },
-          })
-        );
+        if (isMember) {
+          const updatePurchaseQuery = await faunaClient.query(
+            q.Update(q.Ref(q.Collection(collection), data.giftId), {
+              data: {
+                isPurchased: data.isPurchased,
+              },
+            })
+          );
 
-        res
-          .status(200)
-          .json({ data: { data: updatePurchaseQuery, message: "Success" } });
+          res
+            .status(200)
+            .json({ data: { data: updatePurchaseQuery, message: "Success" } });
+        } else {
+          console.log(
+            `Unauthorized user ${email} trying to mark purchased: ${giftId}.`
+          );
+
+          // return unauthorized if the current user isn't a member of this group
+          res.status(401).json({ message: errorMessages.unAuthorizedUser });
+        }
       }
     } catch (error) {
       res.status(500);
