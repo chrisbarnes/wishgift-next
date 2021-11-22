@@ -53,7 +53,7 @@ const GiftCardEdit = ({ handleEditGiftToggle, gift, editedCallback }) => {
         />
         <TextInputControl
           id="url"
-          label="Url"
+          label="URL"
           register={register}
           errors={errors}
           value={gift.url}
