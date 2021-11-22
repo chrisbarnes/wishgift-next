@@ -7,6 +7,10 @@ const isGiftImageEnabled =
   process.env.NEXT_PUBLIC_IS_GIFT_IMAGE_ENABLED === "true";
 
 console.log("isGiftImageEnabled", isGiftImageEnabled);
+console.log(
+  "process.env.NEXT_PUBLIC_IS_GIFT_IMAGE_ENABLED",
+  process.env.NEXT_PUBLIC_IS_GIFT_IMAGE_ENABLED
+);
 
 const GiftEditControls = ({
   isOwner,
