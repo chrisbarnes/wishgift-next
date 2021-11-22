@@ -22,8 +22,6 @@ const AddImage = ({ url, handleAddImageToggle, giftId }) => {
   };
   const onSubmit = async (data) => {
     submitData(data).then(({ data }) => {
-      console.log("data", data);
-
       if (data.images && data.images.length) {
         setImages(data.images);
         setIsChoosingImages(true);
