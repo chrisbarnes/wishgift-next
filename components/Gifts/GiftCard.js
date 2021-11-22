@@ -61,7 +61,11 @@ const GiftCard = (props) => {
         />
       )}
       {isAddingImage && (
-        <AddImage url={props.url} handleAddImageToggle={handleAddImageToggle} />
+        <AddImage
+          url={props.url}
+          giftId={props.id}
+          handleAddImageToggle={handleAddImageToggle}
+        />
       )}
     </div>
   );
