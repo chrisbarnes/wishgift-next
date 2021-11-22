@@ -6,6 +6,8 @@ import MarkPurchasedButton from "./MarkPurchasedButton";
 const isGiftImageEnabled =
   process.env.NEXT_PUBLIC_IS_GIFT_IMAGE_ENABLED === "true";
 
+console.log("isGiftImageEnabled", isGiftImageEnabled);
+
 const GiftEditControls = ({
   isOwner,
   handleEditClick,
