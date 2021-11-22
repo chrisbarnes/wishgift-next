@@ -3,6 +3,7 @@ import Icons from "../Icons";
 const IconButton = ({ accessibleText, icon, clickHandler }) => {
   return (
     <button className="w-5 h-5 rounded-md text-blue-700" onClick={clickHandler}>
+      {icon === "Photo" && <Icons.Photo />}
       {icon === "Trash" && <Icons.Trash />}
       {icon === "Edit" && <Icons.Edit />}
       <span
