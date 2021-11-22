@@ -29,6 +29,7 @@ export default async function editGift(req, res) {
                 url: data.url,
                 price: data.price,
                 owner: session.user.email,
+                imageUrl: data.imageUrl,
                 giftFor: {
                   name: data.giftFor ? data.giftFor : session.user.name,
                 },
