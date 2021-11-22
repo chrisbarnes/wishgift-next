@@ -5,7 +5,9 @@ import CreateGift from "./CreateGift";
 const fetcher = (url) => fetch(url).then((res) => res.json());
 
 const GiftsList = ({ groupId }) => {
-  const { data, mutate, error } = useSWR(`/api/gifts/${groupId}`, fetcher);
+  const { data, mutate, error } = useSWR(`/api/gifts/${groupId}`, fetcher, {
+    refreshInterval: 10000,
+  });
 
   if (error) {
     <p>Sorry. There was an error retrieving the gifts.</p>;
