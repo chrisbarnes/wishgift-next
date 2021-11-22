@@ -27,6 +27,7 @@ export default async function getGiftsByGroup(req, res) {
         url: gift.data.url,
         isPurchased: gift.data.isPurchased,
         purchasedBy: gift.data.purchasedBy,
+        imageUrl: gift.data.imageUrl,
         price: gift.data.price,
         giftFor: {
           name: gift.data.giftFor.name,

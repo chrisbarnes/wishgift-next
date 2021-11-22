@@ -5,7 +5,6 @@ class MyDocument extends Document {
     return (
       <Html lang="en">
         <Head>
-          <title>WishGift</title>
           <meta
             name="description"
             content="Lists of gifts with your family and friends."

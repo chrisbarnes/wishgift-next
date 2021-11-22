@@ -69,7 +69,7 @@ const CreateGift = ({ updated }) => {
             />
             <TextInputControl
               id="url"
-              label="Url"
+              label="URL"
               register={register}
               errors={errors}
             />
