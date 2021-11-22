@@ -8,6 +8,7 @@ const GiftEditControls = ({
   handleEditClick,
   handleDeleteClick,
   isPurchased,
+  purchasedBy,
   updated,
   giftId,
 }) => {
@@ -45,6 +46,7 @@ const GiftEditControls = ({
           onChange={handleUpdatePurchased}
           isOwner={isOwner}
           isPurchased={isPurchased}
+          purchasedBy={purchasedBy}
         />
       )}
 

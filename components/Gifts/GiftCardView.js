@@ -7,6 +7,7 @@ const GiftCardView = ({
   description,
   url,
   isPurchased,
+  purchasedBy,
   giftFor,
   price,
   isOwner,
@@ -25,6 +26,7 @@ const GiftCardView = ({
               <a
                 href={url}
                 target="_blank"
+                rel="noopener"
                 className="flex flex-row items-start"
               >
                 {name}
@@ -62,6 +64,7 @@ const GiftCardView = ({
         handleDeleteClick={handleDeleteGiftClick}
         giftId={id}
         isPurchased={isPurchased}
+        purchasedBy={purchasedBy}
         updated={updated}
       />
     </div>
