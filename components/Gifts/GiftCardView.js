@@ -13,6 +13,7 @@ const GiftCardView = ({
   isOwner,
   handleEditGiftClick,
   handleDeleteGiftClick,
+  handleAddImageClick,
   updated,
 }) => {
   const textColor = isPurchased ? "text-white" : "text-gray-700";
@@ -62,6 +63,7 @@ const GiftCardView = ({
         isOwner={isOwner}
         handleEditClick={handleEditGiftClick}
         handleDeleteClick={handleDeleteGiftClick}
+        handleImageClick={handleAddImageClick}
         giftId={id}
         isPurchased={isPurchased}
         purchasedBy={purchasedBy}
