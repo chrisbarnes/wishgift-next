@@ -43,6 +43,7 @@ export default async function purchaseGift(req, res) {
             q.Update(q.Ref(q.Collection(collection), data.giftId), {
               data: {
                 isPurchased: data.isPurchased,
+                purchasedBy: data.isPurchased ? email : "",
               },
             })
           );

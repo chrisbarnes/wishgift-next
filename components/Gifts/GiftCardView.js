@@ -7,6 +7,7 @@ const GiftCardView = ({
   description,
   url,
   isPurchased,
+  purchasedBy,
   giftFor,
   price,
   isOwner,
@@ -63,6 +64,7 @@ const GiftCardView = ({
         handleDeleteClick={handleDeleteGiftClick}
         giftId={id}
         isPurchased={isPurchased}
+        purchasedBy={purchasedBy}
         updated={updated}
       />
     </div>
