@@ -25,6 +25,7 @@ const GiftCardView = ({
               <a
                 href={url}
                 target="_blank"
+                rel="noopener"
                 className="flex flex-row items-start"
               >
                 {name}
