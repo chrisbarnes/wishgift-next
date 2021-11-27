@@ -3,10 +3,14 @@ import { useRouter } from "next/router";
 import IconButton from "../Forms/IconButton";
 import MarkPurchasedButton from "./MarkPurchasedButton";
 
+const isGiftImageEnabled =
+  process.env.NEXT_PUBLIC_IS_GIFT_IMAGE_ENABLED === "true";
+
 const GiftEditControls = ({
   isOwner,
   handleEditClick,
   handleDeleteClick,
+  handleImageClick,
   isPurchased,
   purchasedBy,
   updated,
@@ -36,7 +40,6 @@ const GiftEditControls = ({
       }
     });
   };
-
   const textColor = isPurchased ? "text-white" : "text-gray-700";
 
   return (
@@ -63,6 +66,14 @@ const GiftEditControls = ({
           icon="Trash"
           clickHandler={handleDeleteClick}
           accessibleText="Delete this gift"
+        />
+      )}
+
+      {isGiftImageEnabled && isOwner && (
+        <IconButton
+          icon="Photo"
+          clickHandler={handleImageClick}
+          accessibleText="Add an image to this gift"
         />
       )}
     </div>

@@ -6,6 +6,7 @@ const GiftCardView = ({
   name,
   description,
   url,
+  imageUrl,
   isPurchased,
   purchasedBy,
   giftFor,
@@ -13,6 +14,7 @@ const GiftCardView = ({
   isOwner,
   handleEditGiftClick,
   handleDeleteGiftClick,
+  handleAddImageClick,
   updated,
 }) => {
   const textColor = isPurchased ? "text-white" : "text-gray-700";
@@ -51,7 +53,11 @@ const GiftCardView = ({
 
       {!isPurchased && (
         <p className="relative">
-          <Icons.Tag size="xxl" />
+          {imageUrl ? (
+            <img className="w-20 h-auto" src={imageUrl} alt={name} />
+          ) : (
+            <Icons.Tag size="xxl" />
+          )}
           <span className="absolute text-xs leading-none px-2 py-2 bg-white top-5 left-7 rounded-md shadow-md">
             {giftFor.name}
           </span>
@@ -62,6 +68,7 @@ const GiftCardView = ({
         isOwner={isOwner}
         handleEditClick={handleEditGiftClick}
         handleDeleteClick={handleDeleteGiftClick}
+        handleImageClick={handleAddImageClick}
         giftId={id}
         isPurchased={isPurchased}
         purchasedBy={purchasedBy}

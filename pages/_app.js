@@ -1,15 +1,20 @@
 import "tailwindcss/tailwind.css";
 import { SessionProvider } from "next-auth/react";
-
+import Head from "next/head";
 import Layout from "../components/Layout/Layout";
 
 function MyApp({ Component, pageProps }) {
   return (
-    <SessionProvider>
-      <Layout>
-        <Component {...pageProps} />
-      </Layout>
-    </SessionProvider>
+    <>
+      <Head>
+        <title>WishGift</title>
+      </Head>
+      <SessionProvider>
+        <Layout>
+          <Component {...pageProps} />
+        </Layout>
+      </SessionProvider>
+    </>
   );
 }
 
