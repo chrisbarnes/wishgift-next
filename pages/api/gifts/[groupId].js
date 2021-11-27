@@ -15,7 +15,7 @@ export default async function getGiftsByGroup(req, res) {
 
     const query = await faunaClient.query(
       q.Map(
-        q.Paginate(q.Match(q.Index(index), groupId)),
+        q.Paginate(q.Match(q.Index(index), groupId), { size: 128 }),
         q.Lambda((gift) => q.Get(gift))
       )
     );
