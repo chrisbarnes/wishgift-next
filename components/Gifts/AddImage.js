@@ -4,7 +4,7 @@ import Button from "../Forms/Button";
 import TextInputControl from "../Forms/TextInputControl";
 import ImageSelector from "./ImageSelector";
 
-const AddImage = ({ url, handleAddImageToggle, giftId }) => {
+const AddImage = ({ url, handleAddImageToggle, giftId, addedCallback }) => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isChoosingImages, setIsChoosingImages] = useState(false);
   const [images, setImages] = useState([]);
@@ -36,6 +36,7 @@ const AddImage = ({ url, handleAddImageToggle, giftId }) => {
           images={images}
           handleAddImageToggle={handleAddImageToggle}
           giftId={giftId}
+          addedCallback={addedCallback}
         />
       ) : (
         <form className="" onSubmit={handleSubmit(onSubmit)}>

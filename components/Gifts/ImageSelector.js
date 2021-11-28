@@ -2,7 +2,12 @@ import { useState } from "react";
 import { useRouter } from "next/router";
 import Button from "../Forms/Button";
 
-const ImageSelector = ({ images, handleAddImageToggle, giftId }) => {
+const ImageSelector = ({
+  images,
+  handleAddImageToggle,
+  giftId,
+  addedCallback,
+}) => {
   const [selectedImage, setSelectedImage] = useState();
   const [selectedImageIndex, setSelectedImageIndex] = useState();
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -39,6 +44,7 @@ const ImageSelector = ({ images, handleAddImageToggle, giftId }) => {
       submitData(data).then(({ data }) => {
         // If the form was submitted successfully, call the updated callback
         if (data.message === "Success") {
+          addedCallback();
           handleAddImageToggle();
         }
       });
