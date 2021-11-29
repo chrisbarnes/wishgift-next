@@ -46,7 +46,9 @@ const GiftCardView = ({
               <>{name}</>
             )}
           </h3>
-          {price && <span className="font-semibold">${price}</span>}
+          {price && (
+            <span className={`font-semibold ${textColor}`}>${price}</span>
+          )}
         </div>
         {description && <p className={`text-sm ${textColor}`}>{description}</p>}
       </div>

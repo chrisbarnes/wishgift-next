@@ -2,7 +2,12 @@ import { useState } from "react";
 import { useRouter } from "next/router";
 import Button from "../Forms/Button";
 
-const ImageSelector = ({ images, handleAddImageToggle, giftId }) => {
+const ImageSelector = ({
+  images,
+  handleAddImageToggle,
+  giftId,
+  addedCallback,
+}) => {
   const [selectedImage, setSelectedImage] = useState();
   const [selectedImageIndex, setSelectedImageIndex] = useState();
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -39,6 +44,7 @@ const ImageSelector = ({ images, handleAddImageToggle, giftId }) => {
       submitData(data).then(({ data }) => {
         // If the form was submitted successfully, call the updated callback
         if (data.message === "Success") {
+          addedCallback();
           handleAddImageToggle();
         }
       });
@@ -69,8 +75,10 @@ const ImageSelector = ({ images, handleAddImageToggle, giftId }) => {
           })}
       </div>
 
-      <Button onClick={handleAddImageToggle}>Cancel</Button>
-      <Button onClick={handleImageSave}>Save {isSubmitting && "..."}</Button>
+      <div className="flex justify-around mt-4">
+        <Button onClick={handleAddImageToggle}>Cancel</Button>
+        <Button onClick={handleImageSave}>Save {isSubmitting && "..."}</Button>
+      </div>
       {hasError && <p>Please select an image first.</p>}
     </>
   );

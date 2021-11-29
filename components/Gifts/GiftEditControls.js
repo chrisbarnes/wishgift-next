@@ -5,6 +5,8 @@ import MarkPurchasedButton from "./MarkPurchasedButton";
 
 const isGiftImageEnabled =
   process.env.NEXT_PUBLIC_IS_GIFT_IMAGE_ENABLED === "true";
+const isEditBarTextEnabled =
+  process.env.NEXT_PUBLIC_IS_GIFT_CONTROLS_V2_ENABLED === "true";
 
 const GiftEditControls = ({
   isOwner,
@@ -41,9 +43,10 @@ const GiftEditControls = ({
     });
   };
   const textColor = isPurchased ? "text-white" : "text-gray-700";
+  const justify = isEditBarTextEnabled ? "justify-between" : "justify-evenly";
 
   return (
-    <div className={`mt-auto flex flex-row justify-evenly ${textColor}`}>
+    <div className={`mt-auto flex flex-row ${justify} ${textColor}`}>
       {!isOwner && (
         <MarkPurchasedButton
           onChange={handleUpdatePurchased}
@@ -58,6 +61,8 @@ const GiftEditControls = ({
           icon="Edit"
           clickHandler={handleEditClick}
           accessibleText="Edit this gift"
+          displayText={isEditBarTextEnabled}
+          text="Edit"
         />
       )}
 
@@ -66,6 +71,8 @@ const GiftEditControls = ({
           icon="Trash"
           clickHandler={handleDeleteClick}
           accessibleText="Delete this gift"
+          displayText={isEditBarTextEnabled}
+          text="Delete"
         />
       )}
 
@@ -74,6 +81,8 @@ const GiftEditControls = ({
           icon="Photo"
           clickHandler={handleImageClick}
           accessibleText="Add an image to this gift"
+          displayText={isEditBarTextEnabled}
+          text="Add an image"
         />
       )}
     </div>
