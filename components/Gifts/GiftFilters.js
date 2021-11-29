@@ -1,8 +1,11 @@
-import { useForm, useWatch } from "react-hook-form";
+import { useForm } from "react-hook-form";
+import { useMediaQuery } from "../../hooks/useMediaQuery";
 import TextInputControl from "../Forms/TextInputControl";
 import Button from "../Forms/Button";
 
 const GiftFilters = ({ searchCallback, resetFilters }) => {
+  let isWidePage = useMediaQuery("(min-width: 768px)");
+
   const {
     register,
     handleSubmit,
@@ -20,8 +23,6 @@ const GiftFilters = ({ searchCallback, resetFilters }) => {
     resetFilters();
   };
 
-  console.log("dirty fields", dirtyFields);
-
   return (
     <div className="mb-12 py-4">
       <form onSubmit={handleSubmit(onSubmit)}>
@@ -31,7 +32,11 @@ const GiftFilters = ({ searchCallback, resetFilters }) => {
           register={register}
           errors={errors}
           required
-          onChange={(e) => searchCallback({ search: e.target.value })}
+          onChange={
+            isWidePage
+              ? (e) => searchCallback({ search: e.target.value })
+              : null
+          }
         />
         <Button>Search</Button>
         {dirtyFields && dirtyFields.search && (
