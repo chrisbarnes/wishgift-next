@@ -75,8 +75,10 @@ const ImageSelector = ({
           })}
       </div>
 
-      <Button onClick={handleAddImageToggle}>Cancel</Button>
-      <Button onClick={handleImageSave}>Save {isSubmitting && "..."}</Button>
+      <div className="flex justify-around mt-4">
+        <Button onClick={handleAddImageToggle}>Cancel</Button>
+        <Button onClick={handleImageSave}>Save {isSubmitting && "..."}</Button>
+      </div>
       {hasError && <p>Please select an image first.</p>}
     </>
   );
