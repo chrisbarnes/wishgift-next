@@ -1,7 +1,15 @@
 import TextInput from "./TextInput";
 import Error from "./Error";
 
-const TextInputControl = ({ id, label, required, errors, register, value }) => {
+const TextInputControl = ({
+  id,
+  label,
+  required,
+  errors,
+  register,
+  value,
+  onChange,
+}) => {
   return (
     <div className="mb-2">
       <TextInput
@@ -10,6 +18,7 @@ const TextInputControl = ({ id, label, required, errors, register, value }) => {
         register={register}
         required={required}
         value={value}
+        onChange={onChange}
       />
       <Error errors={errors} name={id} />
     </div>
