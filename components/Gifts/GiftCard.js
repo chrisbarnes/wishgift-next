@@ -34,7 +34,7 @@ const GiftCard = (props) => {
 
   return (
     <div
-      className={`mb-4 md:mb-0 px-6 py-4 shadow-md rounded-md flex flex-col ${bgColor} transition-colors ${height}`}
+      className={`mb-4 md:mb-0 px-4 pt-4 pb-2 shadow-md rounded-md flex flex-col ${bgColor} transition-colors ${height}`}
     >
       {!isEditing && !isDeleting && !isAddingImage && (
         <GiftCardView
