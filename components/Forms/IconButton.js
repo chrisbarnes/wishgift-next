@@ -18,6 +18,7 @@ const IconButton = ({
     flex: displayText,
     "items-center": displayText,
     "p-2": displayText,
+    "font-semibold": displayText,
   });
 
   return (
