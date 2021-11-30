@@ -19,7 +19,7 @@ const GiftCardView = ({
 }) => {
   const textColor = isPurchased ? "text-white" : "text-gray-700";
   const nameTagClasses = isPurchased
-    ? "absolute bottom-14 right-14 z-10 bg-white px-6 py-4 border-2 border-gray-700 uppercase text-xs font-thin shadow-sm rounded-sm"
+    ? "absolute text-gray-700 bottom-14 right-14 z-10 bg-white px-6 py-4 border-2 border-gray-200 uppercase text-xs font-semibold shadow-sm rounded-sm"
     : "relative";
 
   return (
