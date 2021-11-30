@@ -31,10 +31,16 @@ const GiftCard = (props) => {
   // I should not see the purchase option and it should look different
   const bgColor = isDisplayedAsPurchased ? "bg-gray-700" : "bg-white";
   const height = isEditing ? "h-auto" : "h-64";
+  const verticalRibbonClasses =
+    "before:absolute before:top-0 before:right-20 before:w-9 before:h-full before:bg-white before:shadow-lg before:border-r-2 before:border-l-2 before:border-gray-200";
+  const horizontalRibbonClasses = `after:absolute after:top-40 after:left-0 after:w-full after:h-9 after:bg-white after:shadow-sm after:border-t-2 after:border-b-2 after:border-gray-200`;
+  const isPurchasedClasses = isDisplayedAsPurchased
+    ? `${verticalRibbonClasses} ${horizontalRibbonClasses}`
+    : "after:-top-40 before:-right-20";
 
   return (
     <div
-      className={`mb-4 md:mb-0 px-4 pt-4 pb-2 shadow-md rounded-md flex flex-col ${bgColor} transition-colors ${height}`}
+      className={`overflow-hidden relative mb-4 md:mb-0 px-4 pt-4 pb-2 shadow-md rounded-md flex flex-col ${bgColor} shadow after:transition-all before:transition-all transition-colors ${height} ${isPurchasedClasses}`}
     >
       {!isEditing && !isDeleting && !isAddingImage && (
         <GiftCardView
