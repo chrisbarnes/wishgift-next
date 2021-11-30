@@ -1,5 +1,6 @@
 import clsx from "clsx";
 import Icons from "../Icons";
+import AccessibleText from "../Utils/AccessibleText";
 
 const IconButton = ({
   accessibleText,
@@ -29,16 +30,7 @@ const IconButton = ({
       {displayText ? (
         <span>{text}</span>
       ) : (
-        <span
-          className="absolute overflow-hidden"
-          style={{
-            height: "1px",
-            width: "1px",
-            clip: "rect(1px, 1px, 1px, 1px)",
-          }}
-        >
-          {accessibleText}
-        </span>
+        <AccessibleText>{accessibleText}</AccessibleText>
       )}
     </button>
   );
