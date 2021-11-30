@@ -5,7 +5,7 @@ import AddImage from "./AddImage";
 import GiftCardDelete from "./GiftCardDelete";
 import GiftCardEdit from "./GiftCardEdit";
 import GiftCardView from "./GiftCardView";
-import { colors } from "../../lib/accentColors";
+import { bgColors } from "../../lib/accentColors";
 
 const GiftCard = (props) => {
   const { data: session, status } = useSession();
@@ -33,7 +33,7 @@ const GiftCard = (props) => {
   // I should not see the purchase option and it should look different
   const randomInt = getRandomInt(0, 5);
   const bgColor = isDisplayedAsPurchased
-    ? `bg-${colors[randomInt]}-700`
+    ? `${bgColors[randomInt]}`
     : "bg-white";
   const height = isEditing ? "h-auto" : "h-64";
   const verticalRibbonClasses =
