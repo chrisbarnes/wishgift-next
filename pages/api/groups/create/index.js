@@ -20,6 +20,7 @@ export default async function createGroup(req, res) {
             name: data.name,
             description: data.description,
             members: [email],
+            owner: email,
           },
         })
       );
