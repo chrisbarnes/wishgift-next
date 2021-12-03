@@ -54,6 +54,7 @@ const GroupPage = (props) => {
         <GroupHeader
           name={data.group.name}
           description={data.group.description}
+          isOwner={data.group.isOwner}
         />
         <GiftsList groupId={query.groupId} />
       </>
