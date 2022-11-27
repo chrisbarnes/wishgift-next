@@ -43,17 +43,21 @@ const GiftsList = ({ groupId }) => {
     setGifts(data.gifts);
   };
 
+  console.log("gifts", gifts);
+
   return (
     <>
       {isGiftFilteringEnabled && (
         <div className="mb-8 md:mb-4 flex flex-col-reverse md:flex-row justify-between items-center">
-          {data && data.gifts && data.gifts.length && (
-            <GiftsCount
-              filteredGifts={gifts.length}
-              totalGifts={data.gifts.length}
-            />
+          {data && data.gifts && data.gifts.length !== 0 && (
+            <>
+              <GiftsCount
+                filteredGifts={gifts.length}
+                totalGifts={data.gifts.length}
+              />
+              <SearchForm resetFilters={reset} searchCallback={searchGifts} />
+            </>
           )}
-          <SearchForm resetFilters={reset} searchCallback={searchGifts} />
         </div>
       )}
       <div className="md:grid gap-4 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
