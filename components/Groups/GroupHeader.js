@@ -4,7 +4,7 @@ import TextInputControl from "../Forms/TextInputControl";
 import { borderColors } from "../../lib/accentColors";
 import { getRandomInt } from "../../lib/randomInt";
 
-const GroupHeader = ({ name, description, isOwner }) => {
+const GroupHeader = ({ name, description, isOwner, id, editedCallback }) => {
   const randomColor = borderColors[getRandomInt(0, 5)];
   const [isEditing, setIsEditing] = useState(false);
   const [isDeleting, setIsDeleting] = useState(false);
@@ -17,11 +17,14 @@ const GroupHeader = ({ name, description, isOwner }) => {
   } = useForm();
   const submitData = async (data) => {
     setIsSubmitting(true);
+
     const response = await fetch("/api/groups/edit", {
       method: "PUT",
       body: JSON.stringify(data),
     });
+
     setIsSubmitting(false);
+
     return response.json();
   };
   const onSubmit = async (data) => {
@@ -78,6 +81,14 @@ const GroupHeader = ({ name, description, isOwner }) => {
               value={description}
             />
           </div>
+
+          <input
+            type="hidden"
+            name="groupId"
+            {...register("groupId")}
+            value={id}
+          />
+
           <div className="mt-6 md:mt-0">
             <button
               className="mr-3 bg-gray-200 dark:bg-gray-700 focus:outline-none transition duration-150 ease-in-out rounded hover:bg-gray-300 text-blue-700 dark:hover:bg-gray-600 dark:text-blue-600 px-5 py-2 text-sm"
@@ -86,13 +97,13 @@ const GroupHeader = ({ name, description, isOwner }) => {
             >
               Cancel
             </button>
-            <button
+            {/* <button
               className="mr-3 bg-red-500 dark:bg-red-700 focus:outline-none transition duration-150 ease-in-out rounded hover:bg-red-700 text-white dark:hover:bg-gray-600 dark:text-gray-200 px-5 py-2 text-sm"
               onClick={handleGroupDeleteToggle}
               type="button"
             >
               Delete
-            </button>
+            </button> */}
             <button
               className="transition focus:outline-none duration-150 ease-in-out hover:bg-blue-600 bg-blue-700 rounded text-white px-8 py-2 text-sm"
               onClick={handleGroupSave}
