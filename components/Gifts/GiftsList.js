@@ -1,11 +1,15 @@
 import useSWR from "swr";
-import { useCallback, useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import GiftCard from "./GiftCard";
 import CreateGift from "./CreateGift";
 import GiftsCount from "./GiftsCount";
 import SearchForm from "../Search/SearchForm";
+import { setBgColor } from "./utils";
 
-const fetcher = (url) => fetch(url).then((res) => res.json());
+const fetcher = (url) =>
+  fetch(url)
+    .then((res) => res.json())
+    .then((data) => ({ gifts: data.gifts.map(setBgColor) }));
 
 const isGiftFilteringEnabled =
   process.env.NEXT_PUBLIC_IS_GIFT_FILTERING_ENABLED === "true";
@@ -42,8 +46,6 @@ const GiftsList = ({ groupId }) => {
   const reset = () => {
     setGifts(data.gifts);
   };
-
-  console.log("gifts", gifts);
 
   return (
     <>

@@ -1,11 +1,9 @@
 import { useSession } from "next-auth/react";
 import { useState } from "react";
-import { getRandomInt } from "../../lib/randomInt";
 import AddImage from "./AddImage";
 import GiftCardDelete from "./GiftCardDelete";
 import GiftCardEdit from "./GiftCardEdit";
 import GiftCardView from "./GiftCardView";
-import { bgColors } from "../../lib/accentColors";
 
 const GiftCard = (props) => {
   const { data: session, status } = useSession();
@@ -31,10 +29,7 @@ const GiftCard = (props) => {
 
   // if this is not my gift and it is purchased by someone else, then
   // I should not see the purchase option and it should look different
-  const randomInt = getRandomInt(0, 5);
-  const bgColor = isDisplayedAsPurchased
-    ? `${bgColors[randomInt]}`
-    : "bg-white";
+  const bgColor = isDisplayedAsPurchased ? props.bgColor : "bg-white";
   const height = isEditing ? "h-auto" : "h-64";
   const verticalRibbonClasses =
     "before:absolute before:top-0 before:right-20 before:w-9 before:h-full before:bg-white before:shadow-lg before:border-r-2 before:border-l-2 before:border-gray-200";
