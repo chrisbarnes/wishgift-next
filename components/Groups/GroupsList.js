@@ -12,7 +12,7 @@ const GroupsList = () => {
   const { data: groups } = groupData;
 
   return (
-    <div className="grid gap-4 grid-cols-3">
+    <div className="md:grid gap-4 grid-cols-3">
       {groups &&
         groups.length &&
         groups.map((group) => <GroupCard key={group.id} {...group} />)}
