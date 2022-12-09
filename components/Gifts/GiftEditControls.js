@@ -82,7 +82,7 @@ const GiftEditControls = ({
           clickHandler={handleImageClick}
           accessibleText="Add an image to this gift"
           displayText={isEditBarTextEnabled}
-          text="Add an image"
+          text="Add image"
         />
       )}
     </div>
