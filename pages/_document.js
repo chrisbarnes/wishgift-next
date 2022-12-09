@@ -3,7 +3,7 @@ import Document, { Html, Head, Main, NextScript } from "next/document";
 class MyDocument extends Document {
   render() {
     return (
-      <Html lang="en">
+      <Html lang="en" className="h-full">
         <Head>
           <meta
             name="description"
@@ -35,7 +35,7 @@ class MyDocument extends Document {
           <meta name="msapplication-TileColor" content="#da532c" />
           <meta name="theme-color" content="#ffffff"></meta>
         </Head>
-        <body className="bg-gray-100">
+        <body className="bg-gray-100 h-full">
           <Main />
           <NextScript />
         </body>
