@@ -5,12 +5,12 @@ const LargeHero = ({ heading, description, link, backgroundImage }) => {
   return (
     <div
       className="relative flex flex-col justify-center items-center rounded-md overflow-hidden text-white"
-      style={{ height: "66.66vw" }}
+      style={{ height: "66.66vh", maxHeight: "66.66vw" }}
     >
       <Image
         src={backgroundImage}
         fill
-        className="z-0 max-w-full"
+        className="z-0 max-w-full object-cover"
         priority
         alt=""
       />
