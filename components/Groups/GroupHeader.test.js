@@ -3,6 +3,17 @@ import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import GroupHeader from './GroupHeader';
 
+// Mock Next.js router
+const mockPush = vi.fn();
+vi.mock('next/router', () => ({
+  useRouter: () => ({
+    push: mockPush,
+    pathname: '/',
+    query: {},
+    asPath: '/',
+  }),
+}));
+
 // Mock dependencies
 vi.mock('../../lib/accentColors', () => ({
   borderColors: ['border-blue-500', 'border-red-500', 'border-green-500', 'border-yellow-500', 'border-purple-500', 'border-pink-500'],
@@ -23,6 +34,7 @@ describe('GroupHeader', () => {
 
   beforeEach(() => {
     vi.clearAllMocks();
+    mockPush.mockClear();
     global.fetch = vi.fn();
   });
 
