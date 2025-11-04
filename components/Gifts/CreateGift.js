@@ -62,6 +62,11 @@ const CreateGift = ({ updated }) => {
             + Gift
           </button>
         </div>
+      ) : isSubmitting ? (
+        <div className="text-center h-full flex flex-col justify-center items-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-gray-900"></div>
+          <p className="mt-4 text-gray-600">Adding gift...</p>
+        </div>
       ) : (
         <>
           <h2 className="mb-4 font-bold text-lg">Add a Gift</h2>
@@ -106,7 +111,7 @@ const CreateGift = ({ updated }) => {
             />
 
             <div className="mt-4 flex justify-evenly">
-              <Button type="submit">Submit {isSubmitting && "..."}</Button>
+              <Button type="submit">Submit</Button>
               <Button type="button" onClick={() => setIsEditing(false)}>
                 Cancel
               </Button>

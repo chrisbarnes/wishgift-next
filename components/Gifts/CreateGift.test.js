@@ -73,4 +73,73 @@ describe('CreateGift', () => {
     const card = container.firstChild;
     expect(card).toHaveClass('h-64');
   });
+
+  it('shows loading indicator while submitting gift', async () => {
+    const user = userEvent.setup();
+    const mockUpdated = vi.fn();
+
+    // Mock fetch to delay response
+    global.fetch = vi.fn(() =>
+      new Promise(resolve => {
+        setTimeout(() => {
+          resolve({
+            json: async () => ({ data: { message: 'Success' } }),
+          });
+        }, 100);
+      })
+    );
+
+    render(<CreateGift updated={mockUpdated} />);
+
+    // Open the form
+    await user.click(screen.getByRole('button', { name: /\+ Gift/i }));
+
+    // Fill in required field
+    const nameInput = screen.getByLabelText(/Name/i);
+    await user.type(nameInput, 'Test Gift');
+
+    // Submit the form
+    await user.click(screen.getByRole('button', { name: /Submit/i }));
+
+    // Check loading indicator is shown
+    expect(screen.getByText('Adding gift...')).toBeInTheDocument();
+    // Form should not be visible
+    expect(screen.queryByText('Add a Gift')).not.toBeInTheDocument();
+  });
+
+  it('resets form and shows it again after successful submission', async () => {
+    const user = userEvent.setup();
+    const mockUpdated = vi.fn();
+
+    // Mock successful fetch response
+    global.fetch = vi.fn(() =>
+      Promise.resolve({
+        json: async () => ({ data: { message: 'Success' } }),
+      })
+    );
+
+    render(<CreateGift updated={mockUpdated} />);
+
+    // Open the form
+    await user.click(screen.getByRole('button', { name: /\+ Gift/i }));
+
+    // Fill in fields
+    const nameInput = screen.getByLabelText(/Name/i);
+    await user.type(nameInput, 'Test Gift');
+
+    // Submit the form
+    await user.click(screen.getByRole('button', { name: /Submit/i }));
+
+    // Wait for submission to complete
+    await vi.waitFor(() => {
+      expect(mockUpdated).toHaveBeenCalled();
+    });
+
+    // Form should be visible again
+    expect(screen.getByText('Add a Gift')).toBeInTheDocument();
+
+    // Form fields should be empty
+    const nameInputAfter = screen.getByLabelText(/Name/i);
+    expect(nameInputAfter).toHaveValue('');
+  });
 });
