@@ -2,7 +2,7 @@
   "version": "0.6.0",
   "private": true,
   "engines": {
-    "node": "18.x"
+    "node": "22.x"
   },
   "scripts": {
     "dev": "next dev",
