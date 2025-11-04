@@ -1,49 +1,60 @@
-import { getSession } from "next-auth/react";
-import { query as q } from "faunadb";
-import { faunaClient } from "../../../lib/fauna";
-
-const isProd = process.env.IS_PROD;
-const index = isProd === "true" ? "gifts_by_group-prod" : "gifts_by_group";
+import { unstable_getServerSession } from "next-auth/next";
+import { supabase } from "../../../lib/supabase";
+import { authOptions } from "../auth/[...nextauth]";
 
 export default async function getGiftsByGroup(req, res) {
-  const session = await getSession({ req });
+  const session = await unstable_getServerSession(req, res, authOptions);
 
-  if (session && req.method === "GET") {
+  if (!session) {
+    return res.status(401).json({ error: "Unauthorized" });
+  }
+
+  if (req.method !== "GET") {
+    return res.status(405).json({ error: "Method not allowed" });
+  }
+
+  try {
     const {
       query: { groupId },
     } = req;
 
-    const query = await faunaClient.query(
-      q.Map(
-        q.Paginate(q.Match(q.Index(index), groupId), { size: 128 }),
-        q.Lambda((gift) => q.Get(gift))
+    const { data: gifts, error } = await supabase
+      .from("gifts")
+      .select(
+        "id, name, description, url, is_purchased, purchased_by, image_url, price, gift_for_name, owner",
       )
-    );
+      .eq("group_id", groupId)
+      .order("created_at", { ascending: false })
+      .limit(128);
 
-    if (query && query.data && query.data.length) {
-      const gifts = query.data.map((gift) => ({
-        name: gift.data.name,
-        description: gift.data.description,
-        url: gift.data.url,
-        isPurchased: gift.data.isPurchased,
-        purchasedBy: gift.data.purchasedBy,
-        imageUrl: gift.data.imageUrl,
-        price: gift.data.price,
+    if (error) {
+      console.error("Error fetching gifts:", error);
+      return res.status(500).json({ error: error.message });
+    }
+
+    if (gifts && gifts.length) {
+      const formattedGifts = gifts.map((gift) => ({
+        name: gift.name,
+        description: gift.description,
+        url: gift.url,
+        isPurchased: gift.is_purchased,
+        purchasedBy: gift.purchased_by,
+        imageUrl: gift.image_url,
+        price: gift.price,
         giftFor: {
-          name: gift.data.giftFor.name,
+          name: gift.gift_for_name,
         },
-        owner: gift.data.owner,
-        isOwner: gift.data.owner === session.user.email,
-        id: gift.ref.id,
+        owner: gift.owner,
+        isOwner: gift.owner === session.user.email,
+        id: gift.id,
       }));
 
-      res.status(200).json({ gifts });
+      return res.status(200).json({ gifts: formattedGifts });
     } else {
-      res.status(200).json({ gifts: [] });
+      return res.status(200).json({ gifts: [] });
     }
-  } else {
-    res.status(401);
+  } catch (error) {
+    console.error("Error:", error);
+    return res.status(500).json({ error: error.message });
   }
-
-  res.end();
 }

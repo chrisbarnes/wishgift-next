@@ -1,48 +1,64 @@
-import { getSession } from "next-auth/react";
-import { query as q } from "faunadb";
-import { faunaClient } from "../../../../lib/fauna";
-
-const isProd = process.env.IS_PROD;
-const collection = isProd === "true" ? "groups-prod" : "groups";
+import { unstable_getServerSession } from "next-auth/next";
+import { supabase } from "../../../../lib/supabase";
+import { authOptions } from "../../auth/[...nextauth]";
 
 export default async function groupsApi(req, res) {
-  const session = await getSession({ req });
+  const session = await unstable_getServerSession(req, res, authOptions);
+
+  if (!session) {
+    return res.status(401).json({ error: "Unauthorized" });
+  }
+
   const { user } = session;
   const { email } = user;
 
-  if (session && req.method === "PUT") {
-    try {
-      const { groupId } = JSON.parse(req.body);
-
-      if (groupId) {
-        const groupQuery = await faunaClient.query(
-          q.Get(q.Ref(q.Collection(collection), groupId))
-        );
-
-        // Already in the group
-        if (
-          groupQuery &&
-          groupQuery.data &&
-          groupQuery.data.members &&
-          groupQuery.data.members.indexOf(email) > -1
-        ) {
-          res.status(204);
-        } else {
-          const query = await faunaClient.query(
-            q.Update(q.Ref(q.Collection(collection), groupId), {
-              data: { members: [...groupQuery.data.members, email] },
-            })
-          );
-
-          res.status(200).json({ data: { data: query, message: "Success" } });
-        }
-      }
-    } catch (error) {
-      res.status(500);
-    }
-  } else {
-    res.status(401);
+  if (req.method !== "PUT") {
+    return res.status(405).json({ error: "Method not allowed" });
   }
 
-  res.end();
+  try {
+    const body = typeof req.body === "string" ? JSON.parse(req.body) : req.body;
+    const { groupId } = body;
+
+    if (!groupId) {
+      return res.status(400).json({ error: "Group ID is required" });
+    }
+
+    // First, fetch the group
+    const { data: group, error: fetchError } = await supabase
+      .from("groups")
+      .select("members")
+      .eq("id", groupId)
+      .single();
+
+    if (fetchError) {
+      console.error("Error fetching group:", fetchError);
+      return res.status(500).json({ error: fetchError.message });
+    }
+
+    // Already in the group
+    if (group && group.members && group.members.indexOf(email) > -1) {
+      return res.status(200).json({ message: "Already a member" });
+    } else {
+      // Add user to members array
+      const { data: updatedGroup, error: updateError } = await supabase
+        .from("groups")
+        .update({ members: [...group.members, email] })
+        .eq("id", groupId)
+        .select()
+        .single();
+
+      if (updateError) {
+        console.error("Error updating group:", updateError);
+        return res.status(500).json({ error: updateError.message });
+      }
+
+      return res
+        .status(200)
+        .json({ data: { data: updatedGroup, message: "Success" } });
+    }
+  } catch (error) {
+    console.error("Error:", error);
+    return res.status(500).json({ error: error.message });
+  }
 }
