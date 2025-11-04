@@ -15,6 +15,8 @@ export default async function getGroup(req, res) {
     const {
       query: { groupId },
     } = req;
+    const { user } = session;
+    const { email } = user;
 
     const query = await faunaClient.query(
       q.Get(q.Ref(q.Collection(collection), groupId))
@@ -34,6 +36,7 @@ export default async function getGroup(req, res) {
           name: query.data.name,
           description: query.data.description,
           id: query.ref.id,
+          isOwner: query.data.owner === email,
         };
 
         res.status(200).json({ group });

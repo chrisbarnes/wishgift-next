@@ -9,10 +9,8 @@ const Navigation = () => {
     <nav className="bg-black">
       <ul className="flex container mx-auto px-4 py-4">
         <li>
-          <Link href="/">
-            <a className="text-white px-4 py-4 font-bold">
-              <Logo /> WishGift
-            </a>
+          <Link href="/" className="text-white px-4 py-4 font-bold">
+            <Logo /> WishGift
           </Link>
         </li>
         {/* <li>
@@ -21,8 +19,8 @@ const Navigation = () => {
           </Link>
         </li> */}
         <li>
-          <Link href="/groups">
-            <a className="text-white px-4 py-4">Groups</a>
+          <Link href="/groups" className="text-white px-4 py-4">
+            Groups
           </Link>
         </li>
 

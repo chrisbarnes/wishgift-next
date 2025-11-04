@@ -1,11 +1,15 @@
 import useSWR from "swr";
-import { useCallback, useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import GiftCard from "./GiftCard";
 import CreateGift from "./CreateGift";
 import GiftsCount from "./GiftsCount";
 import SearchForm from "../Search/SearchForm";
+import { setBgColor } from "./utils";
 
-const fetcher = (url) => fetch(url).then((res) => res.json());
+const fetcher = (url) =>
+  fetch(url)
+    .then((res) => res.json())
+    .then((data) => ({ gifts: data.gifts.map(setBgColor) }));
 
 const isGiftFilteringEnabled =
   process.env.NEXT_PUBLIC_IS_GIFT_FILTERING_ENABLED === "true";
@@ -47,13 +51,15 @@ const GiftsList = ({ groupId }) => {
     <>
       {isGiftFilteringEnabled && (
         <div className="mb-8 md:mb-4 flex flex-col-reverse md:flex-row justify-between items-center">
-          {data && data.gifts && data.gifts.length && (
-            <GiftsCount
-              filteredGifts={gifts.length}
-              totalGifts={data.gifts.length}
-            />
+          {data && data.gifts && data.gifts.length !== 0 && (
+            <>
+              <GiftsCount
+                filteredGifts={gifts.length}
+                totalGifts={data.gifts.length}
+              />
+              <SearchForm resetFilters={reset} searchCallback={searchGifts} />
+            </>
           )}
-          <SearchForm resetFilters={reset} searchCallback={searchGifts} />
         </div>
       )}
       <div className="md:grid gap-4 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
