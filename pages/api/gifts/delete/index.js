@@ -1,5 +1,5 @@
 import { unstable_getServerSession } from "next-auth/next";
-import { supabase } from "../../../../lib/supabase";
+import { supabase, getTableName } from "../../../../lib/supabase";
 import { errorMessages } from "../../../../lib/constants";
 import { authOptions } from "../../auth/[...nextauth]";
 
@@ -27,7 +27,7 @@ export default async function deleteGift(req, res) {
 
     // First, check to make sure the user can delete this gift
     const { data: gift, error: fetchError } = await supabase
-      .from("gifts")
+      .from(getTableName("gifts"))
       .select("owner")
       .eq("id", giftId)
       .single();
@@ -39,7 +39,7 @@ export default async function deleteGift(req, res) {
 
     if (gift && gift.owner === email) {
       const { error: deleteError } = await supabase
-        .from("gifts")
+        .from(getTableName("gifts"))
         .delete()
         .eq("id", giftId);
 

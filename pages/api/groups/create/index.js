@@ -1,5 +1,5 @@
 import { unstable_getServerSession } from "next-auth/next";
-import { supabase } from "../../../../lib/supabase";
+import { supabase, getTableName } from "../../../../lib/supabase";
 import { authOptions } from "../../auth/[...nextauth]";
 
 export default async function createGroup(req, res) {
@@ -20,7 +20,7 @@ export default async function createGroup(req, res) {
     const data = typeof req.body === "string" ? JSON.parse(req.body) : req.body;
 
     const { data: group, error } = await supabase
-      .from("groups")
+      .from(getTableName("groups"))
       .insert({
         name: data.name,
         description: data.description,

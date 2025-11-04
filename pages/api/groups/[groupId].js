@@ -1,5 +1,5 @@
 import { unstable_getServerSession } from "next-auth/next";
-import { supabase } from "../../../lib/supabase";
+import { supabase, getTableName } from "../../../lib/supabase";
 import { errorMessages } from "../../../lib/constants";
 import { authOptions } from "../auth/[...nextauth]";
 
@@ -23,7 +23,7 @@ export default async function getGroup(req, res) {
     } = req;
 
     const { data: group, error } = await supabase
-      .from("groups")
+      .from(getTableName("groups"))
       .select("id, name, description, owner, members")
       .eq("id", groupId)
       .single();
