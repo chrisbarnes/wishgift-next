@@ -118,7 +118,7 @@ const GroupHeader = ({ name, description, isOwner, id, editedCallback }) => {
         <div className="container mx-auto flex flex-col md:flex-row items-start justify-between">
           {!isEditing && (
             <div>
-              <h4 className="mb-2 text-4xl font-extrabold leading-tight text-gray-700 dark:text-gray-100">
+              <h4 className="mb-2 text-4xl font-extrabold leading-tight text-gray-700">
                 {name}
               </h4>
               <p className="text-sm text-black">{description}</p>
