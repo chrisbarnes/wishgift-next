@@ -30,14 +30,62 @@ const GiftsList = ({ groupId }) => {
     }
   }, [data]);
 
+  const parseSearchQuery = (query) => {
+    // Check for field-specific search patterns like "for:value" or "name:value"
+    // The (.+) ensures there's at least one character after the colon
+    const fieldPattern = /^(for|name|description|url|price):(.+)$/i;
+    const match = query.match(fieldPattern);
+
+    if (match && match[2].trim().length > 0) {
+      // Only use field-specific search if there's actually a value after the colon
+      return {
+        type: "field-specific",
+        field: match[1].toLowerCase(),
+        value: match[2].toLowerCase(),
+      };
+    }
+
+    return {
+      type: "general",
+      value: query.toLowerCase(),
+    };
+  };
+
   const searchGifts = (searchData) => {
-    // Search inside of each gift for data inside of name, description, or for field
+    const searchQuery = parseSearchQuery(searchData.search);
+
     const newGiftsToDisplay = data.gifts.filter((gift) => {
-      return (
-        gift.name.toLowerCase().indexOf(searchData.search) > -1 ||
-        gift.description.toLowerCase().indexOf(searchData.search) > -1 ||
-        gift.giftFor.name.toLowerCase().indexOf(searchData.search) > -1
-      );
+      if (searchQuery.type === "field-specific") {
+        // Field-specific search
+        switch (searchQuery.field) {
+          case "for":
+            return (
+              gift.giftFor.name.toLowerCase().indexOf(searchQuery.value) > -1
+            );
+          case "name":
+            return gift.name.toLowerCase().indexOf(searchQuery.value) > -1;
+          case "description":
+            return (
+              gift.description.toLowerCase().indexOf(searchQuery.value) > -1
+            );
+          case "url":
+            return gift.url.toLowerCase().indexOf(searchQuery.value) > -1;
+          case "price":
+            return (
+              gift.price &&
+              gift.price.toString().indexOf(searchQuery.value) > -1
+            );
+          default:
+            return false;
+        }
+      } else {
+        // General search across all fields
+        return (
+          gift.name.toLowerCase().indexOf(searchQuery.value) > -1 ||
+          gift.description.toLowerCase().indexOf(searchQuery.value) > -1 ||
+          gift.giftFor.name.toLowerCase().indexOf(searchQuery.value) > -1
+        );
+      }
     });
 
     setGifts(newGiftsToDisplay);
