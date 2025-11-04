@@ -3,7 +3,6 @@ import { supabase, getTableName } from "../../../lib/supabase";
 import { authOptions } from "../auth/[...nextauth]";
 
 export default async function groupsApi(req, res) {
-  console.log("getting session");
   const session = await unstable_getServerSession(req, res, authOptions);
 
   if (!session) {
@@ -13,23 +12,16 @@ export default async function groupsApi(req, res) {
   const { user } = session;
   const { email } = user;
 
-  console.log("session", { user, email });
-  console.log("request", req.method);
-
   if (req.method !== "GET") {
     return res.status(405).json({ error: "Method not allowed" });
   }
 
   try {
-    console.log("getting groups for user");
-
     // Query groups where the user is in the members array
     const { data: groups, error } = await supabase
       .from(getTableName("groups"))
       .select("id, name, description")
       .contains("members", [email]);
-
-    console.log("got groups", groups);
 
     if (error) {
       console.error("Error fetching groups:", error);

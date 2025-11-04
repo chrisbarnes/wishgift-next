@@ -5,9 +5,6 @@ import { authOptions } from "../../auth/[...nextauth]";
 export default async function createGift(req, res) {
   const session = await unstable_getServerSession(req, res, authOptions);
 
-  console.log("createGift - session:", session);
-  console.log("createGift - req.headers:", req.headers);
-
   if (!session) {
     console.log("createGift - No session found, returning 401");
     return res.status(401).json({ error: "Unauthorized" });
