@@ -21,8 +21,9 @@
     "swr": "^2.3.6"
   },
   "devDependencies": {
+    "@tailwindcss/postcss": "^4.1.16",
     "autoprefixer": "^10.2.6",
     "postcss": "^8.3.5",
-    "tailwindcss": "^2.2.4"
+    "tailwindcss": "^4.1.16"
   }
 }
