@@ -1,5 +1,5 @@
 import { unstable_getServerSession } from "next-auth/next";
-import { supabase } from "../../../../lib/supabase";
+import { supabase, getTableName } from "../../../../lib/supabase";
 import { errorMessages } from "../../../../lib/constants";
 import { authOptions } from "../../auth/[...nextauth]";
 
@@ -26,7 +26,7 @@ export default async function editGift(req, res) {
 
     // First, check if the user is the owner
     const { data: gift, error: fetchError } = await supabase
-      .from("gifts")
+      .from(getTableName("gifts"))
       .select("owner")
       .eq("id", data.giftId)
       .single();
@@ -38,7 +38,7 @@ export default async function editGift(req, res) {
 
     if (gift && gift.owner === email) {
       const { data: updatedGift, error: updateError } = await supabase
-        .from("gifts")
+        .from(getTableName("gifts"))
         .update({
           name: data.name,
           description: data.description,

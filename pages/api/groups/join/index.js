@@ -1,5 +1,5 @@
 import { unstable_getServerSession } from "next-auth/next";
-import { supabase } from "../../../../lib/supabase";
+import { supabase, getTableName } from "../../../../lib/supabase";
 import { authOptions } from "../../auth/[...nextauth]";
 
 export default async function groupsApi(req, res) {
@@ -26,7 +26,7 @@ export default async function groupsApi(req, res) {
 
     // First, fetch the group
     const { data: group, error: fetchError } = await supabase
-      .from("groups")
+      .from(getTableName("groups"))
       .select("members")
       .eq("id", groupId)
       .single();
@@ -42,7 +42,7 @@ export default async function groupsApi(req, res) {
     } else {
       // Add user to members array
       const { data: updatedGroup, error: updateError } = await supabase
-        .from("groups")
+        .from(getTableName("groups"))
         .update({ members: [...group.members, email] })
         .eq("id", groupId)
         .select()

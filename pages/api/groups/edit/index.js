@@ -1,5 +1,5 @@
 import { unstable_getServerSession } from "next-auth/next";
-import { supabase } from "../../../../lib/supabase";
+import { supabase, getTableName } from "../../../../lib/supabase";
 import { errorMessages } from "../../../../lib/constants";
 import { authOptions } from "../../auth/[...nextauth]";
 
@@ -26,7 +26,7 @@ export default async function editGroup(req, res) {
 
     // First, check if the user is the owner
     const { data: group, error: fetchError } = await supabase
-      .from("groups")
+      .from(getTableName("groups"))
       .select("owner")
       .eq("id", data.groupId)
       .single();
@@ -38,7 +38,7 @@ export default async function editGroup(req, res) {
 
     if (group && group.owner === email) {
       const { data: updatedGroup, error: updateError } = await supabase
-        .from("groups")
+        .from(getTableName("groups"))
         .update({
           name: data.name,
           description: data.description,

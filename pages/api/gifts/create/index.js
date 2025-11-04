@@ -1,5 +1,5 @@
 import { unstable_getServerSession } from "next-auth/next";
-import { supabase } from "../../../../lib/supabase";
+import { supabase, getTableName } from "../../../../lib/supabase";
 import { authOptions } from "../../auth/[...nextauth]";
 
 export default async function createGift(req, res) {
@@ -21,7 +21,7 @@ export default async function createGift(req, res) {
     const data = typeof req.body === "string" ? JSON.parse(req.body) : req.body;
 
     const { data: gift, error } = await supabase
-      .from("gifts")
+      .from(getTableName("gifts"))
       .insert({
         name: data.name,
         description: data.description,

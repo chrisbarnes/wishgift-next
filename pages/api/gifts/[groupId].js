@@ -1,5 +1,5 @@
 import { unstable_getServerSession } from "next-auth/next";
-import { supabase } from "../../../lib/supabase";
+import { supabase, getTableName } from "../../../lib/supabase";
 import { authOptions } from "../auth/[...nextauth]";
 
 export default async function getGiftsByGroup(req, res) {
@@ -19,7 +19,7 @@ export default async function getGiftsByGroup(req, res) {
     } = req;
 
     const { data: gifts, error } = await supabase
-      .from("gifts")
+      .from(getTableName("gifts"))
       .select(
         "id, name, description, url, is_purchased, purchased_by, image_url, price, gift_for_name, owner",
       )

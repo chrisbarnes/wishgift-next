@@ -1,5 +1,5 @@
 import { unstable_getServerSession } from "next-auth/next";
-import { supabase } from "../../../../lib/supabase";
+import { supabase, getTableName } from "../../../../lib/supabase";
 import { errorMessages } from "../../../../lib/constants";
 import { authOptions } from "../../auth/[...nextauth]";
 
@@ -29,7 +29,7 @@ export default async function purchaseGift(req, res) {
 
     // Query groups where the user is in the members array
     const { data: groups, error: groupsError } = await supabase
-      .from("groups")
+      .from(getTableName("groups"))
       .select("id")
       .contains("members", [email]);
 
@@ -48,7 +48,7 @@ export default async function purchaseGift(req, res) {
 
     if (isMember) {
       const { data: updatedGift, error: updateError } = await supabase
-        .from("gifts")
+        .from(getTableName("gifts"))
         .update({
           is_purchased: data.isPurchased,
           purchased_by: data.isPurchased ? email : null,

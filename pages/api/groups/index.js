@@ -1,5 +1,5 @@
 import { unstable_getServerSession } from "next-auth/next";
-import { supabase } from "../../../lib/supabase";
+import { supabase, getTableName } from "../../../lib/supabase";
 import { authOptions } from "../auth/[...nextauth]";
 
 export default async function groupsApi(req, res) {
@@ -25,7 +25,7 @@ export default async function groupsApi(req, res) {
 
     // Query groups where the user is in the members array
     const { data: groups, error } = await supabase
-      .from("groups")
+      .from(getTableName("groups"))
       .select("id, name, description")
       .contains("members", [email]);
 
