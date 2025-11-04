@@ -1,27 +1,24 @@
 const colors = require("tailwindcss/colors");
 
 module.exports = {
-  mode: "jit",
-  purge: {
-    content: [
-      "./pages/**/*.{js,ts,jsx,tsx}",
-      "./components/**/*.{js,ts,jsx,tsx}",
-    ],
-    safelist: [
-      "bg-blue-700",
-      "bg-red-700",
-      "bg-pink-700",
-      "bg-yellow-700",
-      "bg-green-700",
-      "bg-purple-700",
-      "border-blue-700",
-      "border-red-700",
-      "border-pink-700",
-      "border-yellow-700",
-      "border-green-700",
-      "border-purple-700",
-    ],
-  },
+  content: [
+    "./pages/**/*.{js,ts,jsx,tsx}",
+    "./components/**/*.{js,ts,jsx,tsx}",
+  ],
+  safelist: [
+    "bg-blue-700",
+    "bg-red-700",
+    "bg-pink-700",
+    "bg-yellow-700",
+    "bg-green-700",
+    "bg-purple-700",
+    "border-blue-700",
+    "border-red-700",
+    "border-pink-700",
+    "border-yellow-700",
+    "border-green-700",
+    "border-purple-700",
+  ],
   darkMode: false, // or 'media' or 'class'
   theme: {
     screens: {
@@ -33,7 +30,7 @@ module.exports = {
     colors: {
       black: colors.black,
       white: colors.white,
-      gray: colors.coolGray,
+      gray: colors.gray,
       blue: colors.blue,
       red: colors.red,
       pink: colors.pink,
@@ -41,9 +38,6 @@ module.exports = {
       green: colors.emerald,
       purple: colors.violet,
     },
-    extend: {},
-  },
-  variants: {
     extend: {},
   },
   plugins: [],

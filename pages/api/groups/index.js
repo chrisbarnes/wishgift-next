@@ -1,37 +1,40 @@
-import { getSession } from "next-auth/react";
-import { query as q } from "faunadb";
-import { faunaClient } from "../../../lib/fauna";
-
-const isProd = process.env.IS_PROD;
-const index = isProd === "true" ? "groups_by_member-prod" : "groups_by_member";
+import { unstable_getServerSession } from "next-auth/next";
+import { supabase, getTableName } from "../../../lib/supabase";
+import { authOptions } from "../auth/[...nextauth]";
 
 export default async function groupsApi(req, res) {
-  const session = await getSession({ req });
+  const session = await unstable_getServerSession(req, res, authOptions);
+
+  if (!session) {
+    return res.status(401).json({ error: "Unauthorized" });
+  }
+
   const { user } = session;
   const { email } = user;
 
-  if (session && req.method === "GET") {
-    const query = await faunaClient.query(
-      q.Map(
-        q.Paginate(q.Match(q.Index(index), email)),
-        q.Lambda((show) => q.Get(show))
-      )
-    );
-
-    if (query && query.data && query.data.length) {
-      const groups = query.data.map((group) => ({
-        name: group.data.name,
-        description: group.data.description,
-        id: group.ref.id,
-      }));
-
-      res.status(200).json({ data: groups });
-    } else {
-      res.status(404);
-    }
-  } else {
-    res.status(401);
+  if (req.method !== "GET") {
+    return res.status(405).json({ error: "Method not allowed" });
   }
 
-  res.end();
+  try {
+    // Query groups where the user is in the members array
+    const { data: groups, error } = await supabase
+      .from(getTableName("groups"))
+      .select("id, name, description")
+      .contains("members", [email]);
+
+    if (error) {
+      console.error("Error fetching groups:", error);
+      return res.status(500).json({ error: error.message });
+    }
+
+    if (groups && groups.length > 0) {
+      return res.status(200).json({ data: groups });
+    } else {
+      return res.status(200).json({ data: [] });
+    }
+  } catch (error) {
+    console.error("Error:", error);
+    return res.status(500).json({ error: error.message });
+  }
 }

@@ -1,52 +1,64 @@
-import { getSession } from "next-auth/react";
-import { query as q } from "faunadb";
-import { faunaClient } from "../../../lib/fauna";
+import { unstable_getServerSession } from "next-auth/next";
+import { supabase, getTableName } from "../../../lib/supabase";
 import { errorMessages } from "../../../lib/constants";
-
-const isProd = process.env.IS_PROD;
-const collection = isProd === "true" ? "groups-prod" : "groups";
+import { authOptions } from "../auth/[...nextauth]";
 
 export default async function getGroup(req, res) {
-  const session = await getSession({ req });
+  const session = await unstable_getServerSession(req, res, authOptions);
+
+  if (!session) {
+    return res.status(401).json({ error: "Unauthorized" });
+  }
+
   const { user } = session;
   const { email } = user;
 
-  if (session && req.method === "GET") {
+  if (req.method !== "GET") {
+    return res.status(405).json({ error: "Method not allowed" });
+  }
+
+  try {
     const {
       query: { groupId },
     } = req;
-    const { user } = session;
-    const { email } = user;
 
-    const query = await faunaClient.query(
-      q.Get(q.Ref(q.Collection(collection), groupId))
-    );
+    const { data: group, error } = await supabase
+      .from(getTableName("groups"))
+      .select("id, name, description, owner, members")
+      .eq("id", groupId)
+      .single();
 
-    if (query && query.data) {
+    if (error) {
+      console.error("Error fetching group:", error);
+      return res.status(404).json({ error: "Group not found" });
+    }
+
+    if (group) {
       if (
-        !query.data.members ||
-        (query.data.members && query.data.members.indexOf(email) === -1)
+        !group.members ||
+        (group.members && group.members.indexOf(email) === -1)
       ) {
         console.log(`Unauthorized user ${email} trying to access ${groupId}.`);
 
         // return unauthorized if the current user isn't in the list of members in the group
-        res.status(401).json({ message: errorMessages.unAuthorizedUser });
+        return res
+          .status(401)
+          .json({ message: errorMessages.unAuthorizedUser });
       } else {
-        const group = {
-          name: query.data.name,
-          description: query.data.description,
-          id: query.ref.id,
-          isOwner: query.data.owner === email,
+        const groupData = {
+          name: group.name,
+          description: group.description,
+          id: group.id,
+          isOwner: group.owner === email,
         };
 
-        res.status(200).json({ group });
+        return res.status(200).json({ group: groupData });
       }
     } else {
-      res.status(404);
+      return res.status(404).json({ error: "Group not found" });
     }
-  } else {
-    res.status(401);
+  } catch (error) {
+    console.error("Error:", error);
+    return res.status(500).json({ error: error.message });
   }
-
-  res.end();
 }

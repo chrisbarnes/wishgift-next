@@ -18,20 +18,32 @@ const CreateGift = ({ updated }) => {
     setIsSubmitting(true);
     const response = await fetch("/api/gifts/create", {
       method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      credentials: "same-origin", // Important: include cookies
       body: JSON.stringify(data),
     });
     setIsSubmitting(false);
     return response.json();
   };
   const onSubmit = async (data) => {
-    submitData(data).then(({ data }) => {
-      // If the form was submitted successfully, reset it so we can submit another and then
-      // call the updated callback
-      if (data.message === "Success") {
-        reset({});
-        updated();
-      }
-    });
+    submitData(data)
+      .then((response) => {
+        // If the form was submitted successfully, reset it so we can submit another and then
+        // call the updated callback
+        if (response.data && response.data.message === "Success") {
+          reset({});
+          updated();
+        } else if (response.error) {
+          console.error("Error creating gift:", response.error);
+          alert("Error creating gift: " + response.error);
+        }
+      })
+      .catch((error) => {
+        console.error("Error:", error);
+        alert("Error creating gift");
+      });
   };
 
   const height = isEditing ? "h-auto" : "h-64";

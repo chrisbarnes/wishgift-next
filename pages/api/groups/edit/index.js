@@ -1,52 +1,68 @@
-import { getSession } from "next-auth/react";
-import { query as q } from "faunadb";
-import { faunaClient } from "../../../../lib/fauna";
+import { unstable_getServerSession } from "next-auth/next";
+import { supabase, getTableName } from "../../../../lib/supabase";
 import { errorMessages } from "../../../../lib/constants";
-
-const isProd = process.env.IS_PROD;
-const collection = isProd === "true" ? "groups-prod" : "groups";
+import { authOptions } from "../../auth/[...nextauth]";
 
 export default async function editGroup(req, res) {
-  const session = await getSession({ req });
+  const session = await unstable_getServerSession(req, res, authOptions);
+
+  if (!session) {
+    return res.status(401).json({ error: "Unauthorized" });
+  }
+
   const { user } = session;
   const { email } = user;
 
-  if (session && req.method === "PUT") {
-    try {
-      const data = JSON.parse(req.body);
-
-      if (data.groupId) {
-        const groupQuery = await faunaClient.query(
-          q.Get(q.Ref(q.Collection(collection), data.groupId))
-        );
-
-        if (groupQuery && groupQuery.data && groupQuery.data.owner === email) {
-          const query = await faunaClient.query(
-            q.Update(q.Ref(q.Collection(collection), data.groupId), {
-              data: {
-                name: data.name,
-                description: data.description,
-                groupId: data.groupId,
-              },
-            })
-          );
-
-          res.status(200).json({ data: { data: query, message: "Success" } });
-        } else {
-          console.log(
-            `Unauthorized user ${email} trying to edit ${data.groupId}.`
-          );
-
-          // return unauthorized if the current user isn't the owner of this gift
-          res.status(401).json({ message: errorMessages.unAuthorizedUser });
-        }
-      }
-    } catch (error) {
-      res.status(500);
-    }
-  } else {
-    res.status(401);
+  if (req.method !== "PUT") {
+    return res.status(405).json({ error: "Method not allowed" });
   }
 
-  res.end();
+  try {
+    const data = typeof req.body === "string" ? JSON.parse(req.body) : req.body;
+
+    if (!data.groupId) {
+      return res.status(400).json({ error: "Group ID is required" });
+    }
+
+    // First, check if the user is the owner
+    const { data: group, error: fetchError } = await supabase
+      .from(getTableName("groups"))
+      .select("owner")
+      .eq("id", data.groupId)
+      .single();
+
+    if (fetchError) {
+      console.error("Error fetching group:", fetchError);
+      return res.status(500).json({ error: fetchError.message });
+    }
+
+    if (group && group.owner === email) {
+      const { data: updatedGroup, error: updateError } = await supabase
+        .from(getTableName("groups"))
+        .update({
+          name: data.name,
+          description: data.description,
+        })
+        .eq("id", data.groupId)
+        .select()
+        .single();
+
+      if (updateError) {
+        console.error("Error updating group:", updateError);
+        return res.status(500).json({ error: updateError.message });
+      }
+
+      return res
+        .status(200)
+        .json({ data: { data: updatedGroup, message: "Success" } });
+    } else {
+      console.log(`Unauthorized user ${email} trying to edit ${data.groupId}.`);
+
+      // return unauthorized if the current user isn't the owner of this gift
+      return res.status(401).json({ message: errorMessages.unAuthorizedUser });
+    }
+  } catch (error) {
+    console.error("Error:", error);
+    return res.status(500).json({ error: error.message });
+  }
 }

@@ -1,25 +1,40 @@
 {
   "version": "0.6.0",
   "private": true,
+  "engines": {
+    "node": "22.x"
+  },
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "start": "next start"
+    "start": "next start",
+    "test": "vitest",
+    "test:ui": "vitest --ui",
+    "test:run": "vitest run",
+    "lint": "oxlint ."
   },
   "dependencies": {
-    "@radix-ui/react-collapsible": "^0.1.1",
+    "@radix-ui/react-collapsible": "^1.1.12",
+    "@supabase/supabase-js": "^2.78.0",
     "clsx": "^1.1.1",
-    "faunadb": "^4.4.1",
     "next": "latest",
-    "next-auth": "4.0.0-beta.6",
+    "next-auth": "^4.24.13",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "react-hook-form": "^7.19.5",
-    "swr": "^1.0.1"
+    "react-hook-form": "^7.66.0",
+    "swr": "^2.3.6"
   },
   "devDependencies": {
+    "@tailwindcss/postcss": "^4.1.16",
+    "@testing-library/jest-dom": "^6.9.1",
+    "@testing-library/react": "^16.3.0",
+    "@testing-library/user-event": "^14.6.1",
+    "@vitejs/plugin-react": "^5.1.0",
     "autoprefixer": "^10.2.6",
+    "jsdom": "^27.1.0",
+    "oxlint": "^1.25.0",
     "postcss": "^8.3.5",
-    "tailwindcss": "^2.2.4"
+    "tailwindcss": "^4.1.16",
+    "vitest": "^4.0.6"
   }
 }
