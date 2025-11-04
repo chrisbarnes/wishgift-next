@@ -1,7 +1,7 @@
 import NextAuth from "next-auth";
 import Auth0Provider from "next-auth/providers/auth0";
 
-export default NextAuth({
+export const authOptions = {
   theme: {
     colorScheme: "light",
     brandColor: "#1d4ed8",
@@ -14,4 +14,13 @@ export default NextAuth({
       issuer: process.env.AUTH0_ISSUER,
     }),
   ],
-});
+  callbacks: {
+    async session({ session, token }) {
+      // Ensure session is properly structured
+      return session;
+    },
+  },
+  debug: true, // Enable debug mode to see what's happening
+};
+
+export default NextAuth(authOptions);

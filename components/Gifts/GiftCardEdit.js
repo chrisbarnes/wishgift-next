@@ -15,22 +15,34 @@ const GiftCardEdit = ({ handleEditGiftToggle, gift, editedCallback }) => {
     setIsSubmitting(true);
     const response = await fetch("/api/gifts/edit", {
       method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      credentials: "same-origin",
       body: JSON.stringify(data),
     });
     setIsSubmitting(false);
     return response.json();
   };
   const onSubmit = async (data) => {
-    submitData(data).then(({ data }) => {
-      // If the form was submitted successfully toggle back to the card view
-      if (data.message === "Success") {
-        if (editedCallback) {
-          editedCallback();
-        }
+    submitData(data)
+      .then((response) => {
+        // If the form was submitted successfully toggle back to the card view
+        if (response.data && response.data.message === "Success") {
+          if (editedCallback) {
+            editedCallback();
+          }
 
-        handleEditGiftToggle();
-      }
-    });
+          handleEditGiftToggle();
+        } else if (response.error) {
+          console.error("Error editing gift:", response.error);
+          alert("Error editing gift: " + response.error);
+        }
+      })
+      .catch((error) => {
+        console.error("Error:", error);
+        alert("Error editing gift");
+      });
   };
 
   return (
