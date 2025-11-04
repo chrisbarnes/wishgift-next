@@ -1,21 +1,24 @@
 {
   "version": "0.6.0",
   "private": true,
+  "engines": {
+    "node": "22.x"
+  },
   "scripts": {
     "dev": "next dev",
     "build": "next build",
     "start": "next start"
   },
   "dependencies": {
-    "@radix-ui/react-collapsible": "^0.1.1",
+    "@radix-ui/react-collapsible": "^1.1.12",
     "clsx": "^1.1.1",
     "faunadb": "^4.4.1",
     "next": "latest",
-    "next-auth": "4.0.0-beta.6",
+    "next-auth": "^4.24.13",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "react-hook-form": "^7.19.5",
-    "swr": "^1.0.1"
+    "react-hook-form": "^7.66.0",
+    "swr": "^2.3.6"
   },
   "devDependencies": {
     "autoprefixer": "^10.2.6",
