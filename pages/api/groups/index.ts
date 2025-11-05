@@ -1,0 +1,58 @@
+import type { NextApiRequest, NextApiResponse } from "next";
+import { unstable_getServerSession } from "next-auth/next";
+import { supabase, getTableName } from "../../../lib/supabase";
+import { authOptions } from "../auth/[...nextauth]";
+
+interface Group {
+  id: string;
+  name: string;
+  description: string;
+}
+
+interface GroupsResponse {
+  data: Group[];
+}
+
+interface ErrorResponse {
+  error: string;
+}
+
+export default async function groupsApi(
+  req: NextApiRequest,
+  res: NextApiResponse<GroupsResponse | ErrorResponse>
+) {
+  const session = await unstable_getServerSession(req, res, authOptions);
+
+  if (!session || !session.user?.email) {
+    return res.status(401).json({ error: "Unauthorized" });
+  }
+
+  const { user } = session;
+  const { email } = user;
+
+  if (req.method !== "GET") {
+    return res.status(405).json({ error: "Method not allowed" });
+  }
+
+  try {
+    // Query groups where the user is in the members array
+    const { data: groups, error } = await supabase
+      .from(getTableName("groups"))
+      .select("id, name, description")
+      .contains("members", [email]);
+
+    if (error) {
+      console.error("Error fetching groups:", error);
+      return res.status(500).json({ error: error.message });
+    }
+
+    if (groups && groups.length > 0) {
+      return res.status(200).json({ data: groups as Group[] });
+    } else {
+      return res.status(200).json({ data: [] });
+    }
+  } catch (error) {
+    console.error("Error:", error);
+    return res.status(500).json({ error: (error as Error).message });
+  }
+}
