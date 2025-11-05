@@ -2,6 +2,11 @@ import { describe, it, expect, vi, beforeEach } from "vitest";
 import { render, screen } from "@testing-library/react";
 import GiftsList from "./GiftsList";
 
+// Mock next/router
+vi.mock("next/router", () => ({
+  useRouter: vi.fn(),
+}));
+
 // Mock SWR
 vi.mock("swr", () => ({
   default: vi.fn(),
@@ -27,10 +32,16 @@ vi.mock("../Search/SearchForm", () => ({
 }));
 
 import useSWR from "swr";
+import { useRouter } from "next/router";
 
 describe("GiftsList", () => {
   beforeEach(() => {
     vi.clearAllMocks();
+    useRouter.mockReturnValue({
+      push: vi.fn(),
+      pathname: "/groups/[groupId]",
+      query: { groupId: "group-123" },
+    });
   });
 
   it("shows loading message when data is not loaded", () => {
