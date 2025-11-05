@@ -151,8 +151,6 @@ describe("GiftsList", () => {
         error: undefined,
       });
 
-      const { rerender } = render(<GiftsList groupId="group-123" />);
-
       // Initial render should show all gifts
       expect(screen.getByText("Xbox Series X")).toBeInTheDocument();
       expect(screen.getByText("PlayStation 5")).toBeInTheDocument();

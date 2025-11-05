@@ -25,12 +25,7 @@ const GiftCardDelete = ({
 }: GiftCardDeleteProps) => {
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
   const [isComplete, setIsComplete] = useState<boolean>(false);
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-    reset,
-  } = useForm<DeleteGiftFormData>();
+  const { register, handleSubmit, reset } = useForm<DeleteGiftFormData>();
 
   const submitData = async (
     data: DeleteGiftFormData,

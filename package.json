@@ -12,6 +12,7 @@
     "test:ui": "vitest --ui",
     "test:run": "vitest run",
     "lint": "oxlint .",
+    "lint:fix": "oxlint --fix",
     "type-check": "tsc --noEmit"
   },
   "dependencies": {

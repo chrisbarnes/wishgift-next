@@ -44,7 +44,6 @@ const GiftCardEdit = ({
     register,
     handleSubmit,
     formState: { errors },
-    reset,
   } = useForm<EditGiftFormData>();
 
   const submitData = async (

@@ -42,9 +42,11 @@ const GiftEditControls = ({
   giftId,
 }: GiftEditControlsProps) => {
   const { query } = useRouter();
-  const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
+  const [_, setIsSubmitting] = useState<boolean>(false);
 
-  const submitData = async (data: UpdatePurchaseData): Promise<UpdatePurchaseResponse> => {
+  const submitData = async (
+    data: UpdatePurchaseData,
+  ): Promise<UpdatePurchaseResponse> => {
     setIsSubmitting(true);
     const response = await fetch("/api/gifts/purchase", {
       method: "PUT",
@@ -54,7 +56,9 @@ const GiftEditControls = ({
     return response.json();
   };
 
-  const handleUpdatePurchased = async (event: ChangeEvent<HTMLInputElement>): Promise<void> => {
+  const handleUpdatePurchased = async (
+    event: ChangeEvent<HTMLInputElement>,
+  ): Promise<void> => {
     const data: UpdatePurchaseData = {
       isPurchased: event.target.checked,
       giftId,

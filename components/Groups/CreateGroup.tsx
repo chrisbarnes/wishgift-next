@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useForm, FieldValues } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import TextInputControl from "../Forms/TextInputControl";
 import Button from "../Forms/Button";
 
@@ -23,7 +23,9 @@ const CreateGroup = () => {
     reset,
   } = useForm<CreateGroupFormData>();
 
-  const submitData = async (data: CreateGroupFormData): Promise<CreateGroupResponse> => {
+  const submitData = async (
+    data: CreateGroupFormData,
+  ): Promise<CreateGroupResponse> => {
     setIsSubmitting(true);
     const response = await fetch("/api/groups/create", {
       method: "PUT",

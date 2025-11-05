@@ -15,7 +15,7 @@ export const authOptions: NextAuthOptions = {
     }),
   ],
   callbacks: {
-    async session({ session, token }) {
+    async session({ session }) {
       // Ensure session is properly structured
       return session;
     },

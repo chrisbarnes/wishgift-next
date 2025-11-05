@@ -1,4 +1,4 @@
-import { useSession, signIn, signOut } from "next-auth/react";
+import { useSession, signIn } from "next-auth/react";
 import GroupsList from "../../components/Groups/GroupsList";
 import CreateGroup from "../../components/Groups/CreateGroup";
 import Collapser from "../../components/Collapser/Collapser";

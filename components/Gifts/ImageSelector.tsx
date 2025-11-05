@@ -1,4 +1,4 @@
-import { useState, MouseEvent } from "react";
+import { useState } from "react";
 import { useRouter } from "next/router";
 import Button from "../Forms/Button";
 
@@ -28,7 +28,9 @@ const ImageSelector = ({
   addedCallback,
 }: ImageSelectorProps) => {
   const [selectedImage, setSelectedImage] = useState<string | undefined>();
-  const [selectedImageIndex, setSelectedImageIndex] = useState<number | undefined>();
+  const [selectedImageIndex, setSelectedImageIndex] = useState<
+    number | undefined
+  >();
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
   const [hasError, setHasError] = useState<boolean>(false);
   const { query } = useRouter();
@@ -42,7 +44,9 @@ const ImageSelector = ({
     setSelectedImageIndex(index);
   };
 
-  const submitData = async (data: SaveImageData): Promise<SaveImageResponse> => {
+  const submitData = async (
+    data: SaveImageData,
+  ): Promise<SaveImageResponse> => {
     setIsSubmitting(true);
     const response = await fetch("/api/gifts/edit", {
       method: "PUT",

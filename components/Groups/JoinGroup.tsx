@@ -20,12 +20,7 @@ interface JoinGroupResponse {
 const JoinGroup = ({ update }: JoinGroupProps) => {
   const { query } = useRouter();
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-    reset,
-  } = useForm<JoinGroupFormData>();
+  const { register, handleSubmit } = useForm<JoinGroupFormData>();
 
   const submitData = async (
     data: JoinGroupFormData,

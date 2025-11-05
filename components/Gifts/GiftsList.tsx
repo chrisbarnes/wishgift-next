@@ -157,6 +157,7 @@ const GiftsList = ({ groupId, initialSearch }: GiftsListProps) => {
     setGifts(data.gifts);
 
     // Remove search parameter from URL
+    // oxlint-disable-next-line
     const { s, ...restQuery } = router.query;
     router.push(
       {

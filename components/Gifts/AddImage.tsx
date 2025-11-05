@@ -21,7 +21,12 @@ interface ImageSearchResponse {
   };
 }
 
-const AddImage = ({ url, handleAddImageToggle, giftId, addedCallback }: AddImageProps) => {
+const AddImage = ({
+  url,
+  handleAddImageToggle,
+  giftId,
+  addedCallback,
+}: AddImageProps) => {
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
   const [isChoosingImages, setIsChoosingImages] = useState<boolean>(false);
   const [images, setImages] = useState<string[]>([]);
@@ -29,10 +34,11 @@ const AddImage = ({ url, handleAddImageToggle, giftId, addedCallback }: AddImage
     register,
     handleSubmit,
     formState: { errors },
-    reset,
   } = useForm<AddImageFormData>();
 
-  const submitData = async (data: AddImageFormData): Promise<ImageSearchResponse> => {
+  const submitData = async (
+    data: AddImageFormData,
+  ): Promise<ImageSearchResponse> => {
     setIsSubmitting(true);
     const response = await fetch(`/api/images/find?url=${data.url}`);
     setIsSubmitting(false);

@@ -47,7 +47,6 @@ const GroupHeader = ({
     register,
     handleSubmit,
     formState: { errors },
-    reset,
   } = useForm<GroupEditFormData>();
 
   const submitData = async (
