@@ -58,7 +58,7 @@ const GroupPage = (props) => {
           id={data.group.id}
           editedCallback={mutate}
         />
-        <GiftsList groupId={query.groupId} />
+        <GiftsList groupId={query.groupId} initialSearch={query.s} />
       </>
     );
   }
