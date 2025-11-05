@@ -1,5 +1,6 @@
 import useSWR from "swr";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
+import { useRouter } from "next/router";
 import GiftCard from "./GiftCard";
 import CreateGift from "./CreateGift";
 import GiftsCount from "./GiftsCount";
@@ -14,21 +15,15 @@ const fetcher = (url) =>
 const isGiftFilteringEnabled =
   process.env.NEXT_PUBLIC_IS_GIFT_FILTERING_ENABLED === "true";
 
-const GiftsList = ({ groupId }) => {
+const GiftsList = ({ groupId, initialSearch }) => {
+  const router = useRouter();
   const { data, mutate, error } = useSWR(`/api/gifts/${groupId}`, fetcher);
   const [gifts, setGifts] = useState([]);
+  const [isInitialLoad, setIsInitialLoad] = useState(true);
 
   if (error) {
     return <p>Sorry. There was an error retrieving the gifts.</p>;
   }
-
-  // Set the gifts that come back from the api call in state
-  // this way we can easily manipulate them with the search functionality
-  useEffect(() => {
-    if (data) {
-      setGifts(data.gifts);
-    }
-  }, [data]);
 
   const parseSearchQuery = (query) => {
     // Check for field-specific search patterns like "for:value" or "name:value"
@@ -51,48 +46,92 @@ const GiftsList = ({ groupId }) => {
     };
   };
 
-  const searchGifts = (searchData) => {
-    const searchQuery = parseSearchQuery(searchData.search);
+  const searchGifts = useCallback(
+    (searchData, skipUrlUpdate = false) => {
+      if (!data || !data.gifts) return;
 
-    const newGiftsToDisplay = data.gifts.filter((gift) => {
-      if (searchQuery.type === "field-specific") {
-        // Field-specific search
-        switch (searchQuery.field) {
-          case "for":
-            return (
-              gift.giftFor.name.toLowerCase().indexOf(searchQuery.value) > -1
-            );
-          case "name":
-            return gift.name.toLowerCase().indexOf(searchQuery.value) > -1;
-          case "description":
-            return (
-              gift.description.toLowerCase().indexOf(searchQuery.value) > -1
-            );
-          case "url":
-            return gift.url.toLowerCase().indexOf(searchQuery.value) > -1;
-          case "price":
-            return (
-              gift.price &&
-              gift.price.toString().indexOf(searchQuery.value) > -1
-            );
-          default:
-            return false;
+      const searchQuery = parseSearchQuery(searchData.search);
+
+      const newGiftsToDisplay = data.gifts.filter((gift) => {
+        if (searchQuery.type === "field-specific") {
+          // Field-specific search
+          switch (searchQuery.field) {
+            case "for":
+              return (
+                gift.giftFor.name.toLowerCase().indexOf(searchQuery.value) > -1
+              );
+            case "name":
+              return gift.name.toLowerCase().indexOf(searchQuery.value) > -1;
+            case "description":
+              return (
+                gift.description.toLowerCase().indexOf(searchQuery.value) > -1
+              );
+            case "url":
+              return gift.url.toLowerCase().indexOf(searchQuery.value) > -1;
+            case "price":
+              return (
+                gift.price &&
+                gift.price.toString().indexOf(searchQuery.value) > -1
+              );
+            default:
+              return false;
+          }
+        } else {
+          // General search across all fields
+          return (
+            gift.name.toLowerCase().indexOf(searchQuery.value) > -1 ||
+            gift.description.toLowerCase().indexOf(searchQuery.value) > -1 ||
+            gift.giftFor.name.toLowerCase().indexOf(searchQuery.value) > -1
+          );
         }
-      } else {
-        // General search across all fields
-        return (
-          gift.name.toLowerCase().indexOf(searchQuery.value) > -1 ||
-          gift.description.toLowerCase().indexOf(searchQuery.value) > -1 ||
-          gift.giftFor.name.toLowerCase().indexOf(searchQuery.value) > -1
+      });
+
+      setGifts(newGiftsToDisplay);
+
+      // Update URL with search parameter (skip on initial load)
+      if (!skipUrlUpdate) {
+        router.push(
+          {
+            pathname: router.pathname,
+            query: { ...router.query, s: searchData.search },
+          },
+          undefined,
+          { shallow: true },
         );
       }
-    });
+    },
+    [data, router],
+  );
 
-    setGifts(newGiftsToDisplay);
-  };
+  // Set the gifts that come back from the api call in state
+  // this way we can easily manipulate them with the search functionality
+  useEffect(() => {
+    if (!data || !data.gifts) return;
+
+    // Only reset gifts when data changes for the first time
+    if (isInitialLoad) {
+      setGifts(data.gifts);
+      // Apply initial search if provided (skip URL update since it's already in URL)
+      if (initialSearch) {
+        searchGifts({ search: initialSearch }, true);
+      }
+      setIsInitialLoad(false);
+    }
+  }, [data, initialSearch, searchGifts, isInitialLoad]);
 
   const reset = () => {
     setGifts(data.gifts);
+
+    // Remove search parameter from URL
+    const { s, ...restQuery } = router.query;
+    router.push(
+      {
+        pathname: router.pathname,
+        query: restQuery,
+      },
+      undefined,
+      { shallow: true },
+    );
   };
 
   return (
@@ -105,7 +144,12 @@ const GiftsList = ({ groupId }) => {
                 filteredGifts={gifts.length}
                 totalGifts={data.gifts.length}
               />
-              <SearchForm resetFilters={reset} searchCallback={searchGifts} />
+              <SearchForm
+                resetFilters={reset}
+                searchCallback={searchGifts}
+                searchCallbackNoUrlUpdate={(data) => searchGifts(data, true)}
+                initialValue={initialSearch}
+              />
             </>
           )}
         </div>
