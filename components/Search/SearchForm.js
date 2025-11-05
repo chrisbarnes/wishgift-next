@@ -7,24 +7,33 @@ import Button from "../Forms/Button";
 import Icons from "../Icons";
 import AccessibleText from "../Utils/AccessibleText";
 
-const SearchForm = ({ searchCallback, resetFilters }) => {
+const SearchForm = ({
+  searchCallback,
+  searchCallbackNoUrlUpdate,
+  resetFilters,
+  initialValue,
+}) => {
   const isWidePage = useMediaQuery("(min-width: 768px)");
-  const [isExpanded, setIsExpanded] = useState(false);
+  const [isExpanded, setIsExpanded] = useState(!!initialValue);
 
   const {
     register,
     handleSubmit,
     reset,
     formState: { errors, dirtyFields },
-  } = useForm();
+  } = useForm({
+    defaultValues: {
+      search: initialValue || "",
+    },
+  });
 
   const onSubmit = (data) => {
-    // Call the callback and pass the data
+    // Call the callback with URL update (on Enter key press)
     searchCallback(data);
   };
 
   const onReset = () => {
-    reset();
+    reset({ search: "" });
     resetFilters();
   };
 
@@ -59,7 +68,7 @@ const SearchForm = ({ searchCallback, resetFilters }) => {
               required
               onChange={
                 isWidePage
-                  ? (e) => searchCallback({ search: e.target.value })
+                  ? (e) => searchCallbackNoUrlUpdate({ search: e.target.value })
                   : null
               }
               horizontal
