@@ -4,6 +4,7 @@ import {
   FieldValues,
   FieldErrors,
   Path,
+  ChangeHandler,
 } from "react-hook-form";
 import TextInput from "./TextInput";
 import Error from "./Error";
@@ -16,7 +17,7 @@ interface TextInputControlProps<T extends FieldValues = FieldValues> {
   errors: FieldErrors;
   register: UseFormRegister<T>;
   value?: string;
-  onChange?: () => void;
+  onChange?: ChangeHandler;
   horizontal?: boolean;
 }
 

@@ -79,7 +79,9 @@ const SearchForm = ({
               required
               onChange={
                 isWidePage
-                  ? (e) => searchCallbackNoUrlUpdate({ search: e.target.value })
+                  ? async (e) => {
+                      searchCallbackNoUrlUpdate({ search: e.target.value });
+                    }
                   : undefined
               }
               horizontal

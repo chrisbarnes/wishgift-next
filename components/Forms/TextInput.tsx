@@ -1,4 +1,9 @@
-import { UseFormRegister, FieldValues, Path } from "react-hook-form";
+import {
+  UseFormRegister,
+  FieldValues,
+  Path,
+  ChangeHandler,
+} from "react-hook-form";
 import Label from "./Label";
 
 interface TextInputProps<T extends FieldValues = FieldValues> {
@@ -8,7 +13,7 @@ interface TextInputProps<T extends FieldValues = FieldValues> {
   required?: boolean;
   register: UseFormRegister<T>;
   value?: string;
-  onChange?: () => void;
+  onChange?: ChangeHandler;
 }
 
 const TextInput = <T extends FieldValues = FieldValues>({
