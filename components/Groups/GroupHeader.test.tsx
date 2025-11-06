@@ -170,7 +170,7 @@ describe("GroupHeader", () => {
         name: /Delete/i,
       });
       const confirmButton = confirmDeleteButtons.find((btn) =>
-        btn.className.includes("bg-red-500"),
+        btn.className.includes("bg-destructive"),
       );
       await user.click(confirmButton!);
 
@@ -208,7 +208,7 @@ describe("GroupHeader", () => {
         name: /Delete/i,
       });
       const confirmButton = confirmDeleteButtons.find((btn) =>
-        btn.className.includes("bg-red-500"),
+        btn.className.includes("bg-destructive"),
       );
       await user.click(confirmButton!);
 
@@ -252,16 +252,16 @@ describe("GroupHeader", () => {
         name: /Delete/i,
       });
       const confirmButton = confirmDeleteButtons.find((btn) =>
-        btn.className.includes("bg-red-500"),
+        btn.className.includes("bg-destructive"),
       );
 
       // Click and immediately check for loading state
       const clickPromise = user.click(confirmButton!);
 
-      // Wait for the loading state to appear
+      // Wait for the button to be disabled (loading state)
       await vi.waitFor(
         () => {
-          expect(screen.getByText("Deleting...")).toBeInTheDocument();
+          expect(confirmButton).toBeDisabled();
         },
         { timeout: 1000 },
       );
