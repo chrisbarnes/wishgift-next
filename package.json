@@ -18,13 +18,17 @@
   "dependencies": {
     "@radix-ui/react-collapsible": "^1.1.12",
     "@supabase/supabase-js": "^2.78.0",
-    "clsx": "^1.1.1",
+    "class-variance-authority": "^0.7.1",
+    "clsx": "^1.2.1",
+    "lucide-react": "^0.552.0",
     "next": "latest",
     "next-auth": "^4.24.13",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-hook-form": "^7.66.0",
-    "swr": "^2.3.6"
+    "swr": "^2.3.6",
+    "tailwind-merge": "^3.3.1",
+    "tailwindcss-animate": "^1.0.7"
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4.1.16",
