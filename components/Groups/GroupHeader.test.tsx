@@ -172,7 +172,7 @@ describe("GroupHeader", () => {
       const confirmButton = confirmDeleteButtons.find((btn) =>
         btn.className.includes("bg-red-500"),
       );
-      await user.click(confirmButton);
+      await user.click(confirmButton!);
 
       // Wait for fetch to be called
       await vi.waitFor(() => {
@@ -210,7 +210,7 @@ describe("GroupHeader", () => {
       const confirmButton = confirmDeleteButtons.find((btn) =>
         btn.className.includes("bg-red-500"),
       );
-      await user.click(confirmButton);
+      await user.click(confirmButton!);
 
       await vi.waitFor(
         () => {
@@ -256,7 +256,7 @@ describe("GroupHeader", () => {
       );
 
       // Click and immediately check for loading state
-      const clickPromise = user.click(confirmButton);
+      const clickPromise = user.click(confirmButton!);
 
       // Wait for the loading state to appear
       await vi.waitFor(

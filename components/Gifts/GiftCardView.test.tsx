@@ -10,7 +10,9 @@ vi.mock("./GiftEditControls", () => ({
 // Mock the Icons component
 vi.mock("../Icons", () => ({
   default: {
-    Tag: ({ size }) => <span data-testid="tag-icon">{size}</span>,
+    Tag: ({ size }: { size?: number }) => (
+      <span data-testid="tag-icon">{size}</span>
+    ),
   },
 }));
 
@@ -22,7 +24,7 @@ describe("GiftCardView", () => {
     url: "https://example.com",
     imageUrl: "",
     isPurchased: false,
-    purchasedBy: null,
+    purchasedBy: "",
     giftFor: { name: "John" },
     price: "25",
     isOwner: false,

@@ -19,7 +19,7 @@ vi.mock("swr", () => ({
 
 // Mock child components
 vi.mock("./GiftCard", () => ({
-  default: ({ name }) => <div data-testid="gift-card">{name}</div>,
+  default: ({ name }: any) => <div data-testid="gift-card">{name}</div>,
 }));
 
 vi.mock("./CreateGift", () => ({
@@ -27,7 +27,7 @@ vi.mock("./CreateGift", () => ({
 }));
 
 vi.mock("./GiftsCount", () => ({
-  default: ({ filteredGifts, totalGifts }) => (
+  default: ({ filteredGifts, totalGifts }: any) => (
     <div data-testid="gifts-count">
       {filteredGifts} of {totalGifts}
     </div>
@@ -35,7 +35,7 @@ vi.mock("./GiftsCount", () => ({
 }));
 
 vi.mock("../Search/SearchForm", () => ({
-  default: ({ searchCallback, resetFilters, initialValue }) => (
+  default: ({ searchCallback, resetFilters, initialValue }: any) => (
     <div data-testid="search-form">
       <input
         data-testid="search-input"
@@ -60,7 +60,7 @@ describe("GiftsList", () => {
 
   beforeEach(() => {
     vi.clearAllMocks();
-    useRouter.mockReturnValue({
+    (useRouter as any).mockReturnValue({
       push: mockPush,
       pathname: "/groups/[groupId]",
       query: { groupId: "group-123" },
@@ -68,7 +68,7 @@ describe("GiftsList", () => {
   });
 
   it("shows loading message when data is not loaded", () => {
-    useSWR.mockReturnValue({
+    (useSWR as any).mockReturnValue({
       data: undefined,
       mutate: mockMutate,
       error: undefined,
@@ -79,7 +79,7 @@ describe("GiftsList", () => {
   });
 
   it("shows error message when there is an error", () => {
-    useSWR.mockReturnValue({
+    (useSWR as any).mockReturnValue({
       data: undefined,
       mutate: mockMutate,
       error: new Error("Failed to fetch"),
@@ -92,7 +92,7 @@ describe("GiftsList", () => {
   });
 
   it("renders CreateGift component", () => {
-    useSWR.mockReturnValue({
+    (useSWR as any).mockReturnValue({
       data: { gifts: [] },
       mutate: mockMutate,
       error: undefined,
@@ -124,7 +124,7 @@ describe("GiftsList", () => {
       },
     ];
 
-    useSWR.mockReturnValue({
+    (useSWR as any).mockReturnValue({
       data: { gifts: mockGifts },
       mutate: mockMutate,
       error: undefined,
@@ -139,7 +139,7 @@ describe("GiftsList", () => {
   });
 
   it("applies grid layout classes", () => {
-    useSWR.mockReturnValue({
+    (useSWR as any).mockReturnValue({
       data: { gifts: [] },
       mutate: mockMutate,
       error: undefined,
@@ -187,7 +187,7 @@ describe("GiftsList", () => {
     ];
 
     beforeEach(() => {
-      useSWR.mockReturnValue({
+      (useSWR as any).mockReturnValue({
         data: { gifts: mockGifts },
         mutate: mockMutate,
         error: undefined,
@@ -441,7 +441,7 @@ describe("GiftsList", () => {
       },
     ];
 
-    useSWR.mockReturnValue({
+    (useSWR as any).mockReturnValue({
       data: { gifts: mockGifts },
       mutate: mockMutate,
       error: undefined,
