@@ -70,7 +70,7 @@ const SearchForm = ({
           className="flex items-center w-54 md:w-80"
           onSubmit={handleSubmit(onSubmit)}
         >
-          <div className="relative flex-grow pr-2 md:pr-0">
+          <div className="relative grow pr-2 md:pr-0">
             <TextInputControl
               id="search"
               placeholder="Search gifts"
