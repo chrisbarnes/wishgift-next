@@ -1,1 +1,44 @@
 @import "tailwindcss";
+
+/* Force include dynamic classes that are applied programmatically */
+@layer components {
+    /* Background colors */
+    .bg-blue-700 {
+        background-color: rgb(29 78 216);
+    }
+    .bg-red-700 {
+        background-color: rgb(185 28 28);
+    }
+    .bg-pink-700 {
+        background-color: rgb(190 24 93);
+    }
+    .bg-yellow-700 {
+        background-color: rgb(161 98 7);
+    }
+    .bg-green-700 {
+        background-color: rgb(4 120 87);
+    }
+    .bg-purple-700 {
+        background-color: rgb(109 40 217);
+    }
+
+    /* Border colors */
+    .border-blue-700 {
+        border-color: rgb(29 78 216);
+    }
+    .border-red-700 {
+        border-color: rgb(185 28 28);
+    }
+    .border-pink-700 {
+        border-color: rgb(190 24 93);
+    }
+    .border-yellow-700 {
+        border-color: rgb(161 98 7);
+    }
+    .border-green-700 {
+        border-color: rgb(4 120 87);
+    }
+    .border-purple-700 {
+        border-color: rgb(109 40 217);
+    }
+}
