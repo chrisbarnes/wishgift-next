@@ -1,4 +1,5 @@
 import React from "react";
+import { Label as ShadcnLabel } from "@/components/ui/label";
 
 interface LabelProps {
   label: string;
@@ -7,12 +8,9 @@ interface LabelProps {
 
 const Label = ({ label, id }: LabelProps) => {
   return (
-    <label
-      htmlFor={id}
-      className="text-sm font-medium text-gray-900 block mb-2"
-    >
+    <ShadcnLabel htmlFor={id} className="mb-2">
       {label}
-    </label>
+    </ShadcnLabel>
   );
 };
 

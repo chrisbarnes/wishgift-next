@@ -1,4 +1,3 @@
-import { ChangeEvent } from "react";
 import { useSession } from "next-auth/react";
 import CheckboxToggle from "../Forms/CheckboxToggle";
 
@@ -6,7 +5,7 @@ interface MarkPurchasedButtonProps {
   isOwner: boolean;
   isPurchased: boolean;
   purchasedBy: string;
-  onChange: (event: ChangeEvent<HTMLInputElement>) => void;
+  onChange: (checked: boolean) => void;
 }
 
 const MarkPurchasedButton = ({

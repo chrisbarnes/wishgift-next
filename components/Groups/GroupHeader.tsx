@@ -4,6 +4,7 @@ import { useRouter } from "next/router";
 import TextInputControl from "../Forms/TextInputControl";
 import { borderColors } from "../../lib/accentColors";
 import { getRandomInt } from "../../lib/randomInt";
+import { Button } from "@/components/ui/button";
 
 interface GroupHeaderProps {
   name: string;
@@ -144,27 +145,17 @@ const GroupHeader = ({
           <input type="hidden" {...register("groupId")} value={id} />
 
           <div className="mt-6 md:mt-0">
-            <button
-              className="mr-3 bg-gray-200 dark:bg-gray-700 focus:outline-none transition duration-150 ease-in-out rounded hover:bg-gray-300 text-blue-700 dark:hover:bg-gray-600 dark:text-blue-600 px-5 py-2 text-sm"
+            <Button
+              variant="outline"
+              className="mr-3"
               onClick={handleEditToggle}
               type="button"
             >
               Cancel
-            </button>
-            {/* <button
-              className="mr-3 bg-red-500 dark:bg-red-700 focus:outline-none transition duration-150 ease-in-out rounded hover:bg-red-700 text-white dark:hover:bg-gray-600 dark:text-gray-200 px-5 py-2 text-sm"
-              onClick={handleGroupDeleteToggle}
-              type="button"
-            >
-              Delete
-            </button> */}
-            <button
-              className="transition focus:outline-none duration-150 ease-in-out hover:bg-blue-600 bg-blue-700 rounded text-white px-8 py-2 text-sm"
-              onClick={handleGroupSave}
-              type="submit"
-            >
+            </Button>
+            <Button type="submit" onClick={handleGroupSave}>
               Save
-            </button>
+            </Button>
           </div>
         </form>
       )}
@@ -184,39 +175,36 @@ const GroupHeader = ({
               <span className="font-semibold text-lg text-gray-700 mr-3">
                 Are you sure?
               </span>
-              <button
-                className="mr-3 bg-gray-200 dark:bg-gray-700 focus:outline-none transition duration-150 ease-in-out rounded hover:bg-gray-300 text-blue-700 dark:hover:bg-gray-600 dark:text-blue-600 px-5 py-2 text-sm"
+              <Button
+                variant="outline"
+                className="mr-3"
                 onClick={handleGroupDeleteToggle}
                 disabled={isSubmitting}
               >
                 Cancel
-              </button>
-              <button
-                className="bg-red-500 dark:bg-red-700 focus:outline-none transition duration-150 ease-in-out rounded hover:bg-red-700 text-white dark:hover:bg-gray-600 dark:text-gray-200 px-5 py-2 text-sm disabled:opacity-50 disabled:cursor-not-allowed"
+              </Button>
+              <Button
+                variant="destructive"
                 onClick={handleGroupDelete}
                 disabled={isSubmitting}
               >
                 {isSubmitting ? "Deleting..." : "Delete"}
-              </button>
+              </Button>
             </div>
           )}
           {!isDeleting && !isEditing && (
             <div className="mt-6 md:mt-0">
               {isOwner && (
                 <>
-                  <button
-                    className="mr-3 bg-red-500 dark:bg-red-700 focus:outline-none transition duration-150 ease-in-out rounded hover:bg-red-700 text-white dark:hover:bg-red-800 dark:text-gray-200 px-5 py-2 text-sm"
+                  <Button
+                    variant="destructive"
+                    className="mr-3"
                     onClick={handleGroupDeleteToggle}
                     type="button"
                   >
                     Delete
-                  </button>
-                  <button
-                    className="transition focus:outline-none duration-150 ease-in-out hover:bg-blue-600 bg-blue-700 rounded text-white px-8 py-2 text-sm"
-                    onClick={handleEditToggle}
-                  >
-                    Edit
-                  </button>
+                  </Button>
+                  <Button onClick={handleEditToggle}>Edit</Button>
                 </>
               )}
             </div>
