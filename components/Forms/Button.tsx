@@ -1,21 +1,28 @@
-import { ReactNode, ButtonHTMLAttributes } from "react";
+import {
+  Button as ShadcnButton,
+  ButtonProps as ShadcnButtonProps,
+} from "@/components/ui/button";
+import { forwardRef } from "react";
 
-interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
-  type?: "button" | "submit" | "reset";
-  children: ReactNode;
-  className?: string;
+interface ButtonProps extends Omit<ShadcnButtonProps, "variant" | "size"> {
+  variant?: ShadcnButtonProps["variant"];
+  size?: ShadcnButtonProps["size"];
 }
 
-const Button = ({ type, children, className = "", ...rest }: ButtonProps) => {
-  return (
-    <button
-      type={type}
-      className={`text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center ${className}`}
-      {...rest}
-    >
-      {children}
-    </button>
-  );
-};
+const Button = forwardRef<HTMLButtonElement, ButtonProps>(
+  ({ variant = "default", size = "default", className, ...rest }, ref) => {
+    return (
+      <ShadcnButton
+        ref={ref}
+        variant={variant}
+        size={size}
+        className={className}
+        {...rest}
+      />
+    );
+  },
+);
+
+Button.displayName = "Button";
 
 export default Button;

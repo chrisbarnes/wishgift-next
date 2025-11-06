@@ -1,4 +1,4 @@
-import { useState, ChangeEvent } from "react";
+import { useState } from "react";
 import { useRouter } from "next/router";
 import IconButton from "../Forms/IconButton";
 import MarkPurchasedButton from "./MarkPurchasedButton";
@@ -56,11 +56,9 @@ const GiftEditControls = ({
     return response.json();
   };
 
-  const handleUpdatePurchased = async (
-    event: ChangeEvent<HTMLInputElement>,
-  ): Promise<void> => {
+  const handleUpdatePurchased = async (checked: boolean): Promise<void> => {
     const data: UpdatePurchaseData = {
-      isPurchased: event.target.checked,
+      isPurchased: checked,
       giftId,
       groupId: query.groupId as string,
     };

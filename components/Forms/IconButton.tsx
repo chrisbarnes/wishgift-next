@@ -1,6 +1,7 @@
-import clsx from "clsx";
+import { Button } from "@/components/ui/button";
 import Icons from "../Icons";
 import AccessibleText from "../Utils/AccessibleText";
+import { cn } from "@/lib/utils";
 
 interface IconButtonProps {
   accessibleText?: string;
@@ -17,21 +18,17 @@ const IconButton = ({
   text,
   displayText,
 }: IconButtonProps) => {
-  const buttonClasses = clsx({
-    "rounded-md": true,
-    "text-blue-700": true,
-    "w-5": !displayText,
-    "h-5": !displayText,
-    "text-xs": displayText,
-    uppercase: displayText,
-    flex: displayText,
-    "items-center": displayText,
-    "p-2": displayText,
-    "font-semibold": displayText,
-  });
-
   return (
-    <button className={buttonClasses} onClick={clickHandler}>
+    <Button
+      variant="ghost"
+      size={displayText ? "sm" : "icon"}
+      onClick={clickHandler}
+      className={cn(
+        "text-blue-700 hover:text-blue-800",
+        !displayText && "w-5 h-5 p-0",
+        displayText && "text-xs uppercase font-semibold",
+      )}
+    >
       {icon === "Photo" && <Icons.Photo extraClasses="mr-1" />}
       {icon === "Trash" && <Icons.Trash extraClasses="mr-1" />}
       {icon === "Edit" && <Icons.Edit extraClasses="mr-1" />}
@@ -40,7 +37,7 @@ const IconButton = ({
       ) : (
         <AccessibleText>{accessibleText}</AccessibleText>
       )}
-    </button>
+    </Button>
   );
 };
 

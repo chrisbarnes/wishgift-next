@@ -1,23 +1,26 @@
-import { ChangeEvent } from "react";
+import { Switch } from "@/components/ui/switch";
+import { Label } from "@/components/ui/label";
 
 interface CheckboxToggleProps {
   label: string;
   isChecked?: boolean;
-  onChange: (e: ChangeEvent<HTMLInputElement>) => void;
+  onChange: (checked: boolean) => void;
 }
 
-const CheckboxToggle = ({ label, isChecked, onChange }: CheckboxToggleProps) => {
+const CheckboxToggle = ({
+  label,
+  isChecked,
+  onChange,
+}: CheckboxToggleProps) => {
   return (
-    <label className="relative flex justify-between items-center group text-xs p-2 uppercase font-bold">
-      {label}
-      <input
-        type="checkbox"
-        className="absolute left-1/2 -translate-x-1/2 w-full h-full peer appearance-none rounded-md"
+    <div className="flex items-center justify-between p-2">
+      <Label className="text-xs uppercase font-bold">{label}</Label>
+      <Switch
         defaultChecked={isChecked}
-        onChange={onChange}
+        onCheckedChange={onChange}
+        className="ml-4"
       />
-      <span className="w-10 h-6 flex items-center flex-shrink-0 ml-4 p-1 bg-gray-200 rounded-full duration-200 ease-in-out peer-checked:bg-white after:w-4 after:h-4 peer-checked:after:bg-gray-700 after:bg-blue-700 after:rounded-full after:shadow-md after:duration-200 peer-checked:after:translate-x-4"></span>
-    </label>
+    </div>
   );
 };
 

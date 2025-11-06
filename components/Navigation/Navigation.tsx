@@ -1,43 +1,59 @@
 import { useSession, signIn, signOut } from "next-auth/react";
 import Link from "next/link";
 import Logo from "./Logo";
+import {
+  NavigationMenu,
+  NavigationMenuItem,
+  NavigationMenuLink,
+  NavigationMenuList,
+  navigationMenuTriggerStyle,
+} from "@/components/ui/navigation-menu";
 
 const Navigation = () => {
   const { data: session, status } = useSession();
 
   return (
     <nav className="bg-black">
-      <ul className="flex container mx-auto px-4 py-4">
-        <li>
-          <Link href="/" className="text-white px-4 py-4 font-bold">
-            <Logo /> WishGift
-          </Link>
-        </li>
-        {/* <li>
-          <Link href="/about">
-            <a className="text-white px-4 py-4">About</a>
-          </Link>
-        </li> */}
-        <li>
-          <Link href="/groups" className="text-white px-4 py-4">
-            Groups
-          </Link>
-        </li>
+      <div className="container mx-auto px-4 py-4 flex items-center">
+        <Link
+          href="/"
+          className="text-white px-4 py-2 font-bold flex items-center gap-2"
+        >
+          <Logo /> WishGift
+        </Link>
+
+        <NavigationMenu className="ml-4">
+          <NavigationMenuList>
+            <NavigationMenuItem>
+              <Link href="/groups" legacyBehavior passHref>
+                <NavigationMenuLink className={navigationMenuTriggerStyle()}>
+                  Groups
+                </NavigationMenuLink>
+              </Link>
+            </NavigationMenuItem>
+          </NavigationMenuList>
+        </NavigationMenu>
 
         {status !== "loading" && (
-          <li className="ml-auto">
+          <div className="ml-auto">
             {session ? (
-              <button className="text-white pr-4" onClick={() => signOut()}>
+              <button
+                className="text-white px-4 py-2 rounded-md hover:bg-white/10 transition-colors"
+                onClick={() => signOut()}
+              >
                 Sign Out
               </button>
             ) : (
-              <button className="text-white pr-4" onClick={() => signIn()}>
+              <button
+                className="text-white px-4 py-2 rounded-md hover:bg-white/10 transition-colors"
+                onClick={() => signIn()}
+              >
                 Sign Up/Sign In
               </button>
             )}
-          </li>
+          </div>
         )}
-      </ul>
+      </div>
     </nav>
   );
 };
