@@ -15,13 +15,23 @@ const fetcher = (url: string): Promise<GroupsResponse> =>
   fetch(url).then((res) => res.json());
 
 const GroupsList = () => {
-  const { data: groupData, error, isLoading } = useQuery<GroupsResponse>({
+  const {
+    data: groupData,
+    error,
+    isLoading,
+  } = useQuery<GroupsResponse>({
     queryKey: ["groups"],
     queryFn: () => fetcher("/api/groups"),
   });
 
-  if (error) return "An error has occurred.";
-  if (isLoading || !groupData) return "Loading..."; // todo create a better loading component here
+  if (error)
+    return (
+      <div className="text-gray-900 dark:text-gray-100">
+        An error has occurred.
+      </div>
+    );
+  if (isLoading || !groupData)
+    return <div className="text-gray-900 dark:text-gray-100">Loading...</div>; // todo create a better loading component here
 
   const { data: groups } = groupData;
 
