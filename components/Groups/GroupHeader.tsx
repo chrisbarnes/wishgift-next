@@ -163,16 +163,16 @@ const GroupHeader = ({
         <div className="container mx-auto flex flex-col md:flex-row items-start justify-between">
           {!isEditing && (
             <div>
-              <h4 className="mb-2 text-4xl font-extrabold leading-tight text-gray-700">
+              <h4 className="mb-2 text-4xl font-extrabold leading-tight text-gray-700 dark:text-gray-200">
                 {name}
               </h4>
-              <p className="text-sm text-black">{description}</p>
+              <p className="text-sm text-gray-900 dark:text-gray-100">{description}</p>
             </div>
           )}
 
           {isDeleting && (
             <div className="mt-6 md:mt-0">
-              <span className="font-semibold text-lg text-gray-700 mr-3">
+              <span className="font-semibold text-lg text-gray-700 dark:text-gray-200 mr-3">
                 Are you sure?
               </span>
               <Button

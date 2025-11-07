@@ -2,6 +2,7 @@ import "../styles/globals.css";
 import { SessionProvider } from "next-auth/react";
 import Head from "next/head";
 import Layout from "../components/Layout/Layout";
+import { ThemeProvider } from "../components/theme-provider";
 import type { AppProps } from "next/app";
 
 function MyApp({ Component, pageProps: { session, ...pageProps } }: AppProps) {
@@ -10,11 +11,18 @@ function MyApp({ Component, pageProps: { session, ...pageProps } }: AppProps) {
       <Head>
         <title>WishGift</title>
       </Head>
-      <SessionProvider session={session}>
-        <Layout>
-          <Component {...pageProps} />
-        </Layout>
-      </SessionProvider>
+      <ThemeProvider
+        attribute="class"
+        defaultTheme="system"
+        enableSystem
+        disableTransitionOnChange
+      >
+        <SessionProvider session={session}>
+          <Layout>
+            <Component {...pageProps} />
+          </Layout>
+        </SessionProvider>
+      </ThemeProvider>
     </>
   );
 }
