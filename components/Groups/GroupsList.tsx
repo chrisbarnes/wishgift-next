@@ -1,4 +1,4 @@
-import useSWR from "swr";
+import { useQuery } from "@tanstack/react-query";
 import GroupCard from "./GroupCard";
 
 interface Group {
@@ -15,10 +15,13 @@ const fetcher = (url: string): Promise<GroupsResponse> =>
   fetch(url).then((res) => res.json());
 
 const GroupsList = () => {
-  const { data: groupData, error } = useSWR<GroupsResponse>("/api/groups", fetcher);
+  const { data: groupData, error, isLoading } = useQuery<GroupsResponse>({
+    queryKey: ["groups"],
+    queryFn: () => fetcher("/api/groups"),
+  });
 
   if (error) return "An error has occurred.";
-  if (!groupData) return "Loading..."; // todo create a better loading component here
+  if (isLoading || !groupData) return "Loading..."; // todo create a better loading component here
 
   const { data: groups } = groupData;
 

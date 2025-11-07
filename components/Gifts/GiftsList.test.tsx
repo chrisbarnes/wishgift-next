@@ -12,9 +12,12 @@ vi.mock("next/router", () => ({
   useRouter: vi.fn(),
 }));
 
-// Mock SWR
-vi.mock("swr", () => ({
-  default: vi.fn(),
+// Mock React Query
+vi.mock("@tanstack/react-query", () => ({
+  useQuery: vi.fn(),
+  useQueryClient: vi.fn(() => ({
+    invalidateQueries: vi.fn(),
+  })),
 }));
 
 // Mock child components
@@ -50,7 +53,7 @@ vi.mock("../Search/SearchForm", () => ({
   ),
 }));
 
-import useSWR from "swr";
+import { useQuery } from "@tanstack/react-query";
 import { useRouter } from "next/router";
 import GiftsList from "./GiftsList";
 
@@ -68,10 +71,11 @@ describe("GiftsList", () => {
   });
 
   it("shows loading message when data is not loaded", () => {
-    (useSWR as any).mockReturnValue({
+    (useQuery as any).mockReturnValue({
       data: undefined,
-      mutate: mockMutate,
+      refetch: mockMutate,
       error: undefined,
+      isLoading: true,
     });
 
     render(<GiftsList groupId="group-123" />);
@@ -79,10 +83,11 @@ describe("GiftsList", () => {
   });
 
   it("shows error message when there is an error", () => {
-    (useSWR as any).mockReturnValue({
+    (useQuery as any).mockReturnValue({
       data: undefined,
-      mutate: mockMutate,
+      refetch: mockMutate,
       error: new Error("Failed to fetch"),
+      isLoading: false,
     });
 
     render(<GiftsList groupId="group-123" />);
@@ -92,10 +97,11 @@ describe("GiftsList", () => {
   });
 
   it("renders CreateGift component", () => {
-    (useSWR as any).mockReturnValue({
+    (useQuery as any).mockReturnValue({
       data: { gifts: [] },
-      mutate: mockMutate,
+      refetch: mockMutate,
       error: undefined,
+      isLoading: false,
     });
 
     render(<GiftsList groupId="group-123" />);
@@ -124,10 +130,11 @@ describe("GiftsList", () => {
       },
     ];
 
-    (useSWR as any).mockReturnValue({
+    (useQuery as any).mockReturnValue({
       data: { gifts: mockGifts },
-      mutate: mockMutate,
+      refetch: mockMutate,
       error: undefined,
+      isLoading: false,
     });
 
     render(<GiftsList groupId="group-123" />);
@@ -139,10 +146,11 @@ describe("GiftsList", () => {
   });
 
   it("applies grid layout classes", () => {
-    (useSWR as any).mockReturnValue({
+    (useQuery as any).mockReturnValue({
       data: { gifts: [] },
-      mutate: mockMutate,
+      refetch: mockMutate,
       error: undefined,
+      isLoading: false,
     });
 
     const { container } = render(<GiftsList groupId="group-123" />);
@@ -187,10 +195,11 @@ describe("GiftsList", () => {
     ];
 
     beforeEach(() => {
-      (useSWR as any).mockReturnValue({
+      (useQuery as any).mockReturnValue({
         data: { gifts: mockGifts },
-        mutate: mockMutate,
+        refetch: mockMutate,
         error: undefined,
+        isLoading: false,
       });
     });
 
@@ -441,10 +450,11 @@ describe("GiftsList", () => {
       },
     ];
 
-    (useSWR as any).mockReturnValue({
+    (useQuery as any).mockReturnValue({
       data: { gifts: mockGifts },
-      mutate: mockMutate,
+      refetch: mockMutate,
       error: undefined,
+      isLoading: false,
     });
 
     render(<GiftsList groupId="group-123" />);

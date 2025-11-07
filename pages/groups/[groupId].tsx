@@ -1,6 +1,7 @@
 import { useRouter } from "next/router";
 import { signIn } from "next-auth/react";
-import useSWR from "swr";
+import { useQuery } from "@tanstack/react-query";
+import { useCallback } from "react";
 import GroupHeader from "../../components/Groups/GroupHeader";
 import GiftsList from "../../components/Gifts/GiftsList";
 import { errorMessages } from "../../lib/constants";
@@ -44,10 +45,16 @@ const fetcher = async (url: string): Promise<GroupData> => {
 const GroupPage: NextPage = () => {
   const { query } = useRouter();
   const endpoint = query.groupId ? `/api/groups/${query.groupId}` : "";
-  const { data, error, mutate } = useSWR<GroupData, FetchError>(
-    endpoint,
-    fetcher,
-  );
+  const { data, error, refetch } = useQuery<GroupData, FetchError>({
+    queryKey: ["group", query.groupId],
+    queryFn: () => fetcher(endpoint),
+    enabled: !!endpoint,
+  });
+
+  // Create a refetch function that can be passed to child components
+  const mutate = useCallback(() => {
+    refetch();
+  }, [refetch]);
 
   if (
     error &&
