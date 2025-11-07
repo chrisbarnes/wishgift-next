@@ -1,4 +1,4 @@
-import useSWR from "swr";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { useState, useEffect, useCallback } from "react";
 import { useRouter } from "next/router";
 import GiftCard from "./GiftCard";
@@ -47,12 +47,18 @@ const isGiftFilteringEnabled =
 
 const GiftsList = ({ groupId, initialSearch }: GiftsListProps) => {
   const router = useRouter();
-  const { data, mutate, error } = useSWR<GiftsData>(
-    `/api/gifts/${groupId}`,
-    fetcher,
-  );
+  const queryClient = useQueryClient();
+  const { data, error, refetch } = useQuery<GiftsData>({
+    queryKey: ["gifts", groupId],
+    queryFn: () => fetcher(`/api/gifts/${groupId}`),
+  });
   const [gifts, setGifts] = useState<Gift[]>([]);
   const [isInitialLoad, setIsInitialLoad] = useState(true);
+
+  // Create a refetch function that can be passed to child components
+  const mutate = useCallback(() => {
+    refetch();
+  }, [refetch]);
 
   if (error) {
     return <p>Sorry. There was an error retrieving the gifts.</p>;
