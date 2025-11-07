@@ -1,6 +1,7 @@
 import { useSession, signIn, signOut } from "next-auth/react";
 import Link from "next/link";
 import Logo from "./Logo";
+import { ModeToggle } from "@/components/mode-toggle";
 import {
   NavigationMenu,
   NavigationMenuItem,
@@ -35,7 +36,8 @@ const Navigation = () => {
         </NavigationMenu>
 
         {status !== "loading" && (
-          <div className="ml-auto">
+          <div className="ml-auto flex items-center gap-4">
+            <ModeToggle />
             {session ? (
               <button
                 className="text-white px-4 py-2 rounded-md hover:bg-white/10 transition-colors"
