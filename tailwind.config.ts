@@ -6,7 +6,7 @@ const config: Config = {
     "./pages/**/*.{js,ts,jsx,tsx}",
     "./components/**/*.{js,ts,jsx,tsx}",
   ],
-  darkMode: false, // or 'media' or 'class'
+  darkMode: "class",
   theme: {
     screens: {
       sm: "480px",
