@@ -17,8 +17,8 @@ const fetcher = (url: string): Promise<GroupsResponse> =>
 const GroupsList = () => {
   const { data: groupData, error } = useSWR<GroupsResponse>("/api/groups", fetcher);
 
-  if (error) return "An error has occurred.";
-  if (!groupData) return "Loading..."; // todo create a better loading component here
+  if (error) return <div className="text-gray-900 dark:text-gray-100">An error has occurred.</div>;
+  if (!groupData) return <div className="text-gray-900 dark:text-gray-100">Loading...</div>; // todo create a better loading component here
 
   const { data: groups } = groupData;
 
