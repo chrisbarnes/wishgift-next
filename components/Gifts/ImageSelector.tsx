@@ -83,12 +83,12 @@ const ImageSelector = ({
           images.map((image, index) => {
             const selectedClass =
               selectedImageIndex === index
-                ? "border-opacity-1"
-                : "border-opacity-0";
+                ? "border-4 border-blue-700"
+                : "";
 
             return (
               <button
-                className={`border-4 border-blue-700 transition-colors ${selectedClass}`}
+                className={`transition-colors ${selectedClass}`}
                 onClick={() => handleImageSelect(image, index)}
                 key={"image-selector-" + index}
               >
