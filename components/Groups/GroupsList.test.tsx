@@ -2,9 +2,9 @@ import { describe, it, expect, vi, beforeEach } from "vitest";
 import { render, screen } from "@testing-library/react";
 import GroupsList from "./GroupsList";
 
-// Mock SWR
-vi.mock("swr", () => ({
-  default: vi.fn(),
+// Mock React Query
+vi.mock("@tanstack/react-query", () => ({
+  useQuery: vi.fn(),
 }));
 
 // Mock GroupCard
@@ -12,7 +12,7 @@ vi.mock("./GroupCard", () => ({
   default: ({ name }: any) => <div data-testid="group-card">{name}</div>,
 }));
 
-import useSWR from "swr";
+import { useQuery } from "@tanstack/react-query";
 
 describe("GroupsList", () => {
   beforeEach(() => {
@@ -20,9 +20,10 @@ describe("GroupsList", () => {
   });
 
   it("shows loading message when data is not loaded", () => {
-    (useSWR as any).mockReturnValue({
+    (useQuery as any).mockReturnValue({
       data: undefined,
       error: undefined,
+      isLoading: true,
     });
 
     render(<GroupsList />);
@@ -30,9 +31,10 @@ describe("GroupsList", () => {
   });
 
   it("shows error message when there is an error", () => {
-    (useSWR as any).mockReturnValue({
+    (useQuery as any).mockReturnValue({
       data: undefined,
       error: new Error("Failed to fetch"),
+      isLoading: false,
     });
 
     render(<GroupsList />);
@@ -45,9 +47,10 @@ describe("GroupsList", () => {
       { id: "2", name: "Group 2", description: "Desc 2" },
     ];
 
-    (useSWR as any).mockReturnValue({
+    (useQuery as any).mockReturnValue({
       data: { data: mockGroups },
       error: undefined,
+      isLoading: false,
     });
 
     render(<GroupsList />);
@@ -56,9 +59,10 @@ describe("GroupsList", () => {
   });
 
   it("applies grid layout classes", () => {
-    (useSWR as any).mockReturnValue({
+    (useQuery as any).mockReturnValue({
       data: { data: [] },
       error: undefined,
+      isLoading: false,
     });
 
     const { container } = render(<GroupsList />);
@@ -67,9 +71,10 @@ describe("GroupsList", () => {
   });
 
   it("renders no groups when data is empty", () => {
-    (useSWR as any).mockReturnValue({
+    (useQuery as any).mockReturnValue({
       data: { data: [] },
       error: undefined,
+      isLoading: false,
     });
 
     render(<GroupsList />);
