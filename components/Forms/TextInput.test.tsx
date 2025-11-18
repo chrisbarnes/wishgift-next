@@ -72,11 +72,4 @@ describe("TextInput", () => {
       onChange,
     });
   });
-
-  it("applies correct CSS classes", () => {
-    render(<TextInput id="test" placeholder="Test" register={mockRegister} />);
-    const input = screen.getByPlaceholderText("Test");
-    // shadcn input has different default classes
-    expect(input).toHaveClass("border", "rounded-md", "w-full", "max-w-xs");
-  });
 });

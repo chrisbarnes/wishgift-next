@@ -34,7 +34,6 @@ const TextInput = <T extends FieldValues = FieldValues>({
         id={id}
         placeholder={placeholder}
         defaultValue={value}
-        className="max-w-xs"
       />
     </>
   );

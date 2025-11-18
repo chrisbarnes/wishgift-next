@@ -3,6 +3,16 @@ import { useForm } from "react-hook-form";
 import { useRouter } from "next/router";
 import TextInputControl from "../Forms/TextInputControl";
 import Button from "../Forms/Button";
+import {
+  Drawer,
+  DrawerClose,
+  DrawerContent,
+  DrawerDescription,
+  DrawerFooter,
+  DrawerHeader,
+  DrawerTitle,
+  DrawerTrigger,
+} from "@/components/ui/drawer";
 
 interface CreateGiftProps {
   updated: () => void;
@@ -27,7 +37,7 @@ interface CreateGiftResponse {
 const CreateGift = ({ updated }: CreateGiftProps) => {
   const { query } = useRouter();
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
-  const [isEditing, setIsEditing] = useState<boolean>(false);
+  const [isOpen, setIsOpen] = useState<boolean>(false);
   const {
     register,
     handleSubmit,
@@ -59,6 +69,7 @@ const CreateGift = ({ updated }: CreateGiftProps) => {
         if (response.data && response.data.message === "Success") {
           reset({});
           updated();
+          setIsOpen(false); // Close the drawer on success
         } else if (response.error) {
           console.error("Error creating gift:", response.error);
           alert("Error creating gift: " + response.error);
@@ -70,78 +81,92 @@ const CreateGift = ({ updated }: CreateGiftProps) => {
       });
   };
 
-  const height = isEditing ? "h-auto" : "h-64";
-
   return (
-    <div
-      className={`mb-4 md:mb-0 px-6 py-4 shadow-md rounded-md bg-white ${height}`}
-    >
-      {!isEditing ? (
-        <div className="text-center h-full flex flex-col justify-center">
-          <button
-            className="p-8 lg:p-12 text-4xl xl:text-6xl font-thin uppercase"
-            onClick={() => setIsEditing(true)}
-            title="Add a Gift"
-          >
-            + Gift
-          </button>
+    <Drawer open={isOpen} onOpenChange={setIsOpen}>
+      <DrawerTrigger asChild>
+        <div className="mb-4 md:mb-0 px-6 py-4 shadow-md rounded-md bg-white h-64">
+          <div className="text-center h-full flex flex-col justify-center">
+            <button
+              className="p-8 lg:p-12 text-4xl xl:text-6xl font-thin uppercase"
+              title="Add a Gift"
+            >
+              + Gift
+            </button>
+          </div>
         </div>
-      ) : isSubmitting ? (
-        <div className="text-center h-full flex flex-col justify-center">
-          <p className="text-lg">Adding gift...</p>
-        </div>
-      ) : (
-        <>
-          <h2 className="mb-4 font-bold text-lg">Add a Gift</h2>
-          <form onSubmit={handleSubmit(onSubmit)}>
-            <TextInputControl
-              id="name"
-              label="Name"
-              register={register}
-              errors={errors}
-              required
-            />
-            <TextInputControl
-              id="description"
-              label="Description"
-              register={register}
-              errors={errors}
-            />
-            <TextInputControl
-              id="url"
-              label="URL"
-              register={register}
-              errors={errors}
-            />
-            <TextInputControl
-              id="giftFor"
-              label="For (if not for you)"
-              register={register}
-              errors={errors}
-            />
-            <TextInputControl
-              id="price"
-              label="Price ($)"
-              register={register}
-              errors={errors}
-            />
+      </DrawerTrigger>
+      <DrawerContent>
+        <div className="mx-auto w-full max-w-md">
+          <DrawerHeader>
+            <DrawerTitle>Add a Gift</DrawerTitle>
+            <DrawerDescription>
+              Add a new gift to this group. Fill in the details below.
+            </DrawerDescription>
+          </DrawerHeader>
 
-            <input
-              type="hidden"
-              {...register("groupId")}
-              value={query.groupId as string}
-            />
-
-            <div className="mt-4 flex justify-evenly">
-              <Button type="submit">Submit</Button>
-              <Button type="button" onClick={() => setIsEditing(false)}>
-                Cancel
-              </Button>
+          {isSubmitting ? (
+            <div className="text-center py-8">
+              <p className="text-lg">Adding gift...</p>
             </div>
-          </form>
-        </>
-      )}
-    </div>
+          ) : (
+            <form onSubmit={handleSubmit(onSubmit)} className="px-4">
+              <div className="grid grid-cols-2 gap-4">
+                <TextInputControl
+                  id="name"
+                  label="Name"
+                  register={register}
+                  errors={errors}
+                  required
+                />
+                <TextInputControl
+                  id="price"
+                  label="Price ($)"
+                  register={register}
+                  errors={errors}
+                />
+                <TextInputControl
+                  id="url"
+                  label="URL"
+                  register={register}
+                  errors={errors}
+                />
+                <TextInputControl
+                  id="giftFor"
+                  label="For (if not for you)"
+                  register={register}
+                  errors={errors}
+                />
+                <div className="col-span-2">
+                  <TextInputControl
+                    id="description"
+                    label="Description"
+                    register={register}
+                    errors={errors}
+                  />
+                </div>
+              </div>
+
+              <input
+                type="hidden"
+                {...register("groupId")}
+                value={query.groupId as string}
+              />
+
+              <DrawerFooter>
+                <Button type="submit" disabled={isSubmitting}>
+                  Submit
+                </Button>
+                <DrawerClose asChild>
+                  <Button type="button" variant="outline">
+                    Cancel
+                  </Button>
+                </DrawerClose>
+              </DrawerFooter>
+            </form>
+          )}
+        </div>
+      </DrawerContent>
+    </Drawer>
   );
 };
 
