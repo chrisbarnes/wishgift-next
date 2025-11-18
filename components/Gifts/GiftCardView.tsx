@@ -36,7 +36,7 @@ const GiftCardView = ({
   handleAddImageClick,
   updated,
 }: GiftCardViewProps) => {
-  const textColor = isPurchased ? "text-white" : "text-gray-700";
+  const textColor = isPurchased ? "text-white" : "text-gray-700 dark:text-gray-200";
   const nameTagClasses = isPurchased
     ? "absolute text-gray-700 bottom-14 right-14 z-10 bg-white px-6 py-4 border-2 border-gray-200 uppercase text-xs font-semibold shadow-sm rounded-sm"
     : "relative";
@@ -89,7 +89,7 @@ const GiftCardView = ({
         )}
         {!imageUrl && !isPurchased && <Icons.Tag size="xxl" />}
         {!isPurchased && (
-          <span className="absolute text-xs leading-none px-2 py-2 bg-white top-5 left-7 rounded-md shadow-md">
+          <span className="absolute text-xs leading-none px-2 py-2 bg-white dark:bg-gray-700 text-gray-700 dark:text-gray-200 top-5 left-7 rounded-md shadow-md">
             {giftFor.name}
           </span>
         )}
