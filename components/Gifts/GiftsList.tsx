@@ -5,6 +5,7 @@ import GiftCard from "./GiftCard";
 import CreateGift from "./CreateGift";
 import GiftsCount from "./GiftsCount";
 import SearchForm from "../Search/SearchForm";
+import GiftAssistant from "./GiftAssistant";
 import { setBgColor } from "./utils";
 
 interface Gift {
@@ -177,6 +178,9 @@ const GiftsList = ({ groupId, initialSearch }: GiftsListProps) => {
 
   return (
     <>
+      <div className="mb-4 flex justify-end">
+        <GiftAssistant groupId={groupId} />
+      </div>
       {isGiftFilteringEnabled && (
         <div className="mb-8 md:mb-4 flex flex-col-reverse md:flex-row justify-between items-center">
           {data && data.gifts && data.gifts.length !== 0 && (
