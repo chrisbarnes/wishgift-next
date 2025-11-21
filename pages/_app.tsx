@@ -7,6 +7,7 @@ import type { AppProps } from "next/app";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { useState } from "react";
+import { Analytics } from "@vercel/analytics/react";
 
 function MyApp({ Component, pageProps: { session, ...pageProps } }: AppProps) {
   // Create a client instance once per app instance
@@ -41,6 +42,7 @@ function MyApp({ Component, pageProps: { session, ...pageProps } }: AppProps) {
             </Layout>
           </SessionProvider>
           <ReactQueryDevtools initialIsOpen={false} />
+          <Analytics />
         </ThemeProvider>
       </QueryClientProvider>
     </>
