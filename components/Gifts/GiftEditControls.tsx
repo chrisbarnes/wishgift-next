@@ -70,7 +70,7 @@ const GiftEditControls = ({
     });
   };
 
-  const textColor = isPurchased ? "text-white" : "text-gray-700";
+  const textColor = isPurchased ? "text-white" : "text-gray-700 dark:text-gray-200";
   const justify = isEditBarTextEnabled ? "justify-between" : "justify-evenly";
 
   return (

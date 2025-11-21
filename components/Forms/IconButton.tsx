@@ -24,7 +24,7 @@ const IconButton = ({
       size={displayText ? "sm" : "icon"}
       onClick={clickHandler}
       className={cn(
-        "text-blue-700 hover:text-blue-800",
+        "text-blue-700 hover:text-blue-800 dark:text-white dark:hover:text-gray-400",
         !displayText && "w-5 h-5 p-0",
         displayText && "text-xs uppercase font-semibold",
       )}
