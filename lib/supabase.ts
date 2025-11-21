@@ -1,7 +1,9 @@
 import { createClient } from "@supabase/supabase-js";
 
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
-const supabaseKey = process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
+const supabaseKey =
+  process.env.SUPABASE_SERVICE_ROLE_KEY ||
+  process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
 
 if (!supabaseUrl || !supabaseKey) {
   throw new Error("Missing Supabase environment variables");
@@ -18,6 +20,6 @@ export const supabase = createClient(supabaseUrl, supabaseKey);
  * @returns The environment-specific table name
  */
 export function getTableName(tableName: string): string {
-  const isProduction = process.env.NODE_ENV === 'production';
+  const isProduction = process.env.IS_PROD === "true";
   return isProduction ? tableName : `dev_${tableName}`;
 }
