@@ -56,8 +56,9 @@ const GiftsList = ({ groupId, initialSearch }: GiftsListProps) => {
 
   // Create a refetch function that can be passed to child components
   const mutate = useCallback(() => {
-    refetch();
-  }, [refetch]);
+    // Invalidate queries to ensure the cache is properly refreshed
+    queryClient.invalidateQueries({ queryKey: ["gifts", groupId] });
+  }, [queryClient, groupId]);
 
   if (error) {
     return <p>Sorry. There was an error retrieving the gifts.</p>;
@@ -146,7 +147,7 @@ const GiftsList = ({ groupId, initialSearch }: GiftsListProps) => {
   useEffect(() => {
     if (!data || !data.gifts) return;
 
-    // Only reset gifts when data changes for the first time
+    // On initial load, handle initial search
     if (isInitialLoad) {
       setGifts(data.gifts);
       // Apply initial search if provided (skip URL update since it's already in URL)
@@ -154,8 +155,50 @@ const GiftsList = ({ groupId, initialSearch }: GiftsListProps) => {
         searchGifts({ search: initialSearch }, true);
       }
       setIsInitialLoad(false);
+    } else {
+      // On subsequent updates, refresh the gifts and reapply any active search
+      const activeSearch = router.query.s as string | undefined;
+      if (activeSearch) {
+        // Reapply the active search to the new data
+        const searchQuery = parseSearchQuery(activeSearch);
+        const filteredGifts = data.gifts.filter((gift) => {
+          if (searchQuery.type === "field-specific") {
+            switch (searchQuery.field) {
+              case "for":
+                return (
+                  gift.giftFor.name.toLowerCase().indexOf(searchQuery.value) > -1
+                );
+              case "name":
+                return gift.name.toLowerCase().indexOf(searchQuery.value) > -1;
+              case "description":
+                return (
+                  gift.description.toLowerCase().indexOf(searchQuery.value) > -1
+                );
+              case "url":
+                return gift.url.toLowerCase().indexOf(searchQuery.value) > -1;
+              case "price":
+                return (
+                  gift.price &&
+                  gift.price.toString().indexOf(searchQuery.value) > -1
+                );
+              default:
+                return false;
+            }
+          } else {
+            return (
+              gift.name.toLowerCase().indexOf(searchQuery.value) > -1 ||
+              gift.description.toLowerCase().indexOf(searchQuery.value) > -1 ||
+              gift.giftFor.name.toLowerCase().indexOf(searchQuery.value) > -1
+            );
+          }
+        });
+        setGifts(filteredGifts);
+      } else {
+        // No search active, just update with all gifts
+        setGifts(data.gifts);
+      }
     }
-  }, [data, initialSearch, searchGifts, isInitialLoad]);
+  }, [data, initialSearch, searchGifts, isInitialLoad, router.query.s]);
 
   const reset = (): void => {
     if (!data || !data.gifts) return;
