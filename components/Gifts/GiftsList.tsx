@@ -1,0 +1,259 @@
+import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { useState, useEffect, useCallback, useRef } from "react";
+import { useRouter } from "next/router";
+import GiftCard from "./GiftCard";
+import CreateGift from "./CreateGift";
+import GiftsCount from "./GiftsCount";
+import SearchForm from "../Search/SearchForm";
+import { setBgColor } from "./utils";
+
+interface Gift {
+  id: string;
+  name: string;
+  description: string;
+  url: string;
+  imageUrl: string;
+  isPurchased: boolean;
+  purchasedBy: string;
+  giftFor: {
+    name: string;
+  };
+  price: string;
+  owner: string;
+  isOwner: boolean;
+  bgColor: string;
+}
+
+interface GiftsData {
+  gifts: Gift[];
+}
+
+interface SearchFormData {
+  search?: string;
+}
+
+interface GiftsListProps {
+  groupId: string;
+  initialSearch?: string;
+}
+
+const fetcher = (url: string): Promise<GiftsData> =>
+  fetch(url)
+    .then((res) => res.json())
+    .then((data) => ({ gifts: data.gifts.map(setBgColor) }));
+
+const isGiftFilteringEnabled =
+  process.env.NEXT_PUBLIC_IS_GIFT_FILTERING_ENABLED === "true";
+
+const GiftsList = ({ groupId, initialSearch }: GiftsListProps) => {
+  const router = useRouter();
+  const queryClient = useQueryClient();
+  const { data, error } = useQuery<GiftsData>({
+    queryKey: ["gifts", groupId],
+    queryFn: () => fetcher(`/api/gifts/${groupId}`),
+  });
+  const [gifts, setGifts] = useState<Gift[]>([]);
+  const isInitialLoadRef = useRef(true);
+
+  // Create a refetch function that can be passed to child components
+  const mutate = useCallback(() => {
+    // Invalidate queries to ensure the cache is properly refreshed
+    queryClient.invalidateQueries({ queryKey: ["gifts", groupId] });
+  }, [queryClient, groupId]);
+
+  if (error) {
+    return <p>Sorry. There was an error retrieving the gifts.</p>;
+  }
+
+  const parseSearchQuery = (query: string) => {
+    // Check for field-specific search patterns like "for:value" or "name:value"
+    // The (.+) ensures there's at least one character after the colon
+    const fieldPattern = /^(for|name|description|url|price):(.+)$/i;
+    const match = query.match(fieldPattern);
+
+    if (match && match[2].trim().length > 0) {
+      // Only use field-specific search if there's actually a value after the colon
+      return {
+        type: "field-specific" as const,
+        field: match[1].toLowerCase(),
+        value: match[2].toLowerCase(),
+      };
+    }
+
+    return {
+      type: "general" as const,
+      value: query.toLowerCase(),
+    };
+  };
+
+  const searchGifts = useCallback(
+    (searchData: SearchFormData, skipUrlUpdate = false) => {
+      if (!data || !data.gifts || !searchData.search) return;
+
+      const searchQuery = parseSearchQuery(searchData.search);
+
+      const newGiftsToDisplay = data.gifts.filter((gift) => {
+        if (searchQuery.type === "field-specific") {
+          // Field-specific search
+          switch (searchQuery.field) {
+            case "for":
+              return (
+                gift.giftFor.name.toLowerCase().indexOf(searchQuery.value) > -1
+              );
+            case "name":
+              return gift.name.toLowerCase().indexOf(searchQuery.value) > -1;
+            case "description":
+              return (
+                gift.description.toLowerCase().indexOf(searchQuery.value) > -1
+              );
+            case "url":
+              return gift.url.toLowerCase().indexOf(searchQuery.value) > -1;
+            case "price":
+              return (
+                gift.price &&
+                gift.price.toString().indexOf(searchQuery.value) > -1
+              );
+            default:
+              return false;
+          }
+        } else {
+          // General search across all fields
+          return (
+            gift.name.toLowerCase().indexOf(searchQuery.value) > -1 ||
+            gift.description.toLowerCase().indexOf(searchQuery.value) > -1 ||
+            gift.giftFor.name.toLowerCase().indexOf(searchQuery.value) > -1
+          );
+        }
+      });
+
+      setGifts(newGiftsToDisplay);
+
+      // Update URL with search parameter (skip on initial load)
+      if (!skipUrlUpdate) {
+        router.push(
+          {
+            pathname: router.pathname,
+            query: { ...router.query, s: searchData.search },
+          },
+          undefined,
+          { shallow: true },
+        );
+      }
+    },
+    [data, router],
+  );
+
+  // Set the gifts that come back from the api call in state
+  // this way we can easily manipulate them with the search functionality
+  useEffect(() => {
+    if (!data || !data.gifts) return;
+
+    // On initial load, handle initial search
+    if (isInitialLoadRef.current) {
+      setGifts(data.gifts);
+      // Apply initial search if provided (skip URL update since it's already in URL)
+      if (initialSearch) {
+        searchGifts({ search: initialSearch }, true);
+      }
+      isInitialLoadRef.current = false;
+    } else {
+      // On subsequent updates, refresh the gifts and reapply any active search
+      const activeSearch = router.query.s as string | undefined;
+      if (activeSearch) {
+        // Reapply the active search to the new data
+        const searchQuery = parseSearchQuery(activeSearch);
+        const filteredGifts = data.gifts.filter((gift) => {
+          if (searchQuery.type === "field-specific") {
+            switch (searchQuery.field) {
+              case "for":
+                return (
+                  gift.giftFor.name.toLowerCase().indexOf(searchQuery.value) >
+                  -1
+                );
+              case "name":
+                return gift.name.toLowerCase().indexOf(searchQuery.value) > -1;
+              case "description":
+                return (
+                  gift.description.toLowerCase().indexOf(searchQuery.value) > -1
+                );
+              case "url":
+                return gift.url.toLowerCase().indexOf(searchQuery.value) > -1;
+              case "price":
+                return (
+                  gift.price &&
+                  gift.price.toString().indexOf(searchQuery.value) > -1
+                );
+              default:
+                return false;
+            }
+          } else {
+            return (
+              gift.name.toLowerCase().indexOf(searchQuery.value) > -1 ||
+              gift.description.toLowerCase().indexOf(searchQuery.value) > -1 ||
+              gift.giftFor.name.toLowerCase().indexOf(searchQuery.value) > -1
+            );
+          }
+        });
+        setGifts(filteredGifts);
+      } else {
+        // No search active, just update with all gifts
+        setGifts(data.gifts);
+      }
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [data, initialSearch, router.query.s]);
+
+  const reset = (): void => {
+    if (!data || !data.gifts) return;
+    setGifts(data.gifts);
+
+    // Remove search parameter from URL
+    // oxlint-disable-next-line
+    const { s, ...restQuery } = router.query;
+    router.push(
+      {
+        pathname: router.pathname,
+        query: restQuery,
+      },
+      undefined,
+      { shallow: true },
+    );
+  };
+
+  return (
+    <>
+      {isGiftFilteringEnabled && (
+        <div className="mb-8 md:mb-4 flex flex-col-reverse md:flex-row justify-between items-center">
+          {data && data.gifts && data.gifts.length !== 0 && (
+            <>
+              <GiftsCount
+                filteredGifts={gifts.length}
+                totalGifts={data.gifts.length}
+              />
+              <SearchForm
+                resetFilters={reset}
+                searchCallback={searchGifts}
+                searchCallbackNoUrlUpdate={(data) => searchGifts(data, true)}
+                initialValue={initialSearch}
+              />
+            </>
+          )}
+        </div>
+      )}
+      <div className="md:grid gap-4 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+        <CreateGift updated={mutate} />
+        {!data ? (
+          <p>Loading gifts...</p>
+        ) : (
+          gifts &&
+          gifts.length !== 0 &&
+          gifts.map((gift) => (
+            <GiftCard key={gift.id} {...gift} updated={mutate} />
+          ))
+        )}
+      </div>
+    </>
+  );
+};
+
+export default GiftsList;

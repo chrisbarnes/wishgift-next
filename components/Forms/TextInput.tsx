@@ -1,0 +1,42 @@
+import {
+  UseFormRegister,
+  FieldValues,
+  Path,
+  ChangeHandler,
+} from "react-hook-form";
+import Label from "./Label";
+import { Input } from "@/components/ui/input";
+
+interface TextInputProps<T extends FieldValues = FieldValues> {
+  id: Path<T>;
+  label?: string;
+  placeholder?: string;
+  required?: boolean;
+  register: UseFormRegister<T>;
+  value?: string;
+  onChange?: ChangeHandler;
+}
+
+const TextInput = <T extends FieldValues = FieldValues>({
+  id,
+  label,
+  placeholder,
+  required,
+  register,
+  value,
+  onChange,
+}: TextInputProps<T>) => {
+  return (
+    <>
+      {label && <Label id={id} label={label} />}
+      <Input
+        {...register(id, { required, onChange })}
+        id={id}
+        placeholder={placeholder}
+        defaultValue={value}
+      />
+    </>
+  );
+};
+
+export default TextInput;
