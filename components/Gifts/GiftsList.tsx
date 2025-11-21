@@ -1,5 +1,5 @@
-import { useQuery } from "@tanstack/react-query";
-import { useState, useEffect, useCallback } from "react";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { useState, useEffect, useCallback, useRef } from "react";
 import { useRouter } from "next/router";
 import GiftCard from "./GiftCard";
 import CreateGift from "./CreateGift";
@@ -47,12 +47,13 @@ const isGiftFilteringEnabled =
 
 const GiftsList = ({ groupId, initialSearch }: GiftsListProps) => {
   const router = useRouter();
-  const { data, error, refetch } = useQuery<GiftsData>({
+  const queryClient = useQueryClient();
+  const { data, error } = useQuery<GiftsData>({
     queryKey: ["gifts", groupId],
     queryFn: () => fetcher(`/api/gifts/${groupId}`),
   });
   const [gifts, setGifts] = useState<Gift[]>([]);
-  const [isInitialLoad, setIsInitialLoad] = useState(true);
+  const isInitialLoadRef = useRef(true);
 
   // Create a refetch function that can be passed to child components
   const mutate = useCallback(() => {
@@ -148,13 +149,13 @@ const GiftsList = ({ groupId, initialSearch }: GiftsListProps) => {
     if (!data || !data.gifts) return;
 
     // On initial load, handle initial search
-    if (isInitialLoad) {
+    if (isInitialLoadRef.current) {
       setGifts(data.gifts);
       // Apply initial search if provided (skip URL update since it's already in URL)
       if (initialSearch) {
         searchGifts({ search: initialSearch }, true);
       }
-      setIsInitialLoad(false);
+      isInitialLoadRef.current = false;
     } else {
       // On subsequent updates, refresh the gifts and reapply any active search
       const activeSearch = router.query.s as string | undefined;
@@ -166,7 +167,8 @@ const GiftsList = ({ groupId, initialSearch }: GiftsListProps) => {
             switch (searchQuery.field) {
               case "for":
                 return (
-                  gift.giftFor.name.toLowerCase().indexOf(searchQuery.value) > -1
+                  gift.giftFor.name.toLowerCase().indexOf(searchQuery.value) >
+                  -1
                 );
               case "name":
                 return gift.name.toLowerCase().indexOf(searchQuery.value) > -1;
@@ -198,7 +200,8 @@ const GiftsList = ({ groupId, initialSearch }: GiftsListProps) => {
         setGifts(data.gifts);
       }
     }
-  }, [data, initialSearch, searchGifts, isInitialLoad, router.query.s]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [data, initialSearch, router.query.s]);
 
   const reset = (): void => {
     if (!data || !data.gifts) return;
