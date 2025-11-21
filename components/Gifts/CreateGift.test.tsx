@@ -61,7 +61,8 @@ describe("CreateGift", () => {
 
   it("hides form when cancel button is clicked", async () => {
     const user = userEvent.setup();
-    const { container } = render(<CreateGift updated={vi.fn()} />);
+
+    render(<CreateGift updated={vi.fn()} />);
 
     await user.click(screen.getByRole("button", { name: /\+ Gift/i }));
 

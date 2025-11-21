@@ -20,7 +20,7 @@ function MyApp({ Component, pageProps: { session, ...pageProps } }: AppProps) {
             staleTime: 5000,
           },
         },
-      })
+      }),
   );
 
   return (
@@ -29,20 +29,20 @@ function MyApp({ Component, pageProps: { session, ...pageProps } }: AppProps) {
         <title>WishGift</title>
       </Head>
       <QueryClientProvider client={queryClient}>
-      <ThemeProvider
-        attribute="class"
-        defaultTheme="system"
-        enableSystem
-        disableTransitionOnChange
-      >
-        <SessionProvider session={session}>
-          <Layout>
-            <Component {...pageProps} />
-          </Layout>
-        </SessionProvider>
-        <ReactQueryDevtools initialIsOpen={false} />
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="system"
+          enableSystem
+          disableTransitionOnChange
+        >
+          <SessionProvider session={session}>
+            <Layout>
+              <Component {...pageProps} />
+            </Layout>
+          </SessionProvider>
+          <ReactQueryDevtools initialIsOpen={false} />
+        </ThemeProvider>
       </QueryClientProvider>
-      </ThemeProvider>
     </>
   );
 }
