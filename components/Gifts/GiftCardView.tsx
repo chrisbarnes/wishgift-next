@@ -36,14 +36,18 @@ const GiftCardView = ({
   handleAddImageClick,
   updated,
 }: GiftCardViewProps) => {
-  const textColor = isPurchased ? "text-white" : "text-gray-700 dark:text-gray-200";
+  const textColor = isPurchased
+    ? "text-white"
+    : "text-gray-700 dark:text-gray-200";
   const nameTagClasses = isPurchased
     ? "absolute text-gray-700 bottom-14 right-14 z-10 bg-white px-6 py-4 border-2 border-gray-200 uppercase text-xs font-semibold shadow-sm rounded-sm"
     : "relative";
 
   return (
     <div className="h-full flex flex-col justify-between">
-      <div className={` pb-2 ${isPurchased ? "" : "mb-7 border-b-4"}`}>
+      <div
+        className={` pb-2 ${isPurchased ? "" : "mb-7 border-b-4 dark:border-gray-400"}`}
+      >
         <div className="flex justify-between">
           <h3
             className={`text-lg ${
