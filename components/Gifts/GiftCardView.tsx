@@ -1,5 +1,5 @@
+import { Edit2, Trash2, ShoppingBag, ExternalLink } from "lucide-react";
 import GiftEditControls from "./GiftEditControls";
-import Icons from "../Icons";
 
 interface GiftCardViewProps {
   id: string;
@@ -36,80 +36,95 @@ const GiftCardView = ({
   handleAddImageClick,
   updated,
 }: GiftCardViewProps) => {
-  const textColor = isPurchased
-    ? "text-white"
-    : "text-gray-700 dark:text-gray-200";
-  const nameTagClasses = isPurchased
-    ? "absolute text-gray-700 bottom-14 right-14 z-10 bg-white px-6 py-4 border-2 border-gray-200 uppercase text-xs font-semibold shadow-sm rounded-sm"
-    : "relative";
-
   return (
-    <div className="h-full flex flex-col justify-between">
-      <div
-        className={` pb-2 ${isPurchased ? "" : "mb-7 border-b-4 dark:border-gray-400"}`}
-      >
-        <div className="flex justify-between">
-          <h3
-            className={`text-lg ${
-              isPurchased ? "leading-tight font-thin" : "font-bold"
-            } ${textColor} ${isPurchased ? "w-40" : ""}`}
-          >
+    <div className="w-full bg-gradient-to-br from-blue-50 to-purple-50 dark:from-slate-800 dark:to-slate-900 rounded-2xl overflow-hidden shadow-md hover:shadow-xl transition-all duration-300">
+      {/* Image Section */}
+      <div className="relative h-56">
+        {imageUrl ? (
+          <img
+            src={imageUrl}
+            alt={name}
+            className="w-full h-full object-cover"
+          />
+        ) : (
+          <div className="w-full h-full bg-gradient-to-br from-slate-200 to-slate-300 dark:from-slate-700 dark:to-slate-800 flex items-center justify-center">
+            <ShoppingBag size={64} className="text-slate-400 dark:text-slate-600" />
+          </div>
+        )}
+        <div className="absolute top-3 left-3 bg-white/90 backdrop-blur-sm px-3 py-1.5 rounded-full">
+          <span className="text-sm font-medium text-slate-700">For {giftFor.name}</span>
+        </div>
+        {isPurchased && (
+          <div className="absolute inset-0 bg-gradient-to-t from-green-600 to-green-600/20 flex items-end p-4">
+            <div className="bg-white px-3 py-2 rounded-lg flex items-center gap-2">
+              <ShoppingBag size={16} className="text-green-600" />
+              <span className="font-semibold text-slate-900">{purchasedBy}</span>
+            </div>
+          </div>
+        )}
+      </div>
+
+      {/* Content Section */}
+      <div className="p-5 bg-white dark:bg-slate-800">
+        <div className="mb-3">
+          <h3 className="text-xl font-bold text-slate-900 dark:text-slate-100 mb-1 flex items-center gap-2">
             {url ? (
               <a
                 href={url}
                 target="_blank"
-                rel="noopener"
-                className="flex flex-row items-start"
+                rel="noopener noreferrer"
+                className="flex items-center gap-1 hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
               >
                 {name}
-                {!isPurchased && (
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    className="h-3 w-3 inline-block ml-1"
-                    viewBox="0 0 20 20"
-                    fill="currentColor"
-                  >
-                    <path d="M11 3a1 1 0 100 2h2.586l-6.293 6.293a1 1 0 101.414 1.414L15 6.414V9a1 1 0 102 0V4a1 1 0 00-1-1h-5z" />
-                    <path d="M5 5a2 2 0 00-2 2v8a2 2 0 002 2h8a2 2 0 002-2v-3a1 1 0 10-2 0v3H5V7h3a1 1 0 000-2H5z" />
-                  </svg>
-                )}
+                <ExternalLink size={16} />
               </a>
             ) : (
-              <>{name}</>
+              name
             )}
           </h3>
-          {price && !isPurchased && (
-            <span className={`font-semibold ${textColor}`}>${price}</span>
+          {price && (
+            <div className="inline-block bg-gradient-to-r from-blue-600 to-purple-600 text-white px-4 py-1.5 rounded-full font-bold">
+              ${price}
+            </div>
           )}
         </div>
-        {description && !isPurchased && (
-          <p className={`text-sm ${textColor}`}>{description}</p>
+
+        {description && (
+          <p className="text-slate-600 dark:text-slate-300 text-sm mb-4">
+            {description}
+          </p>
+        )}
+
+        {/* Actions */}
+        {isOwner ? (
+          <div className="grid grid-cols-3 gap-2">
+            <button
+              onClick={handleEditGiftClick}
+              className="col-span-2 flex items-center justify-center gap-2 px-4 py-2.5 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white rounded-lg transition-all font-medium shadow-md"
+            >
+              <Edit2 size={16} />
+              Edit Gift
+            </button>
+            <button
+              onClick={handleDeleteGiftClick}
+              className="p-2.5 bg-slate-100 hover:bg-slate-200 dark:bg-slate-700 dark:hover:bg-slate-600 text-slate-700 dark:text-slate-200 rounded-lg transition-colors flex items-center justify-center"
+            >
+              <Trash2 size={16} />
+            </button>
+          </div>
+        ) : (
+          <GiftEditControls
+            isOwner={isOwner}
+            handleEditClick={handleEditGiftClick}
+            handleDeleteClick={handleDeleteGiftClick}
+            handleImageClick={handleAddImageClick}
+            giftId={id}
+            isPurchased={isPurchased}
+            purchasedBy={purchasedBy}
+            updated={updated}
+          />
         )}
       </div>
-
-      <p className={`transition-all ${nameTagClasses}`}>
-        {imageUrl && !isPurchased && (
-          <img className="w-20 h-auto" src={imageUrl} alt={name} />
-        )}
-        {!imageUrl && !isPurchased && <Icons.Tag size="xxl" />}
-        {!isPurchased && (
-          <span className="absolute text-xs leading-none px-2 py-2 bg-white dark:bg-gray-700 text-gray-700 dark:text-gray-200 top-5 left-7 rounded-md shadow-md">
-            {giftFor.name}
-          </span>
-        )}
-        {isPurchased && <span>{giftFor.name}</span>}
-      </p>
-
-      <GiftEditControls
-        isOwner={isOwner}
-        handleEditClick={handleEditGiftClick}
-        handleDeleteClick={handleDeleteGiftClick}
-        handleImageClick={handleAddImageClick}
-        giftId={id}
-        isPurchased={isPurchased}
-        purchasedBy={purchasedBy}
-        updated={updated}
-      />
     </div>
   );
 };

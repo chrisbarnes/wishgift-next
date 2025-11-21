@@ -49,21 +49,8 @@ const GiftCard = (props: GiftCardProps) => {
 
   const isDisplayedAsPurchased = !iAmOwner && props.isPurchased;
 
-  // if this is not my gift and it is purchased by someone else, then
-  // I should not see the purchase option and it should look different
-  const bgColor = isDisplayedAsPurchased ? props.bgColor : "bg-white dark:bg-gray-800";
-  const height = isEditing ? "h-auto" : "h-64";
-  const verticalRibbonClasses =
-    "before:absolute before:top-0 before:right-20 before:w-9 before:h-full before:bg-white dark:before:bg-gray-800 before:shadow-lg before:border-r-2 before:border-l-2 before:border-gray-200 dark:before:border-gray-700";
-  const horizontalRibbonClasses = `after:absolute after:top-40 after:left-0 after:w-full after:h-9 after:bg-white dark:after:bg-gray-800 after:shadow-sm after:border-t-2 after:border-b-2 after:border-gray-200 dark:after:border-gray-700`;
-  const isPurchasedClasses = isDisplayedAsPurchased
-    ? `${verticalRibbonClasses} ${horizontalRibbonClasses}`
-    : "after:-top-40 before:-right-20";
-
   return (
-    <div
-      className={`overflow-hidden relative mb-4 md:mb-0 px-4 pt-4 pb-2 shadow-md rounded-md flex flex-col ${bgColor} shadow after:transition-all before:transition-all transition-colors ${height} ${isPurchasedClasses}`}
-    >
+    <div className="mb-4 md:mb-0">
       {!isEditing && !isDeleting && !isAddingImage && (
         <GiftCardView
           {...props}
