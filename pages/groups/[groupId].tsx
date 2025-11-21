@@ -66,9 +66,9 @@ const GroupPage: NextPage = () => {
 
   if (error) {
     return (
-      <p>
+      <p className="text-gray-900 dark:text-gray-100">
         Sorry, you must be logged in to view groups.{" "}
-        <button className="underline" onClick={() => signIn()}>
+        <button className="underline hover:text-blue-600 dark:hover:text-blue-400" onClick={() => signIn()}>
           Sign Up/Sign In
         </button>
       </p>
@@ -76,7 +76,7 @@ const GroupPage: NextPage = () => {
   }
 
   if (!data) {
-    <p>Loading...</p>;
+    <p className="text-gray-900 dark:text-gray-100">Loading...</p>;
   } else {
     return (
       <>

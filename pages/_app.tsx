@@ -2,6 +2,7 @@ import "../styles/globals.css";
 import { SessionProvider } from "next-auth/react";
 import Head from "next/head";
 import Layout from "../components/Layout/Layout";
+import { ThemeProvider } from "../components/theme-provider";
 import type { AppProps } from "next/app";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
@@ -19,7 +20,7 @@ function MyApp({ Component, pageProps: { session, ...pageProps } }: AppProps) {
             staleTime: 5000,
           },
         },
-      })
+      }),
   );
 
   return (
@@ -28,12 +29,19 @@ function MyApp({ Component, pageProps: { session, ...pageProps } }: AppProps) {
         <title>WishGift</title>
       </Head>
       <QueryClientProvider client={queryClient}>
-        <SessionProvider session={session}>
-          <Layout>
-            <Component {...pageProps} />
-          </Layout>
-        </SessionProvider>
-        <ReactQueryDevtools initialIsOpen={false} />
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="system"
+          enableSystem
+          disableTransitionOnChange
+        >
+          <SessionProvider session={session}>
+            <Layout>
+              <Component {...pageProps} />
+            </Layout>
+          </SessionProvider>
+          <ReactQueryDevtools initialIsOpen={false} />
+        </ThemeProvider>
       </QueryClientProvider>
     </>
   );

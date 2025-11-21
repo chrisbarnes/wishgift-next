@@ -8,7 +8,7 @@ const GroupsPage: NextPage = () => {
   const { data: session, status } = useSession();
 
   if (status === "loading") {
-    return <div>loading...</div>;
+    return <div className="text-gray-900 dark:text-gray-100">loading...</div>;
   }
 
   if (session) {
@@ -23,10 +23,10 @@ const GroupsPage: NextPage = () => {
   }
 
   return (
-    <>
+    <div className="text-gray-900 dark:text-gray-100">
       Sorry. Only signed in users can see groups. <br />
-      <button onClick={() => signIn()}>Sign in</button>
-    </>
+      <button className="underline hover:text-blue-600 dark:hover:text-blue-400" onClick={() => signIn()}>Sign in</button>
+    </div>
   );
 };
 

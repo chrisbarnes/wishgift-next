@@ -129,6 +129,6 @@ describe("Navigation", () => {
 
     const { container } = render(<Navigation />);
     const nav = container.querySelector("nav");
-    expect(nav).toHaveClass("bg-black");
+    expect(nav).toHaveClass("bg-white", "dark:bg-black", "border-b", "border-gray-200", "dark:border-gray-800");
   });
 });

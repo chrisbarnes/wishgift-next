@@ -1,4 +1,4 @@
-import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { useQuery } from "@tanstack/react-query";
 import { useState, useEffect, useCallback } from "react";
 import { useRouter } from "next/router";
 import GiftCard from "./GiftCard";
@@ -47,7 +47,6 @@ const isGiftFilteringEnabled =
 
 const GiftsList = ({ groupId, initialSearch }: GiftsListProps) => {
   const router = useRouter();
-  const queryClient = useQueryClient();
   const { data, error, refetch } = useQuery<GiftsData>({
     queryKey: ["gifts", groupId],
     queryFn: () => fetcher(`/api/gifts/${groupId}`),
