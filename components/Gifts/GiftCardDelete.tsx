@@ -57,7 +57,7 @@ const GiftCardDelete = ({
   };
 
   return (
-    <div className="w-80 bg-gradient-to-br from-blue-50 to-purple-50 rounded-2xl overflow-hidden shadow-md relative">
+    <div className="w-full bg-gradient-to-br from-blue-50 to-purple-50 rounded-2xl overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 relative">
       {/* Image Section - Dimmed */}
       <div className="relative h-56 opacity-30">
         <img
