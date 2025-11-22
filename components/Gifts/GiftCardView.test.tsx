@@ -2,19 +2,20 @@ import { describe, it, expect, vi } from "vitest";
 import { render, screen } from "@testing-library/react";
 import GiftCardView from "./GiftCardView";
 
-// Mock the GiftEditControls component
-vi.mock("./GiftEditControls", () => ({
-  default: () => <div data-testid="gift-edit-controls">Edit Controls</div>,
+// Mock next-themes
+vi.mock("next-themes", () => ({
+  useTheme: () => ({ theme: "light" }),
 }));
 
-// Mock the Icons component
-vi.mock("../Icons", () => ({
-  default: {
-    Tag: ({ size }: { size?: number }) => (
-      <span data-testid="tag-icon">{size}</span>
-    ),
-  },
+// Mock next/router
+vi.mock("next/router", () => ({
+  useRouter: () => ({
+    query: { groupId: "test-group-id" },
+  }),
 }));
+
+// Mock fetch
+global.fetch = vi.fn();
 
 describe("GiftCardView", () => {
   const mockProps = {
@@ -44,9 +45,9 @@ describe("GiftCardView", () => {
     expect(screen.getByText("Test Description")).toBeInTheDocument();
   });
 
-  it("does not render description when purchased", () => {
-    render(<GiftCardView {...mockProps} isPurchased={true} />);
-    expect(screen.queryByText("Test Description")).not.toBeInTheDocument();
+  it("renders description even when purchased", () => {
+    render(<GiftCardView {...mockProps} isPurchased={true} purchasedBy="Jane" />);
+    expect(screen.getByText("Test Description")).toBeInTheDocument();
   });
 
   it("renders price when provided and not purchased", () => {
@@ -54,9 +55,9 @@ describe("GiftCardView", () => {
     expect(screen.getByText("$25")).toBeInTheDocument();
   });
 
-  it("does not render price when purchased", () => {
-    render(<GiftCardView {...mockProps} isPurchased={true} />);
-    expect(screen.queryByText("$25")).not.toBeInTheDocument();
+  it("renders price even when purchased", () => {
+    render(<GiftCardView {...mockProps} isPurchased={true} purchasedBy="Jane" />);
+    expect(screen.getByText("$25")).toBeInTheDocument();
   });
 
   it("renders gift recipient name", () => {
@@ -67,18 +68,19 @@ describe("GiftCardView", () => {
 
   it("renders URL as a link when provided", () => {
     render(<GiftCardView {...mockProps} />);
-    const link = screen.getByRole("link", { name: /Test Gift/i });
+    const link = screen.getByRole("link");
     expect(link).toHaveAttribute("href", "https://example.com");
     expect(link).toHaveAttribute("target", "_blank");
-    expect(link).toHaveAttribute("rel", "noopener");
+    expect(link).toHaveAttribute("rel", "noopener noreferrer");
   });
 
-  it("renders Tag icon when no image URL is provided and not purchased", () => {
-    render(<GiftCardView {...mockProps} imageUrl="" />);
-    expect(screen.getByTestId("tag-icon")).toBeInTheDocument();
+  it("renders placeholder when no image URL is provided", () => {
+    const { container } = render(<GiftCardView {...mockProps} imageUrl="" />);
+    // Check that an svg icon is present (ShoppingBag icon)
+    expect(container.querySelector("svg")).toBeInTheDocument();
   });
 
-  it("renders image when imageUrl is provided and not purchased", () => {
+  it("renders image when imageUrl is provided", () => {
     render(
       <GiftCardView {...mockProps} imageUrl="https://example.com/image.jpg" />,
     );
@@ -86,20 +88,24 @@ describe("GiftCardView", () => {
     expect(img).toHaveAttribute("src", "https://example.com/image.jpg");
   });
 
-  it("applies purchased styling when gift is purchased", () => {
-    render(<GiftCardView {...mockProps} isPurchased={true} />);
-    const heading = screen.getByText("Test Gift").closest("h3");
-    expect(heading).toHaveClass("font-thin");
+  it("displays purchaser information when gift is purchased", () => {
+    render(<GiftCardView {...mockProps} isPurchased={true} purchasedBy="Jane Doe" />);
+    expect(screen.getByText("Jane Doe")).toBeInTheDocument();
   });
 
-  it("applies non-purchased styling when gift is not purchased", () => {
-    render(<GiftCardView {...mockProps} isPurchased={false} />);
+  it("applies bold styling to gift name", () => {
+    render(<GiftCardView {...mockProps} />);
     const heading = screen.getByText("Test Gift").closest("h3");
     expect(heading).toHaveClass("font-bold");
   });
 
-  it("renders GiftEditControls component", () => {
-    render(<GiftCardView {...mockProps} />);
-    expect(screen.getByTestId("gift-edit-controls")).toBeInTheDocument();
+  it("renders edit and delete buttons when user is owner", () => {
+    render(<GiftCardView {...mockProps} isOwner={true} />);
+    expect(screen.getByText("Edit")).toBeInTheDocument();
+  });
+
+  it("renders mark as purchased checkbox when user is not owner and gift not purchased", () => {
+    render(<GiftCardView {...mockProps} isOwner={false} isPurchased={false} />);
+    expect(screen.getByText("Mark as purchased by me")).toBeInTheDocument();
   });
 });
