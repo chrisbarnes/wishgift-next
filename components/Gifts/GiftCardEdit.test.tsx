@@ -8,6 +8,7 @@ describe('GiftCardEdit', () => {
     name: 'Test Gift',
     description: 'Test Description',
     url: 'https://example.com',
+    imageUrl: 'https://example.com/image.jpg',
     giftFor: { name: 'John' },
     price: '25',
   };
@@ -26,17 +27,18 @@ describe('GiftCardEdit', () => {
   it('renders form with all fields', () => {
     render(<GiftCardEdit {...mockProps} />);
 
-    expect(screen.getByText('Name')).toBeInTheDocument();
+    expect(screen.getByText('Edit Gift')).toBeInTheDocument();
+    expect(screen.getByText('Gift Name *')).toBeInTheDocument();
     expect(screen.getByText('Description')).toBeInTheDocument();
-    expect(screen.getByText('URL')).toBeInTheDocument();
-    expect(screen.getByText('For (if not for you)')).toBeInTheDocument();
-    expect(screen.getByText('Price ($)')).toBeInTheDocument();
+    expect(screen.getByText('Product URL')).toBeInTheDocument();
+    expect(screen.getByText('Gift For')).toBeInTheDocument();
+    expect(screen.getByText('Price')).toBeInTheDocument();
   });
 
-  it('renders Submit and Cancel buttons', () => {
+  it('renders Save Changes and Cancel buttons', () => {
     render(<GiftCardEdit {...mockProps} />);
 
-    expect(screen.getByRole('button', { name: /Submit/i })).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: /Save Changes/i })).toBeInTheDocument();
     expect(screen.getByRole('button', { name: /Cancel/i })).toBeInTheDocument();
   });
 
@@ -48,9 +50,19 @@ describe('GiftCardEdit', () => {
     expect(mockProps.handleEditGiftToggle).toHaveBeenCalledTimes(1);
   });
 
-  it('renders hidden input for giftId', () => {
-    const { container } = render(<GiftCardEdit {...mockProps} />);
-    const hiddenInput = container.querySelector('input[name="giftId"]');
-    expect(hiddenInput).toHaveValue('1');
+  it('renders gift image', () => {
+    render(<GiftCardEdit {...mockProps} />);
+    const image = screen.getByAltText('Test Gift');
+    expect(image).toHaveAttribute('src', 'https://example.com/image.jpg');
+  });
+
+  it('initializes form fields with gift data', () => {
+    render(<GiftCardEdit {...mockProps} />);
+
+    expect(screen.getByPlaceholderText('e.g., Keyboard Wrist Rest')).toHaveValue('Test Gift');
+    expect(screen.getByPlaceholderText('$22')).toHaveValue('25');
+    expect(screen.getByPlaceholderText('https://...')).toHaveValue('https://example.com');
+    expect(screen.getByPlaceholderText('Sarah')).toHaveValue('John');
+    expect(screen.getByPlaceholderText('Add a description...')).toHaveValue('Test Description');
   });
 });
