@@ -84,7 +84,7 @@ const GiftCardView = ({
           </div>
         )}
 
-        <div className={`absolute top-3 left-3 backdrop-blur-sm px-3 py-1.5 rounded-full ${
+        <div className={`absolute top-3 left-3 z-10 backdrop-blur-sm px-3 py-1.5 rounded-full ${
           isDarkMode
             ? 'bg-slate-800/90'
             : 'bg-white/90'
@@ -101,7 +101,7 @@ const GiftCardView = ({
             href={url}
             target="_blank"
             rel="noopener noreferrer"
-            className={`absolute top-3 right-3 backdrop-blur-sm p-2 rounded-full transition-colors ${
+            className={`absolute top-3 right-3 z-10 backdrop-blur-sm p-2 rounded-full transition-colors ${
               isDarkMode
                 ? 'bg-slate-800/90 hover:bg-slate-700'
                 : 'bg-white/90 hover:bg-white'
@@ -112,9 +112,9 @@ const GiftCardView = ({
         )}
 
         {/* Actions Overlay - Visible on hover */}
-        <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-4 gap-2">
+        <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-4 gap-2 pointer-events-none">
           {!isOwner && !isPurchased && (
-            <label className="flex items-center gap-3 cursor-pointer bg-white/95 backdrop-blur-sm rounded-lg px-4 py-3 w-full">
+            <label className="flex items-center gap-3 cursor-pointer bg-white/95 backdrop-blur-sm rounded-lg px-4 py-3 w-full pointer-events-auto">
               <input
                 type="checkbox"
                 checked={isPurchased}
@@ -129,7 +129,7 @@ const GiftCardView = ({
           )}
 
           {isOwner && (
-            <div className="grid grid-cols-5 gap-2">
+            <div className="grid grid-cols-5 gap-2 pointer-events-auto">
               <button
                 onClick={handleEditGiftClick}
                 className="col-span-3 flex items-center justify-center gap-2 px-4 py-2.5 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white rounded-lg transition-all font-medium shadow-md"
