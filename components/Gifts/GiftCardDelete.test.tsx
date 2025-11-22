@@ -8,6 +8,8 @@ describe('GiftCardDelete', () => {
     handleDeleteGiftToggle: vi.fn(),
     giftId: 'gift-123',
     deletedCallback: vi.fn(),
+    imageUrl: 'https://example.com/gift.jpg',
+    name: 'Test Gift',
   };
 
   beforeEach(() => {
@@ -40,9 +42,16 @@ describe('GiftCardDelete', () => {
     expect(hiddenInput).toHaveValue('gift-123');
   });
 
+  it('renders gift image with correct attributes', () => {
+    render(<GiftCardDelete {...mockProps} />);
+    const image = screen.getByRole('img', { name: 'Test Gift' });
+    expect(image).toHaveAttribute('src', 'https://example.com/gift.jpg');
+    expect(image).toHaveAttribute('alt', 'Test Gift');
+  });
+
   it('applies correct CSS classes to confirmation message', () => {
     render(<GiftCardDelete {...mockProps} />);
     const message = screen.getByText('Are you sure?');
-    expect(message).toHaveClass('mb-8', 'text-center', 'font-bold', 'text-lg');
+    expect(message).toHaveClass('text-2xl', 'font-bold', 'text-white', 'text-center', 'mb-6');
   });
 });

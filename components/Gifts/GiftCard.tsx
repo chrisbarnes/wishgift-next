@@ -73,6 +73,8 @@ const GiftCard = (props: GiftCardProps) => {
           giftId={props.id}
           handleDeleteGiftToggle={handleDeleteGiftToggle}
           deletedCallback={props.updated}
+          imageUrl={props.imageUrl}
+          name={props.name}
         />
       )}
       {isAddingImage && (
