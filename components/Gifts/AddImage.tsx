@@ -58,7 +58,7 @@ const AddImage = ({
           addedCallback={addedCallback}
         />
       ) : (
-        <div className="relative w-full bg-gradient-to-br from-blue-50 to-purple-50 rounded-2xl overflow-hidden shadow-md">
+        <div className="relative w-full h-full bg-gradient-to-br from-blue-50 to-purple-50 rounded-2xl overflow-hidden shadow-md">
           {/* Image Section - Dimmed */}
           <div className="relative h-56 opacity-20">
             <img
