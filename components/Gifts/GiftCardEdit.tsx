@@ -102,95 +102,95 @@ const GiftCardEdit = ({
       </div>
 
       {/* Overlay Content */}
-      <div className="absolute inset-0 flex items-start justify-center p-4 overflow-y-auto">
-        <div className="bg-slate-800/95 backdrop-blur-sm rounded-2xl p-6 w-full shadow-2xl my-auto">
-          <h3 className="text-xl font-bold text-white mb-4">
+      <div className="absolute inset-0 flex items-start justify-center p-3 overflow-y-auto">
+        <div className="bg-slate-800/95 backdrop-blur-sm rounded-2xl p-4 w-full max-w-full shadow-2xl my-auto">
+          <h3 className="text-lg font-bold text-white mb-3">
             Edit Gift
           </h3>
 
-          <form onSubmit={handleSaveChanges} className="space-y-4">
+          <form onSubmit={handleSaveChanges} className="space-y-3">
             {/* Gift Name */}
             <div>
-              <label className="block text-sm font-medium text-white mb-2">
+              <label className="block text-xs font-medium text-white mb-1">
                 Gift Name *
               </label>
               <input
                 type="text"
                 value={editFormData.name}
                 onChange={(e) => setEditFormData({...editFormData, name: e.target.value})}
-                className="w-full px-4 py-3 bg-slate-700 border border-slate-600 rounded-lg text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="w-full px-3 py-2 bg-slate-700 border border-slate-600 rounded-lg text-sm text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500"
                 placeholder="e.g., Keyboard Wrist Rest"
               />
             </div>
 
             {/* Price */}
             <div>
-              <label className="block text-sm font-medium text-white mb-2">
+              <label className="block text-xs font-medium text-white mb-1">
                 Price
               </label>
               <input
                 type="text"
                 value={editFormData.price}
                 onChange={(e) => setEditFormData({...editFormData, price: e.target.value})}
-                className="w-full px-4 py-3 bg-slate-700 border border-slate-600 rounded-lg text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="w-full px-3 py-2 bg-slate-700 border border-slate-600 rounded-lg text-sm text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500"
                 placeholder="$22"
               />
             </div>
 
             {/* URL */}
             <div>
-              <label className="block text-sm font-medium text-white mb-2">
+              <label className="block text-xs font-medium text-white mb-1">
                 Product URL
               </label>
               <input
                 type="text"
                 value={editFormData.url}
                 onChange={(e) => setEditFormData({...editFormData, url: e.target.value})}
-                className="w-full px-4 py-3 bg-slate-700 border border-slate-600 rounded-lg text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="w-full px-3 py-2 bg-slate-700 border border-slate-600 rounded-lg text-sm text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500"
                 placeholder="https://..."
               />
             </div>
 
             {/* Gift For */}
             <div>
-              <label className="block text-sm font-medium text-white mb-2">
+              <label className="block text-xs font-medium text-white mb-1">
                 Gift For
               </label>
               <input
                 type="text"
                 value={editFormData.giftFor}
                 onChange={(e) => setEditFormData({...editFormData, giftFor: e.target.value})}
-                className="w-full px-4 py-3 bg-slate-700 border border-slate-600 rounded-lg text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="w-full px-3 py-2 bg-slate-700 border border-slate-600 rounded-lg text-sm text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500"
                 placeholder="Sarah"
               />
             </div>
 
             {/* Description */}
             <div>
-              <label className="block text-sm font-medium text-white mb-2">
+              <label className="block text-xs font-medium text-white mb-1">
                 Description
               </label>
               <textarea
                 value={editFormData.description}
                 onChange={(e) => setEditFormData({...editFormData, description: e.target.value})}
                 rows={3}
-                className="w-full px-4 py-3 bg-slate-700 border border-slate-600 rounded-lg text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500 resize-none"
+                className="w-full px-3 py-2 bg-slate-700 border border-slate-600 rounded-lg text-sm text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500 resize-none"
                 placeholder="Add a description..."
               />
             </div>
 
-            <div className="flex gap-3 mt-6">
+            <div className="flex gap-2 mt-4">
               <button
                 type="submit"
                 disabled={isSubmitting}
-                className="flex-1 px-6 py-3 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white rounded-xl font-semibold transition-colors shadow-md disabled:opacity-50 disabled:cursor-not-allowed"
+                className="flex-1 px-4 py-2 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white text-sm rounded-lg font-semibold transition-colors shadow-md disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 {isSubmitting ? "Saving..." : "Save Changes"}
               </button>
               <button
                 type="button"
                 onClick={handleEditGiftToggle}
-                className="flex-1 px-6 py-3 bg-slate-700 hover:bg-slate-600 text-white rounded-xl font-semibold transition-colors"
+                className="flex-1 px-4 py-2 bg-slate-700 hover:bg-slate-600 text-white text-sm rounded-lg font-semibold transition-colors"
               >
                 Cancel
               </button>
