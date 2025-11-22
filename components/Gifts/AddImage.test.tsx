@@ -13,6 +13,8 @@ describe('AddImage', () => {
     handleAddImageToggle: vi.fn(),
     giftId: 'gift-123',
     addedCallback: vi.fn(),
+    imageUrl: 'https://example.com/gift-image.jpg',
+    name: 'Test Gift',
   };
 
   beforeEach(() => {
@@ -35,6 +37,6 @@ describe('AddImage', () => {
   it('applies correct heading styles', () => {
     render(<AddImage {...mockProps} />);
     const heading = screen.getByText('Enter a URL to search for images');
-    expect(heading).toHaveClass('text-lg', 'font-bold', 'text-gray-700', 'mb-4');
+    expect(heading).toHaveClass('text-lg', 'font-semibold', 'text-slate-400', 'mb-3');
   });
 });
