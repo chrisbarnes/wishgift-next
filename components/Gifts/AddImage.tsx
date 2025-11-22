@@ -49,7 +49,7 @@ const AddImage = ({
   };
 
   return (
-    <div>
+    <div className="h-full">
       {isChoosingImages ? (
         <ImageSelector
           images={images}
