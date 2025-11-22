@@ -62,8 +62,7 @@ describe("GiftCardView", () => {
 
   it("renders gift recipient name", () => {
     render(<GiftCardView {...mockProps} />);
-    const nameElements = screen.getAllByText("John");
-    expect(nameElements.length).toBeGreaterThan(0);
+    expect(screen.getByText("For John")).toBeInTheDocument();
   });
 
   it("renders URL as a link when provided", () => {
