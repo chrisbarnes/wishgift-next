@@ -69,11 +69,17 @@ const GiftCardView = ({
       {/* Image Section */}
       <div className="relative h-56">
         {imageUrl ? (
-          <img
-            src={imageUrl}
-            alt={name}
-            className="w-full h-full object-cover"
-          />
+          <div className={`w-full h-full flex items-center justify-center ${
+            isDarkMode
+              ? 'bg-gradient-to-br from-slate-700 to-slate-800'
+              : 'bg-gradient-to-br from-slate-200 to-slate-300'
+          }`}>
+            <img
+              src={imageUrl}
+              alt={name}
+              className="w-full h-full object-contain"
+            />
+          </div>
         ) : (
           <div className={`w-full h-full flex items-center justify-center ${
             isDarkMode
