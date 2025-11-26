@@ -61,39 +61,44 @@ const GiftCardView = ({
   };
 
   return (
-    <div className={`w-full rounded-2xl overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 group ${
-      isDarkMode
-        ? 'bg-gradient-to-br from-slate-800 to-slate-900'
-        : 'bg-gradient-to-br from-blue-50 to-purple-50'
-    }`}>
+    <div
+      className={`w-full rounded-2xl overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 group ${
+        isDarkMode
+          ? "bg-gradient-to-br from-slate-800 to-slate-900"
+          : "bg-gradient-to-br from-blue-50 to-purple-50"
+      }`}
+    >
       {/* Image Section */}
       <div className="relative h-56 overflow-hidden">
         {imageUrl ? (
           <div className="w-full h-full flex items-center justify-center">
-            <img
-              src={imageUrl}
-              alt={name}
-              className="max-w-full max-h-full"
-            />
+            <img src={imageUrl} alt={name} className="max-w-full max-h-full" />
           </div>
         ) : (
-          <div className={`w-full h-full flex items-center justify-center ${
-            isDarkMode
-              ? 'bg-gradient-to-br from-slate-700 to-slate-800'
-              : 'bg-gradient-to-br from-slate-200 to-slate-300'
-          }`}>
-            <ShoppingBag size={64} className={isDarkMode ? 'text-slate-600' : 'text-slate-400'} />
+          <div
+            className={`w-full h-full flex items-center justify-center ${
+              isDarkMode
+                ? "bg-gradient-to-br from-slate-700 to-slate-800"
+                : "bg-gradient-to-br from-slate-200 to-slate-300"
+            }`}
+          >
+            <ShoppingBag
+              size={64}
+              className={isDarkMode ? "text-slate-600" : "text-slate-400"}
+            />
           </div>
         )}
 
-        <div className={`absolute top-3 left-3 z-10 backdrop-blur-sm px-3 py-1.5 rounded-full ${
-          isDarkMode
-            ? 'bg-slate-800/90'
-            : 'bg-white/90'
-        }`}>
-          <span className={`text-sm font-medium ${
-            isDarkMode ? 'text-slate-200' : 'text-slate-700'
-          }`}>
+        <div
+          className={`absolute top-3 left-3 z-10 backdrop-blur-sm px-3 py-1.5 rounded-full ${
+            isDarkMode ? "bg-slate-800/90" : "bg-white/90"
+          }`}
+        >
+          <span
+            className={`text-sm font-medium ${
+              isDarkMode ? "text-slate-200" : "text-slate-700"
+            }`}
+          >
             For {giftFor.name}
           </span>
         </div>
@@ -105,11 +110,14 @@ const GiftCardView = ({
             rel="noopener noreferrer"
             className={`absolute top-3 right-3 z-10 backdrop-blur-sm p-2 rounded-full transition-colors ${
               isDarkMode
-                ? 'bg-slate-800/90 hover:bg-slate-700'
-                : 'bg-white/90 hover:bg-white'
+                ? "bg-slate-800/90 hover:bg-slate-700"
+                : "bg-white/90 hover:bg-white"
             }`}
           >
-            <ExternalLink size={16} className={isDarkMode ? 'text-slate-200' : 'text-slate-700'} />
+            <ExternalLink
+              size={16}
+              className={isDarkMode ? "text-slate-200" : "text-slate-700"}
+            />
           </a>
         )}
 
@@ -159,18 +167,22 @@ const GiftCardView = ({
           <div className="absolute inset-0 bg-gradient-to-t from-green-600 to-green-600/20 flex items-end p-4">
             <div className="bg-white px-3 py-2 rounded-lg flex items-center gap-2">
               <ShoppingBag size={16} className="text-green-600" />
-              <span className="font-semibold text-slate-900">{purchasedBy}</span>
+              <span className="font-semibold text-slate-900">
+                {purchasedBy}
+              </span>
             </div>
           </div>
         )}
       </div>
 
       {/* Content Section */}
-      <div className={isDarkMode ? 'p-5 bg-slate-900' : 'p-5 bg-white'}>
+      <div className={isDarkMode ? "p-5 bg-slate-600" : "p-5 bg-white"}>
         <div className="mb-2">
-          <h3 className={`text-xl font-bold mb-2 ${
-            isDarkMode ? 'text-white' : 'text-slate-900'
-          }`}>
+          <h3
+            className={`text-xl font-bold mb-2 ${
+              isDarkMode ? "text-white" : "text-slate-900"
+            }`}
+          >
             {name}
           </h3>
           {price && (
@@ -181,9 +193,11 @@ const GiftCardView = ({
         </div>
 
         {description && (
-          <p className={`text-sm line-clamp-2 ${
-            isDarkMode ? 'text-slate-400' : 'text-slate-600'
-          }`}>
+          <p
+            className={`text-sm line-clamp-2 ${
+              isDarkMode ? "text-slate-400" : "text-slate-600"
+            }`}
+          >
             {description}
           </p>
         )}
