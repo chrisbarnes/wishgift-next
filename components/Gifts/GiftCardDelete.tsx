@@ -57,21 +57,19 @@ const GiftCardDelete = ({
   };
 
   return (
-    <div className="w-full bg-gradient-to-br from-blue-50 to-purple-50 rounded-2xl overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 relative">
+    <div className="w-full h-full bg-linear-to-br from-blue-50 to-purple-50 rounded-2xl overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 relative">
       {/* Image Section - Dimmed */}
-      <div className="relative h-56 opacity-30">
-        <img
-          src={imageUrl}
-          alt={name}
-          className="w-full h-full object-cover"
-        />
+      <div className="relative h-full opacity-30">
+        <img src={imageUrl} alt={name} className="w-full h-full object-cover" />
       </div>
 
       {/* Overlay Content */}
       <div className="absolute inset-0 flex items-center justify-center p-8">
         {isComplete ? (
           <div className="bg-slate-800/95 backdrop-blur-sm rounded-2xl p-8 w-full max-w-sm shadow-2xl">
-            <p className="text-2xl font-bold text-white text-center">Deleted.</p>
+            <p className="text-2xl font-bold text-white text-center">
+              Deleted.
+            </p>
           </div>
         ) : (
           <div className="bg-slate-800/95 backdrop-blur-sm rounded-2xl p-8 w-full max-w-sm shadow-2xl">
