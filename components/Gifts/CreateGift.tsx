@@ -84,7 +84,7 @@ const CreateGift = ({ updated }: CreateGiftProps) => {
   return (
     <Drawer open={isOpen} onOpenChange={setIsOpen}>
       <DrawerTrigger asChild>
-        <div className="mb-4 md:mb-0 px-6 py-4 shadow-md rounded-md bg-white dark:bg-gray-800 h-64">
+        <div className="mb-4 md:mb-0 px-6 py-4 shadow-md rounded-md bg-white dark:bg-gray-800 h-full">
           <div className="text-center h-full flex flex-col justify-center">
             <button
               className="p-8 lg:p-12 text-4xl xl:text-6xl font-thin uppercase"

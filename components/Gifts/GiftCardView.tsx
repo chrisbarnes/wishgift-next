@@ -1,6 +1,5 @@
 import { useState } from "react";
 import { useRouter } from "next/router";
-import { useTheme } from "next-themes";
 import { Edit2, Trash2, ShoppingBag, ExternalLink, Image } from "lucide-react";
 
 interface GiftCardViewProps {
@@ -38,10 +37,8 @@ const GiftCardView = ({
   handleAddImageClick,
   updated,
 }: GiftCardViewProps) => {
-  const { theme } = useTheme();
   const { query } = useRouter();
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
-  const isDarkMode = theme === "dark";
 
   const handleUpdatePurchased = async (checked: boolean): Promise<void> => {
     setIsSubmitting(true);
@@ -61,39 +58,24 @@ const GiftCardView = ({
   };
 
   return (
-    <div className={`w-full rounded-2xl overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 group ${
-      isDarkMode
-        ? 'bg-gradient-to-br from-slate-800 to-slate-900'
-        : 'bg-gradient-to-br from-blue-50 to-purple-50'
-    }`}>
+    <div className="w-full rounded-2xl overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 group bg-linear-to-br from-blue-50 to-purple-50 dark:from-slate-800 dark:to-slate-900">
       {/* Image Section */}
       <div className="relative h-56 overflow-hidden">
         {imageUrl ? (
           <div className="w-full h-full flex items-center justify-center">
-            <img
-              src={imageUrl}
-              alt={name}
-              className="max-w-full max-h-full"
-            />
+            <img src={imageUrl} alt={name} className="max-w-full max-h-full" />
           </div>
         ) : (
-          <div className={`w-full h-full flex items-center justify-center ${
-            isDarkMode
-              ? 'bg-gradient-to-br from-slate-700 to-slate-800'
-              : 'bg-gradient-to-br from-slate-200 to-slate-300'
-          }`}>
-            <ShoppingBag size={64} className={isDarkMode ? 'text-slate-600' : 'text-slate-400'} />
+          <div className="w-full h-full flex items-center justify-center bg-linear-to-br from-slate-200 to-slate-300 dark:from-slate-700 dark:to-slate-800">
+            <ShoppingBag
+              size={64}
+              className="text-slate-400 dark:text-slate-600"
+            />
           </div>
         )}
 
-        <div className={`absolute top-3 left-3 z-10 backdrop-blur-sm px-3 py-1.5 rounded-full ${
-          isDarkMode
-            ? 'bg-slate-800/90'
-            : 'bg-white/90'
-        }`}>
-          <span className={`text-sm font-medium ${
-            isDarkMode ? 'text-slate-200' : 'text-slate-700'
-          }`}>
+        <div className="absolute top-3 left-3 z-10 backdrop-blur-sm px-3 py-1.5 rounded-full bg-white/90 dark:bg-slate-800/90">
+          <span className="text-sm font-medium text-slate-700 dark:text-slate-200">
             For {giftFor.name}
           </span>
         </div>
@@ -103,18 +85,17 @@ const GiftCardView = ({
             href={url}
             target="_blank"
             rel="noopener noreferrer"
-            className={`absolute top-3 right-3 z-10 backdrop-blur-sm p-2 rounded-full transition-colors ${
-              isDarkMode
-                ? 'bg-slate-800/90 hover:bg-slate-700'
-                : 'bg-white/90 hover:bg-white'
-            }`}
+            className="absolute top-3 right-3 z-10 backdrop-blur-sm p-2 rounded-full transition-colors bg-white/90 hover:bg-white dark:bg-slate-800/90 dark:hover:bg-slate-700"
           >
-            <ExternalLink size={16} className={isDarkMode ? 'text-slate-200' : 'text-slate-700'} />
+            <ExternalLink
+              size={16}
+              className="text-slate-700 dark:text-slate-200"
+            />
           </a>
         )}
 
         {/* Actions Overlay - Visible on hover */}
-        <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-4 gap-2 pointer-events-none">
+        <div className="absolute inset-0 bg-linear-to-t from-black/70 via-black/30 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-4 gap-2 pointer-events-none">
           {!isOwner && !isPurchased && (
             <label className="flex items-center gap-3 cursor-pointer bg-white/95 backdrop-blur-sm rounded-lg px-4 py-3 w-full pointer-events-auto">
               <input
@@ -156,34 +137,32 @@ const GiftCardView = ({
         </div>
 
         {isPurchased && (
-          <div className="absolute inset-0 bg-gradient-to-t from-green-600 to-green-600/20 flex items-end p-4">
+          <div className="absolute inset-0 bg-linear-to-t from-green-600 to-green-600/20 flex items-end p-4">
             <div className="bg-white px-3 py-2 rounded-lg flex items-center gap-2">
               <ShoppingBag size={16} className="text-green-600" />
-              <span className="font-semibold text-slate-900">{purchasedBy}</span>
+              <span className="font-semibold text-slate-900">
+                {purchasedBy}
+              </span>
             </div>
           </div>
         )}
       </div>
 
       {/* Content Section */}
-      <div className={isDarkMode ? 'p-5 bg-slate-900' : 'p-5 bg-white'}>
+      <div className="p-5 bg-white dark:bg-slate-600">
         <div className="mb-2">
-          <h3 className={`text-xl font-bold mb-2 ${
-            isDarkMode ? 'text-white' : 'text-slate-900'
-          }`}>
+          <h3 className="text-xl font-bold mb-2 text-slate-900 dark:text-white">
             {name}
           </h3>
           {price && (
-            <div className="inline-block bg-gradient-to-r from-blue-600 to-purple-600 text-white px-4 py-1.5 rounded-full font-bold">
+            <div className="inline-block bg-linear-to-r from-blue-600 to-purple-600 text-white px-4 py-1.5 rounded-full font-bold">
               ${price}
             </div>
           )}
         </div>
 
         {description && (
-          <p className={`text-sm line-clamp-2 ${
-            isDarkMode ? 'text-slate-400' : 'text-slate-600'
-          }`}>
+          <p className="text-sm line-clamp-2 text-slate-600 dark:text-slate-400">
             {description}
           </p>
         )}

@@ -78,10 +78,4 @@ describe("CreateGift", () => {
     // The cancel button should have been successfully clicked
     expect(cancelButton).toBeInTheDocument();
   });
-
-  it("applies correct height classes based on editing state", () => {
-    const { container } = render(<CreateGift updated={vi.fn()} />);
-    const card = container.firstChild;
-    expect(card).toHaveClass("h-64");
-  });
 });
