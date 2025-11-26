@@ -45,7 +45,8 @@ export default async function editGift(
   }
 
   try {
-    const data: EditGiftRequest = typeof req.body === "string" ? JSON.parse(req.body) : req.body;
+    const data: EditGiftRequest =
+      typeof req.body === "string" ? JSON.parse(req.body) : req.body;
 
     if (!data.giftId) {
       return res.status(400).json({ error: "Gift ID is required" });

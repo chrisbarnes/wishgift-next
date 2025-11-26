@@ -31,7 +31,7 @@ describe("LargeHero", () => {
   it("renders description when provided", () => {
     render(<LargeHero {...mockProps} />);
     expect(
-      screen.getByText("Share your wish list with friends and family"),
+      screen.getByText("Share your wish list with friends and family")
     ).toBeInTheDocument();
   });
 
@@ -74,7 +74,7 @@ describe("LargeHero", () => {
       "flex",
       "flex-col",
       "justify-center",
-      "items-center",
+      "items-center"
     );
   });
 });

@@ -31,7 +31,7 @@ const GiftCardDelete = ({
   const { register, handleSubmit, reset } = useForm<DeleteGiftFormData>();
 
   const submitData = async (
-    data: DeleteGiftFormData,
+    data: DeleteGiftFormData
   ): Promise<DeleteGiftResponse> => {
     setIsSubmitting(true);
     const response = await fetch("/api/gifts/delete", {

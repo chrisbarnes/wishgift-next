@@ -7,7 +7,7 @@ describe("Button", () => {
   it("renders with children text", () => {
     render(<Button>Click me</Button>);
     expect(
-      screen.getByRole("button", { name: /click me/i }),
+      screen.getByRole("button", { name: /click me/i })
     ).toBeInTheDocument();
   });
 
@@ -38,7 +38,7 @@ describe("Button", () => {
     render(
       <Button disabled data-testid="test-button">
         Disabled
-      </Button>,
+      </Button>
     );
     const button = screen.getByTestId("test-button");
     expect(button).toBeDisabled();

@@ -46,7 +46,7 @@ const CreateGift = ({ updated }: CreateGiftProps) => {
   } = useForm<CreateGiftFormData>();
 
   const submitData = async (
-    data: CreateGiftFormData,
+    data: CreateGiftFormData
   ): Promise<CreateGiftResponse> => {
     setIsSubmitting(true);
     const response = await fetch("/api/gifts/create", {

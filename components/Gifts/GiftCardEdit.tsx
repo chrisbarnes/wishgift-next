@@ -104,9 +104,7 @@ const GiftCardEdit = ({
       {/* Overlay Content */}
       <div className="absolute inset-0 flex items-start justify-center p-3 overflow-y-auto">
         <div className="bg-slate-800/95 backdrop-blur-sm rounded-2xl p-4 w-full max-w-full shadow-2xl my-auto">
-          <h3 className="text-lg font-bold text-white mb-3">
-            Edit Gift
-          </h3>
+          <h3 className="text-lg font-bold text-white mb-3">Edit Gift</h3>
 
           <form onSubmit={handleSaveChanges} className="space-y-3">
             {/* Gift Name */}
@@ -117,7 +115,9 @@ const GiftCardEdit = ({
               <input
                 type="text"
                 value={editFormData.name}
-                onChange={(e) => setEditFormData({...editFormData, name: e.target.value})}
+                onChange={(e) =>
+                  setEditFormData({ ...editFormData, name: e.target.value })
+                }
                 className="w-full px-3 py-2 bg-slate-700 border border-slate-600 rounded-lg text-sm text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500"
                 placeholder="e.g., Keyboard Wrist Rest"
               />
@@ -131,7 +131,9 @@ const GiftCardEdit = ({
               <input
                 type="text"
                 value={editFormData.price}
-                onChange={(e) => setEditFormData({...editFormData, price: e.target.value})}
+                onChange={(e) =>
+                  setEditFormData({ ...editFormData, price: e.target.value })
+                }
                 className="w-full px-3 py-2 bg-slate-700 border border-slate-600 rounded-lg text-sm text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500"
                 placeholder="$22"
               />
@@ -145,7 +147,9 @@ const GiftCardEdit = ({
               <input
                 type="text"
                 value={editFormData.url}
-                onChange={(e) => setEditFormData({...editFormData, url: e.target.value})}
+                onChange={(e) =>
+                  setEditFormData({ ...editFormData, url: e.target.value })
+                }
                 className="w-full px-3 py-2 bg-slate-700 border border-slate-600 rounded-lg text-sm text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500"
                 placeholder="https://..."
               />
@@ -159,7 +163,9 @@ const GiftCardEdit = ({
               <input
                 type="text"
                 value={editFormData.giftFor}
-                onChange={(e) => setEditFormData({...editFormData, giftFor: e.target.value})}
+                onChange={(e) =>
+                  setEditFormData({ ...editFormData, giftFor: e.target.value })
+                }
                 className="w-full px-3 py-2 bg-slate-700 border border-slate-600 rounded-lg text-sm text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500"
                 placeholder="Sarah"
               />
@@ -172,7 +178,12 @@ const GiftCardEdit = ({
               </label>
               <textarea
                 value={editFormData.description}
-                onChange={(e) => setEditFormData({...editFormData, description: e.target.value})}
+                onChange={(e) =>
+                  setEditFormData({
+                    ...editFormData,
+                    description: e.target.value,
+                  })
+                }
                 rows={3}
                 className="w-full px-3 py-2 bg-slate-700 border border-slate-600 rounded-lg text-sm text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500 resize-none"
                 placeholder="Add a description..."

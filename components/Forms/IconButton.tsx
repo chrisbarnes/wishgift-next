@@ -26,7 +26,7 @@ const IconButton = ({
       className={cn(
         "text-blue-700 hover:text-blue-800 dark:text-white dark:hover:text-gray-400",
         !displayText && "w-5 h-5 p-0",
-        displayText && "text-xs uppercase font-semibold",
+        displayText && "text-xs uppercase font-semibold"
       )}
     >
       {icon === "Photo" && <Icons.Photo extraClasses="mr-1" />}

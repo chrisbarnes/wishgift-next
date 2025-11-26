@@ -26,7 +26,9 @@ export default async function getGiftImages(
     const images = await response.json();
 
     if (images && images.length) {
-      res.status(200).json({ data: { images: images.slice(0, Number(numImages)) } });
+      res
+        .status(200)
+        .json({ data: { images: images.slice(0, Number(numImages)) } });
     } else {
       console.log(`No images found for ${url}`);
 

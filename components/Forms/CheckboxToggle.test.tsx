@@ -17,7 +17,7 @@ describe("CheckboxToggle", () => {
 
   it("sets default checked state", () => {
     render(
-      <CheckboxToggle label="Toggle" isChecked={true} onChange={vi.fn()} />,
+      <CheckboxToggle label="Toggle" isChecked={true} onChange={vi.fn()} />
     );
     const switchElement = screen.getByRole("switch");
     expect(switchElement).toHaveAttribute("aria-checked", "true");
@@ -25,7 +25,7 @@ describe("CheckboxToggle", () => {
 
   it("sets default unchecked state", () => {
     render(
-      <CheckboxToggle label="Toggle" isChecked={false} onChange={vi.fn()} />,
+      <CheckboxToggle label="Toggle" isChecked={false} onChange={vi.fn()} />
     );
     const switchElement = screen.getByRole("switch");
     expect(switchElement).toHaveAttribute("aria-checked", "false");

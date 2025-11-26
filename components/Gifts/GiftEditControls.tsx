@@ -45,7 +45,7 @@ const GiftEditControls = ({
   const [_, setIsSubmitting] = useState<boolean>(false);
 
   const submitData = async (
-    data: UpdatePurchaseData,
+    data: UpdatePurchaseData
   ): Promise<UpdatePurchaseResponse> => {
     setIsSubmitting(true);
     const response = await fetch("/api/gifts/purchase", {
@@ -70,7 +70,9 @@ const GiftEditControls = ({
     });
   };
 
-  const textColor = isPurchased ? "text-white" : "text-gray-700 dark:text-gray-200";
+  const textColor = isPurchased
+    ? "text-white"
+    : "text-gray-700 dark:text-gray-200";
   const justify = isEditBarTextEnabled ? "justify-between" : "justify-evenly";
 
   return (

@@ -7,7 +7,7 @@ describe("TextInputControl", () => {
     (id: string, options?: { required?: boolean; onChange?: any }) => ({
       name: id,
       onChange: options?.onChange,
-    }),
+    })
   ) as any;
 
   it("renders TextInput component", () => {
@@ -17,7 +17,7 @@ describe("TextInputControl", () => {
         placeholder="Enter username"
         register={mockRegister}
         errors={{}}
-      />,
+      />
     );
     expect(screen.getByPlaceholderText("Enter username")).toBeInTheDocument();
   });
@@ -30,7 +30,7 @@ describe("TextInputControl", () => {
         placeholder="Enter email"
         register={mockRegister}
         errors={errors}
-      />,
+      />
     );
     expect(screen.getByText("This field is required")).toBeInTheDocument();
   });
@@ -42,10 +42,10 @@ describe("TextInputControl", () => {
         placeholder="Enter email"
         register={mockRegister}
         errors={{}}
-      />,
+      />
     );
     expect(
-      screen.queryByText("This field is required"),
+      screen.queryByText("This field is required")
     ).not.toBeInTheDocument();
   });
 
@@ -57,7 +57,7 @@ describe("TextInputControl", () => {
         register={mockRegister}
         errors={{}}
         horizontal={true}
-      />,
+      />
     );
     const wrapper = container.firstChild;
     expect(wrapper).toHaveClass("flex", "items-center", "flex-grow");
@@ -71,7 +71,7 @@ describe("TextInputControl", () => {
         register={mockRegister}
         errors={{}}
         horizontal={false}
-      />,
+      />
     );
     const wrapper = container.firstChild;
     expect(wrapper).toHaveClass("mb-2");
@@ -88,11 +88,11 @@ describe("TextInputControl", () => {
         value="John Doe"
         register={mockRegister}
         errors={{}}
-      />,
+      />
     );
     expect(screen.getByText("Full Name")).toBeInTheDocument();
     expect(screen.getByPlaceholderText("Enter your name")).toHaveValue(
-      "John Doe",
+      "John Doe"
     );
   });
 });

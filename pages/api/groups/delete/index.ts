@@ -37,7 +37,8 @@ export default async function deleteGroup(
   }
 
   try {
-    const data: DeleteGroupRequest = typeof req.body === "string" ? JSON.parse(req.body) : req.body;
+    const data: DeleteGroupRequest =
+      typeof req.body === "string" ? JSON.parse(req.body) : req.body;
 
     if (!data.groupId) {
       return res.status(400).json({ error: "Group ID is required" });
@@ -67,11 +68,11 @@ export default async function deleteGroup(
         return res.status(500).json({ error: deleteError.message });
       }
 
-      return res
-        .status(200)
-        .json({ data: { message: "Success" } });
+      return res.status(200).json({ data: { message: "Success" } });
     } else {
-      console.log(`Unauthorized user ${email} trying to delete ${data.groupId}.`);
+      console.log(
+        `Unauthorized user ${email} trying to delete ${data.groupId}.`
+      );
 
       // return unauthorized if the current user isn't the owner of this group
       return res.status(401).json({ message: errorMessages.unAuthorizedUser });

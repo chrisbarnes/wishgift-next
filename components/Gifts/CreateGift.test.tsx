@@ -22,7 +22,7 @@ describe("CreateGift", () => {
   it("renders add gift button initially", () => {
     render(<CreateGift updated={vi.fn()} />);
     expect(
-      screen.getByRole("button", { name: /\+ Gift/i }),
+      screen.getByRole("button", { name: /\+ Gift/i })
     ).toBeInTheDocument();
   });
 
