@@ -7,7 +7,7 @@ describe("TextInput", () => {
     (id: string, options?: { required?: boolean; onChange?: any }) => ({
       name: id,
       onChange: options?.onChange,
-    }),
+    })
   ) as any;
 
   it("renders input element", () => {
@@ -16,7 +16,7 @@ describe("TextInput", () => {
         id="username"
         placeholder="Enter username"
         register={mockRegister}
-      />,
+      />
     );
     expect(screen.getByPlaceholderText("Enter username")).toBeInTheDocument();
   });
@@ -28,7 +28,7 @@ describe("TextInput", () => {
         label="Email Address"
         placeholder="Enter email"
         register={mockRegister}
-      />,
+      />
     );
     expect(screen.getByText("Email Address")).toBeInTheDocument();
     expect(screen.getByPlaceholderText("Enter email")).toBeInTheDocument();
@@ -40,7 +40,7 @@ describe("TextInput", () => {
         id="password"
         placeholder="Enter password"
         register={mockRegister}
-      />,
+      />
     );
     expect(screen.queryByLabelText(/./)).not.toBeInTheDocument();
   });
@@ -52,7 +52,7 @@ describe("TextInput", () => {
         value="John Doe"
         placeholder="Enter name"
         register={mockRegister}
-      />,
+      />
     );
     expect(screen.getByPlaceholderText("Enter name")).toHaveValue("John Doe");
   });
@@ -65,7 +65,7 @@ describe("TextInput", () => {
         required={true}
         onChange={onChange}
         register={mockRegister}
-      />,
+      />
     );
     expect(mockRegister).toHaveBeenCalledWith("email", {
       required: true,

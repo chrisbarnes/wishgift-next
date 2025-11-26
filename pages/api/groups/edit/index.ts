@@ -40,7 +40,8 @@ export default async function editGroup(
   }
 
   try {
-    const data: EditGroupRequest = typeof req.body === "string" ? JSON.parse(req.body) : req.body;
+    const data: EditGroupRequest =
+      typeof req.body === "string" ? JSON.parse(req.body) : req.body;
 
     if (!data.groupId) {
       return res.status(400).json({ error: "Group ID is required" });

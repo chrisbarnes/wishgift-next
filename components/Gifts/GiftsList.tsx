@@ -136,11 +136,11 @@ const GiftsList = ({ groupId, initialSearch }: GiftsListProps) => {
             query: { ...router.query, s: searchData.search },
           },
           undefined,
-          { shallow: true },
+          { shallow: true }
         );
       }
     },
-    [data, router],
+    [data, router]
   );
 
   // Set the gifts that come back from the api call in state
@@ -216,7 +216,7 @@ const GiftsList = ({ groupId, initialSearch }: GiftsListProps) => {
         query: restQuery,
       },
       undefined,
-      { shallow: true },
+      { shallow: true }
     );
   };
 

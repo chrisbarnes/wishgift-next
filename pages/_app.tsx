@@ -21,7 +21,7 @@ function MyApp({ Component, pageProps: { session, ...pageProps } }: AppProps) {
             staleTime: 5000,
           },
         },
-      }),
+      })
   );
 
   return (

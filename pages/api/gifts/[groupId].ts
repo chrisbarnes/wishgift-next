@@ -42,7 +42,7 @@ interface ErrorResponse {
 
 export default async function getGiftsByGroup(
   req: NextApiRequest,
-  res: NextApiResponse<GiftsResponse | ErrorResponse>,
+  res: NextApiResponse<GiftsResponse | ErrorResponse>
 ) {
   const session = await unstable_getServerSession(req, res, authOptions);
 
@@ -62,7 +62,7 @@ export default async function getGiftsByGroup(
     const { data: gifts, error } = await supabase
       .from(getTableName("gifts"))
       .select(
-        "id, name, description, url, is_purchased, purchased_by, image_url, price, gift_for_name, owner",
+        "id, name, description, url, is_purchased, purchased_by, image_url, price, gift_for_name, owner"
       )
       .eq("group_id", groupId)
       .order("created_at", { ascending: false })

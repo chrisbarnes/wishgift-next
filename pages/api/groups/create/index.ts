@@ -37,7 +37,8 @@ export default async function createGroup(
   }
 
   try {
-    const data: CreateGroupRequest = typeof req.body === "string" ? JSON.parse(req.body) : req.body;
+    const data: CreateGroupRequest =
+      typeof req.body === "string" ? JSON.parse(req.body) : req.body;
 
     const { data: group, error } = await supabase
       .from(getTableName("groups"))

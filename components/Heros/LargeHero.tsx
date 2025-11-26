@@ -11,7 +11,12 @@ interface LargeHeroProps {
   backgroundImage: string;
 }
 
-const LargeHero = ({ heading, description, link, backgroundImage }: LargeHeroProps) => {
+const LargeHero = ({
+  heading,
+  description,
+  link,
+  backgroundImage,
+}: LargeHeroProps) => {
   return (
     <div
       className="relative flex flex-col justify-center items-center rounded-md overflow-hidden text-white"

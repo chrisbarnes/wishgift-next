@@ -69,7 +69,7 @@ describe("Navigation", () => {
 
     render(<Navigation />);
     expect(
-      screen.getByRole("button", { name: /Sign Up\/Sign In/i }),
+      screen.getByRole("button", { name: /Sign Up\/Sign In/i })
     ).toBeInTheDocument();
   });
 
@@ -81,7 +81,7 @@ describe("Navigation", () => {
 
     render(<Navigation />);
     expect(
-      screen.getByRole("button", { name: /Sign Out/i }),
+      screen.getByRole("button", { name: /Sign Out/i })
     ).toBeInTheDocument();
   });
 
@@ -93,7 +93,7 @@ describe("Navigation", () => {
 
     render(<Navigation />);
     expect(
-      screen.queryByRole("button", { name: /Sign/i }),
+      screen.queryByRole("button", { name: /Sign/i })
     ).not.toBeInTheDocument();
   });
 
@@ -129,6 +129,12 @@ describe("Navigation", () => {
 
     const { container } = render(<Navigation />);
     const nav = container.querySelector("nav");
-    expect(nav).toHaveClass("bg-white", "dark:bg-black", "border-b", "border-gray-200", "dark:border-gray-800");
+    expect(nav).toHaveClass(
+      "bg-white",
+      "dark:bg-black",
+      "border-b",
+      "border-gray-200",
+      "dark:border-gray-800"
+    );
   });
 });

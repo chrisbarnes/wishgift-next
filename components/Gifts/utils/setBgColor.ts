@@ -7,7 +7,9 @@ const getRandomBgColor = (): string => {
   return bgColors[randomInt];
 };
 
-export const setBgColor = <T extends object>(gift: T): T & { bgColor: string } => {
+export const setBgColor = <T extends object>(
+  gift: T
+): T & { bgColor: string } => {
   const bgColor = getRandomBgColor();
 
   return { ...gift, bgColor };

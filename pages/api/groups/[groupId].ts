@@ -28,7 +28,7 @@ interface ErrorResponse {
 
 export default async function getGroup(
   req: NextApiRequest,
-  res: NextApiResponse<GroupResponse | ErrorResponse>,
+  res: NextApiResponse<GroupResponse | ErrorResponse>
 ) {
   const session = await unstable_getServerSession(req, res, authOptions);
 

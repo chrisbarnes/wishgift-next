@@ -10,7 +10,7 @@ describe("IconButton", () => {
         icon="Photo"
         accessibleText="Add photo"
         clickHandler={() => {}}
-      />,
+      />
     );
     expect(screen.getByText("Add photo")).toBeInTheDocument();
   });
@@ -21,14 +21,14 @@ describe("IconButton", () => {
         icon="Trash"
         accessibleText="Delete"
         clickHandler={() => {}}
-      />,
+      />
     );
     expect(screen.getByText("Delete")).toBeInTheDocument();
   });
 
   it("renders with Edit icon", () => {
     render(
-      <IconButton icon="Edit" accessibleText="Edit" clickHandler={() => {}} />,
+      <IconButton icon="Edit" accessibleText="Edit" clickHandler={() => {}} />
     );
     expect(screen.getByText("Edit")).toBeInTheDocument();
   });
@@ -40,7 +40,7 @@ describe("IconButton", () => {
         text="Upload"
         displayText={true}
         clickHandler={() => {}}
-      />,
+      />
     );
     expect(screen.getByText("Upload")).toBeInTheDocument();
   });
@@ -53,7 +53,7 @@ describe("IconButton", () => {
         icon="Edit"
         accessibleText="Edit"
         clickHandler={handleClick}
-      />,
+      />
     );
 
     await user.click(screen.getByRole("button"));
@@ -67,7 +67,7 @@ describe("IconButton", () => {
         accessibleText="Edit"
         clickHandler={() => {}}
         displayText={false}
-      />,
+      />
     );
     const button = screen.getByRole("button");
     expect(button).toHaveClass("w-5", "h-5");
@@ -80,7 +80,7 @@ describe("IconButton", () => {
         text="Upload"
         displayText={true}
         clickHandler={() => {}}
-      />,
+      />
     );
     const button = screen.getByRole("button");
     // shadcn button has inline-flex by default, includes items-center, and we add uppercase

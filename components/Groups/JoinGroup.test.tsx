@@ -26,7 +26,7 @@ describe("JoinGroup", () => {
   it("renders Join Group button", () => {
     render(<JoinGroup update={vi.fn()} />);
     expect(
-      screen.getByRole("button", { name: /Join Group/i }),
+      screen.getByRole("button", { name: /Join Group/i })
     ).toBeInTheDocument();
   });
 

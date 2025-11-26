@@ -16,5 +16,5 @@ export const borderColors = [
   "border-purple-700",
 ] as const;
 
-export type BgColor = typeof bgColors[number];
-export type BorderColor = typeof borderColors[number];
+export type BgColor = (typeof bgColors)[number];
+export type BorderColor = (typeof borderColors)[number];
