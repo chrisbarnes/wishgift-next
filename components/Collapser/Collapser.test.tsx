@@ -29,7 +29,7 @@ describe("Collapser", () => {
     render(
       <Collapser triggerText="Show Details">
         <div>Hidden Content</div>
-      </Collapser>,
+      </Collapser>
     );
     expect(screen.getByText("Show Details")).toBeInTheDocument();
   });
@@ -38,7 +38,7 @@ describe("Collapser", () => {
     render(
       <Collapser triggerText="Toggle">
         <div>Test Content</div>
-      </Collapser>,
+      </Collapser>
     );
     expect(screen.getByText("Test Content")).toBeInTheDocument();
   });
@@ -47,7 +47,7 @@ describe("Collapser", () => {
     const { container } = render(
       <Collapser triggerText="Toggle">
         <div>Content</div>
-      </Collapser>,
+      </Collapser>
     );
     const root = container.firstChild;
     expect(root).toHaveClass("mb-8");
@@ -57,7 +57,7 @@ describe("Collapser", () => {
     render(
       <Collapser triggerText="Toggle">
         <div>Content</div>
-      </Collapser>,
+      </Collapser>
     );
     const button = screen.getByRole("button");
     expect(button).toBeInTheDocument();
@@ -68,7 +68,7 @@ describe("Collapser", () => {
       <Collapser triggerText="Toggle">
         <div>First Child</div>
         <div>Second Child</div>
-      </Collapser>,
+      </Collapser>
     );
     expect(screen.getByText("First Child")).toBeInTheDocument();
     expect(screen.getByText("Second Child")).toBeInTheDocument();

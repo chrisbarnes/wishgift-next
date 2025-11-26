@@ -31,7 +31,7 @@ const fetcher = async (url: string): Promise<GroupData> => {
   // we still try to parse and throw it.
   if (!res.ok) {
     const error = new Error(
-      "An error occurred while fetching the data.",
+      "An error occurred while fetching the data."
     ) as FetchError;
     // Attach extra info to the error object.
     error.info = await res.json();
@@ -68,7 +68,10 @@ const GroupPage: NextPage = () => {
     return (
       <p className="text-gray-900 dark:text-gray-100">
         Sorry, you must be logged in to view groups.{" "}
-        <button className="underline hover:text-blue-600 dark:hover:text-blue-400" onClick={() => signIn()}>
+        <button
+          className="underline hover:text-blue-600 dark:hover:text-blue-400"
+          onClick={() => signIn()}
+        >
           Sign Up/Sign In
         </button>
       </p>

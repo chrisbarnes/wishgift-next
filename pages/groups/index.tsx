@@ -25,7 +25,12 @@ const GroupsPage: NextPage = () => {
   return (
     <div className="text-gray-900 dark:text-gray-100">
       Sorry. Only signed in users can see groups. <br />
-      <button className="underline hover:text-blue-600 dark:hover:text-blue-400" onClick={() => signIn()}>Sign in</button>
+      <button
+        className="underline hover:text-blue-600 dark:hover:text-blue-400"
+        onClick={() => signIn()}
+      >
+        Sign in
+      </button>
     </div>
   );
 };

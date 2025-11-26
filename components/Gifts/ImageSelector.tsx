@@ -45,7 +45,7 @@ const ImageSelector = ({
   };
 
   const submitData = async (
-    data: SaveImageData,
+    data: SaveImageData
   ): Promise<SaveImageResponse> => {
     setIsSubmitting(true);
     const response = await fetch("/api/gifts/edit", {
@@ -82,9 +82,7 @@ const ImageSelector = ({
         {images.length &&
           images.map((image, index) => {
             const selectedClass =
-              selectedImageIndex === index
-                ? "border-4 border-blue-700"
-                : "";
+              selectedImageIndex === index ? "border-4 border-blue-700" : "";
 
             return (
               <button

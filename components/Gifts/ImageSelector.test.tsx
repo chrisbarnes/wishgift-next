@@ -28,7 +28,7 @@ describe("ImageSelector", () => {
 
   it("returns null when images prop is not provided", () => {
     const { container } = render(
-      <ImageSelector {...mockProps} images={null as any} />,
+      <ImageSelector {...mockProps} images={null as any} />
     );
     expect(container.firstChild).toBeNull();
   });
@@ -59,7 +59,7 @@ describe("ImageSelector", () => {
 
     await user.click(screen.getByRole("button", { name: /Save/i }));
     expect(
-      screen.getByText("Please select an image first."),
+      screen.getByText("Please select an image first.")
     ).toBeInTheDocument();
   });
 

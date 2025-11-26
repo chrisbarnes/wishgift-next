@@ -51,7 +51,7 @@ const GroupHeader = ({
   } = useForm<GroupEditFormData>();
 
   const submitData = async (
-    data: GroupEditFormData,
+    data: GroupEditFormData
   ): Promise<GroupEditResponse> => {
     setIsSubmitting(true);
 
@@ -166,7 +166,9 @@ const GroupHeader = ({
               <h4 className="mb-2 text-4xl font-extrabold leading-tight text-gray-700 dark:text-gray-200">
                 {name}
               </h4>
-              <p className="text-sm text-gray-900 dark:text-gray-100">{description}</p>
+              <p className="text-sm text-gray-900 dark:text-gray-100">
+                {description}
+              </p>
             </div>
           )}
 

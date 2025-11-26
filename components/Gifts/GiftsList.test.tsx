@@ -92,7 +92,7 @@ describe("GiftsList", () => {
 
     render(<GiftsList groupId="group-123" />);
     expect(
-      screen.getByText("Sorry. There was an error retrieving the gifts."),
+      screen.getByText("Sorry. There was an error retrieving the gifts.")
     ).toBeInTheDocument();
   });
 
@@ -159,7 +159,7 @@ describe("GiftsList", () => {
       "gap-4",
       "md:grid-cols-2",
       "lg:grid-cols-3",
-      "xl:grid-cols-4",
+      "xl:grid-cols-4"
     );
   });
 

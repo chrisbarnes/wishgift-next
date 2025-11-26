@@ -17,7 +17,7 @@ describe("ToggleButton", () => {
       "bg-primary",
       "font-medium",
       "rounded-md",
-      "text-sm",
+      "text-sm"
     );
   });
 

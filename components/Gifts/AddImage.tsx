@@ -30,7 +30,7 @@ const AddImage = ({
   const [urlInput, setUrlInput] = useState<string>(url);
 
   const submitData = async (
-    searchUrl: string,
+    searchUrl: string
   ): Promise<ImageSearchResponse> => {
     setIsSubmitting(true);
     const response = await fetch(`/api/images/find?url=${searchUrl}`);

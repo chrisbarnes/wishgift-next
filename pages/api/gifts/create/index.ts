@@ -39,7 +39,8 @@ export default async function createGift(
   }
 
   try {
-    const data: CreateGiftRequest = typeof req.body === "string" ? JSON.parse(req.body) : req.body;
+    const data: CreateGiftRequest =
+      typeof req.body === "string" ? JSON.parse(req.body) : req.body;
 
     const { data: gift, error } = await supabase
       .from(getTableName("gifts"))

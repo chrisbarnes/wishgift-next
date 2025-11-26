@@ -46,7 +46,9 @@ describe("GiftCardView", () => {
   });
 
   it("renders description even when purchased", () => {
-    render(<GiftCardView {...mockProps} isPurchased={true} purchasedBy="Jane" />);
+    render(
+      <GiftCardView {...mockProps} isPurchased={true} purchasedBy="Jane" />
+    );
     expect(screen.getByText("Test Description")).toBeInTheDocument();
   });
 
@@ -56,7 +58,9 @@ describe("GiftCardView", () => {
   });
 
   it("renders price even when purchased", () => {
-    render(<GiftCardView {...mockProps} isPurchased={true} purchasedBy="Jane" />);
+    render(
+      <GiftCardView {...mockProps} isPurchased={true} purchasedBy="Jane" />
+    );
     expect(screen.getByText("$25")).toBeInTheDocument();
   });
 
@@ -81,14 +85,16 @@ describe("GiftCardView", () => {
 
   it("renders image when imageUrl is provided", () => {
     render(
-      <GiftCardView {...mockProps} imageUrl="https://example.com/image.jpg" />,
+      <GiftCardView {...mockProps} imageUrl="https://example.com/image.jpg" />
     );
     const img = screen.getByRole("img", { name: "Test Gift" });
     expect(img).toHaveAttribute("src", "https://example.com/image.jpg");
   });
 
   it("displays purchaser information when gift is purchased", () => {
-    render(<GiftCardView {...mockProps} isPurchased={true} purchasedBy="Jane Doe" />);
+    render(
+      <GiftCardView {...mockProps} isPurchased={true} purchasedBy="Jane Doe" />
+    );
     expect(screen.getByText("Jane Doe")).toBeInTheDocument();
   });
 

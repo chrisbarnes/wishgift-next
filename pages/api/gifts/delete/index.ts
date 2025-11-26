@@ -37,7 +37,8 @@ export default async function deleteGift(
   }
 
   try {
-    const body: DeleteGiftRequest = typeof req.body === "string" ? JSON.parse(req.body) : req.body;
+    const body: DeleteGiftRequest =
+      typeof req.body === "string" ? JSON.parse(req.body) : req.body;
     const { giftId } = body;
 
     if (!giftId) {

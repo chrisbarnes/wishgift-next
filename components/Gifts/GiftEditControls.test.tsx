@@ -88,7 +88,7 @@ describe("GiftEditControls", () => {
   it("does not render MarkPurchasedButton when user is owner", () => {
     render(<GiftEditControls {...mockProps} isOwner={true} />);
     expect(
-      screen.queryByTestId("mark-purchased-button"),
+      screen.queryByTestId("mark-purchased-button")
     ).not.toBeInTheDocument();
   });
 });

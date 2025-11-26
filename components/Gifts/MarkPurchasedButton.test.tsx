@@ -35,7 +35,7 @@ describe("MarkPurchasedButton", () => {
         isPurchased={false}
         purchasedBy=""
         onChange={vi.fn()}
-      />,
+      />
     );
 
     expect(screen.getByText("Purchased?")).toBeInTheDocument();
@@ -52,7 +52,7 @@ describe("MarkPurchasedButton", () => {
         isPurchased={false}
         purchasedBy=""
         onChange={vi.fn()}
-      />,
+      />
     );
 
     expect(container.firstChild).toBeNull();
@@ -69,7 +69,7 @@ describe("MarkPurchasedButton", () => {
         isPurchased={true}
         purchasedBy="other@example.com"
         onChange={vi.fn()}
-      />,
+      />
     );
 
     expect(container.firstChild).toBeNull();
@@ -86,7 +86,7 @@ describe("MarkPurchasedButton", () => {
         isPurchased={true}
         purchasedBy="user@example.com"
         onChange={vi.fn()}
-      />,
+      />
     );
 
     expect(screen.getByText("Purchased?")).toBeInTheDocument();
@@ -104,7 +104,7 @@ describe("MarkPurchasedButton", () => {
         isPurchased={true}
         purchasedBy="user@example.com"
         onChange={mockOnChange}
-      />,
+      />
     );
 
     const checkbox = screen.getByRole("checkbox");

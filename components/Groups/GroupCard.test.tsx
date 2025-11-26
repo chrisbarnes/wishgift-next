@@ -48,7 +48,7 @@ describe("GroupCard", () => {
       "py-4",
       "shadow-md",
       "rounded-md",
-      "bg-white",
+      "bg-white"
     );
   });
 });

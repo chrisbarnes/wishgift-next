@@ -63,7 +63,7 @@ describe("GroupHeader", () => {
   it("does not render Edit button when user is not owner", () => {
     render(<GroupHeader {...mockProps} isOwner={false} />);
     expect(
-      screen.queryByRole("button", { name: /Edit/i }),
+      screen.queryByRole("button", { name: /Edit/i })
     ).not.toBeInTheDocument();
   });
 
@@ -85,7 +85,7 @@ describe("GroupHeader", () => {
 
     // The name should still appear in the form input, but not as a heading
     expect(
-      screen.queryByRole("heading", { name: "Test Group" }),
+      screen.queryByRole("heading", { name: "Test Group" })
     ).not.toBeInTheDocument();
   });
 
@@ -121,7 +121,7 @@ describe("GroupHeader", () => {
     it("does not render Delete button when user is not owner", () => {
       render(<GroupHeader {...mockProps} isOwner={false} />);
       expect(
-        screen.queryByRole("button", { name: /Delete/i }),
+        screen.queryByRole("button", { name: /Delete/i })
       ).not.toBeInTheDocument();
     });
 
@@ -134,7 +134,7 @@ describe("GroupHeader", () => {
 
       expect(screen.getByText("Are you sure?")).toBeInTheDocument();
       expect(
-        screen.getByRole("button", { name: /Cancel/i }),
+        screen.getByRole("button", { name: /Cancel/i })
       ).toBeInTheDocument();
     });
 
@@ -170,7 +170,7 @@ describe("GroupHeader", () => {
         name: /Delete/i,
       });
       const confirmButton = confirmDeleteButtons.find((btn) =>
-        btn.className.includes("bg-destructive"),
+        btn.className.includes("bg-destructive")
       );
       await user.click(confirmButton!);
 
@@ -208,17 +208,17 @@ describe("GroupHeader", () => {
         name: /Delete/i,
       });
       const confirmButton = confirmDeleteButtons.find((btn) =>
-        btn.className.includes("bg-destructive"),
+        btn.className.includes("bg-destructive")
       );
       await user.click(confirmButton!);
 
       await vi.waitFor(
         () => {
           expect(alertSpy).toHaveBeenCalledWith(
-            "Failed to delete group. Please try again.",
+            "Failed to delete group. Please try again."
           );
         },
-        { timeout: 2000 },
+        { timeout: 2000 }
       );
 
       alertSpy.mockRestore();
@@ -236,9 +236,9 @@ describe("GroupHeader", () => {
                   ok: true,
                   json: async () => ({ data: { message: "Success" } }),
                 }),
-              500,
-            ),
-          ),
+              500
+            )
+          )
       );
 
       render(<GroupHeader {...mockProps} />);
@@ -252,7 +252,7 @@ describe("GroupHeader", () => {
         name: /Delete/i,
       });
       const confirmButton = confirmDeleteButtons.find((btn) =>
-        btn.className.includes("bg-destructive"),
+        btn.className.includes("bg-destructive")
       );
 
       // Click and immediately check for loading state
@@ -263,7 +263,7 @@ describe("GroupHeader", () => {
         () => {
           expect(confirmButton).toBeDisabled();
         },
-        { timeout: 1000 },
+        { timeout: 1000 }
       );
 
       await clickPromise;
