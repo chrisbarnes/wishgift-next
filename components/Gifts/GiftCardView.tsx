@@ -58,7 +58,7 @@ const GiftCardView = ({
   };
 
   return (
-    <div className="w-full rounded-2xl overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 group bg-linear-to-br from-blue-50 to-purple-50 dark:from-slate-800 dark:to-slate-900">
+    <div className="flex flex-col w-full h-full rounded-2xl overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 group bg-linear-to-br from-blue-50 to-purple-50 dark:from-slate-800 dark:to-slate-900">
       {/* Image Section */}
       <div className="relative h-56 overflow-hidden">
         {imageUrl ? (
@@ -149,7 +149,7 @@ const GiftCardView = ({
       </div>
 
       {/* Content Section */}
-      <div className="p-5 bg-white dark:bg-slate-600">
+      <div className="flex-1 p-5 bg-white dark:bg-slate-600">
         <div className="mb-2">
           <h3 className="text-xl font-bold mb-2 text-slate-900 dark:text-white">
             {name}
