@@ -2,6 +2,7 @@ import type { NextApiRequest, NextApiResponse } from "next";
 import { unstable_getServerSession } from "next-auth/next";
 import { supabase, getTableName } from "../../../../lib/supabase";
 import { authOptions } from "../../auth/[...nextauth]";
+import { autoFetchGiftImage } from "../../../../lib/autoFetchGiftImage";
 
 interface CreateGiftRequest {
   name: string;
@@ -60,6 +61,16 @@ export default async function createGift(
     if (error) {
       console.error("Error creating gift:", error);
       return res.status(500).json({ error: error.message });
+    }
+
+    // Trigger async image fetch if URL is provided (fire-and-forget)
+    if (data.url && gift?.id) {
+      autoFetchGiftImage(gift.id, data.url).catch((err) => {
+        console.error(
+          `Background image fetch failed for gift ${gift.id}:`,
+          err
+        );
+      });
     }
 
     return res.status(200).json({ data: { data: gift, message: "Success" } });
