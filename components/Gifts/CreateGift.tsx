@@ -67,7 +67,15 @@ const CreateGift = ({ updated }: CreateGiftProps) => {
         // If the form was submitted successfully, reset it so we can submit another and then
         // call the updated callback
         if (response.data && response.data.message === "Success") {
-          reset({});
+          // Reset all form fields to empty values while preserving the groupId
+          reset({
+            name: "",
+            description: "",
+            url: "",
+            giftFor: "",
+            price: "",
+            groupId: query.groupId as string,
+          });
           updated();
           setIsOpen(false); // Close the drawer on success
         } else if (response.error) {
