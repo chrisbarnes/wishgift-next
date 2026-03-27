@@ -78,4 +78,58 @@ describe("CreateGift", () => {
     // The cancel button should have been successfully clicked
     expect(cancelButton).toBeInTheDocument();
   });
+
+  it("calls API with correct data and closes drawer on successful submission", async () => {
+    const user = userEvent.setup();
+    const mockUpdated = vi.fn();
+
+    // Mock successful API response
+    (global.fetch as any).mockResolvedValueOnce({
+      json: async () => ({ data: { message: "Success" } }),
+    });
+
+    render(<CreateGift updated={mockUpdated} />);
+
+    // Open the drawer
+    await user.click(screen.getByRole("button", { name: /\+ Gift/i }));
+
+    // Fill in the form fields
+    const nameInput = screen.getByLabelText(/Name/i);
+    const descriptionInput = screen.getByLabelText(/Description/i);
+    const urlInput = screen.getByLabelText(/URL/i);
+    const giftForInput = screen.getByLabelText(/For \(if not for you\)/i);
+    const priceInput = screen.getByLabelText(/Price \(\$\)/i);
+
+    await user.type(nameInput, "Test Gift");
+    await user.type(descriptionInput, "Test Description");
+    await user.type(urlInput, "https://example.com");
+    await user.type(giftForInput, "John");
+    await user.type(priceInput, "50");
+
+    // Submit the form
+    const submitButton = screen.getByRole("button", { name: /Submit/i });
+    await user.click(submitButton);
+
+    // Wait for the API call to complete
+    await vi.waitFor(() => {
+      expect(mockUpdated).toHaveBeenCalled();
+    });
+
+    // Verify the API was called correctly
+    expect(global.fetch).toHaveBeenCalledTimes(1);
+    const [[url, options]] = (global.fetch as any).mock.calls;
+    expect(url).toBe("/api/gifts/create");
+    expect(options.method).toBe("PUT");
+
+    // Parse and verify the body content
+    const bodyData = JSON.parse(options.body);
+    expect(bodyData).toEqual({
+      name: "Test Gift",
+      description: "Test Description",
+      url: "https://example.com",
+      giftFor: "John",
+      price: "50",
+      groupId: "group-123",
+    });
+  });
 });
