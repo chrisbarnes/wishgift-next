@@ -1,6 +1,13 @@
 import { describe, it, expect, vi, beforeEach } from "vitest";
-import { render, screen } from "@testing-library/react";
+import { render as rtlRender, screen } from "@testing-library/react";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import type { ReactElement } from "react";
 import CreateGroup from "./CreateGroup";
+
+const render = (ui: ReactElement) =>
+  rtlRender(
+    <QueryClientProvider client={new QueryClient()}>{ui}</QueryClientProvider>
+  );
 
 describe("CreateGroup", () => {
   beforeEach(() => {
