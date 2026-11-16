@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useForm } from "react-hook-form";
+import { useQueryClient } from "@tanstack/react-query";
 import TextInputControl from "../Forms/TextInputControl";
 import Button from "../Forms/Button";
 
@@ -9,13 +10,16 @@ interface CreateGroupFormData {
 }
 
 interface CreateGroupResponse {
-  data: {
+  data?: {
     message: string;
   };
+  error?: string;
 }
 
 const CreateGroup = () => {
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
+  const [submitError, setSubmitError] = useState<string | null>(null);
+  const queryClient = useQueryClient();
   const {
     register,
     handleSubmit,
@@ -27,21 +31,30 @@ const CreateGroup = () => {
     data: CreateGroupFormData
   ): Promise<CreateGroupResponse> => {
     setIsSubmitting(true);
-    const response = await fetch("/api/groups/create", {
-      method: "PUT",
-      body: JSON.stringify(data),
-    });
-    setIsSubmitting(false);
-    return response.json();
+    try {
+      const response = await fetch("/api/groups/create", {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(data),
+      });
+      return await response.json();
+    } catch (error) {
+      return { error: (error as Error).message };
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
-  const onSubmit = async (data: CreateGroupFormData): Promise<void> => {
-    submitData(data).then(({ data }) => {
-      // If the form was submitted successfully, reset it so we can submit another
-      if (data.message === "Success") {
-        reset({});
-      }
-    });
+  const onSubmit = async (formData: CreateGroupFormData): Promise<void> => {
+    setSubmitError(null);
+    const { data, error } = await submitData(formData);
+    // If the form was submitted successfully, reset it so we can submit another
+    if (data?.message === "Success") {
+      reset({});
+      queryClient.invalidateQueries({ queryKey: ["groups"] });
+    } else {
+      setSubmitError(error || "Something went wrong creating the group.");
+    }
   };
 
   return (
@@ -65,6 +78,11 @@ const CreateGroup = () => {
           required
         />
 
+        {submitError && (
+          <p role="alert" className="mb-4 text-red-600 dark:text-red-400">
+            {submitError}
+          </p>
+        )}
         <Button type="submit">Submit {isSubmitting && "..."}</Button>
       </form>
     </div>
